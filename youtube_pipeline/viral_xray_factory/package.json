@@ -1,0 +1,37 @@
+{
+  "name": "viral-xray-factory",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:audio": "tsx scripts/generate-audio.ts",
+    "generate:local-podcast-audio": "tsx scripts/generate-local-podcast-audio.ts",
+    "subtitles": "tsx scripts/write-subtitles.ts",
+    "metadata": "tsx scripts/write-metadata.ts",
+    "render": "tsx scripts/render-all.ts",
+    "render:one": "tsx scripts/render-one.ts",
+    "upload": "tsx scripts/upload-youtube.ts",
+    "verify": "tsx scripts/verify-renders.ts",
+    "build": "npm run generate:audio && npm run subtitles && npm run metadata && npm run render && npm run verify"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.386",
+    "@remotion/media-utils": "^4.0.386",
+    "@remotion/player": "^4.0.386",
+    "dotenv": "^16.4.7",
+    "execa": "^9.5.2",
+    "googleapis": "^172.0.0",
+    "openai": "^6.10.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.386",
+    "tsx": "^4.19.2",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "typescript": "^5.7.2"
+  }
+}

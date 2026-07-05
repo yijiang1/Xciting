@@ -1,0 +1,444 @@
+{
+  "cartoon_bragg_detective": {
+    "duration": 37.92,
+    "beats": [
+      {
+        "start": 0,
+        "end": 6.028,
+        "text": "Detective Photon enters the crystal city with one question: who stole the X-ray beam?",
+        "visual": "cartoon detective photon arrives"
+      },
+      {
+        "start": 6.028,
+        "end": 12.248,
+        "text": "Every atom is lined up in planes, like tiny apartment floors made of electrons.",
+        "visual": "stacked atom floors"
+      },
+      {
+        "start": 12.248,
+        "end": 18.42,
+        "text": "One beam bounces from the top floor. Another dives deeper, then bounces back.",
+        "visual": "two animated ray paths"
+      },
+      {
+        "start": 18.42,
+        "end": 23.944,
+        "text": "The deeper beam walks an extra distance: two d sine theta.",
+        "visual": "highlight path difference"
+      },
+      {
+        "start": 23.944,
+        "end": 29.18,
+        "text": "If that extra walk is exactly n wavelengths, the waves clap together.",
+        "visual": "waves align and sparkle"
+      },
+      {
+        "start": 29.18,
+        "end": 37.92,
+        "text": "That is Bragg's law: n lambda equals two d sine theta. Mystery solved; diffraction peak unlocked.",
+        "visual": "formula badge and peak burst"
+      }
+    ]
+  },
+  "interview_absorption_edge": {
+    "duration": 45.36,
+    "beats": [
+      {
+        "start": 0,
+        "end": 7.78,
+        "text": "Welcome back. Today our guest is an atom, and the question is personal: why do you absorb X-rays?",
+        "visual": "studio host and atom guest"
+      },
+      {
+        "start": 7.78,
+        "end": 14.648,
+        "text": "The atom says: I only take energy packets that can kick an inner electron into an allowed state.",
+        "visual": "electron shell closeup"
+      },
+      {
+        "start": 14.648,
+        "end": 21.036,
+        "text": "Below the edge, the photon is too weak. It knocks, but nobody answers.",
+        "visual": "low energy photon rejected"
+      },
+      {
+        "start": 21.036,
+        "end": 28.504,
+        "text": "At the edge, the photon has enough energy to launch a core electron. The absorption jumps.",
+        "visual": "edge jump graph"
+      },
+      {
+        "start": 28.504,
+        "end": 36.428,
+        "text": "Near the edge, the outgoing electron wave feels the local chemistry and shape of empty states.",
+        "visual": "XANES region waves"
+      },
+      {
+        "start": 36.428,
+        "end": 45.36,
+        "text": "That is why XAS can tell oxidation state, coordination, and local structure without asking the crystal to behave.",
+        "visual": "XAS summary cards"
+      }
+    ]
+  },
+  "gameshow_xrd_peaks": {
+    "duration": 42.528,
+    "beats": [
+      {
+        "start": 0,
+        "end": 7.588,
+        "text": "Welcome to Guess That Peak, where crystals reveal themselves with suspiciously perfect lineups.",
+        "visual": "game show stage"
+      },
+      {
+        "start": 7.588,
+        "end": 16.064,
+        "text": "Contestant one gets three peaks: low angle, medium angle, high angle. Not random. Never random.",
+        "visual": "three peak podiums"
+      },
+      {
+        "start": 16.064,
+        "end": 21.444,
+        "text": "Each peak is a set of atomic planes satisfying Bragg’s law at a different spacing.",
+        "visual": "planes to peaks mapping"
+      },
+      {
+        "start": 21.444,
+        "end": 28.312,
+        "text": "Change the structure, and the peak positions move. Change the grain size, and the peaks broaden.",
+        "visual": "peak shift and broadening"
+      },
+      {
+        "start": 28.312,
+        "end": 36.188,
+        "text": "So an XRD pattern is a fingerprint: positions identify phases; widths reveal size and strain.",
+        "visual": "fingerprint peak pattern"
+      },
+      {
+        "start": 36.188,
+        "end": 42.528,
+        "text": "Final answer: the crystal was telling us its identity the whole time. The detector just kept score.",
+        "visual": "winner reveal"
+      }
+    ]
+  },
+  "noir_exafs_echo": {
+    "duration": 33.96,
+    "beats": [
+      {
+        "start": 0,
+        "end": 4.636,
+        "text": "Past the absorption edge, a photoelectron walks into the dark.",
+        "visual": "noir electron alley"
+      },
+      {
+        "start": 4.636,
+        "end": 11.36,
+        "text": "It does not travel alone. Neighboring atoms scatter the wave back like whispers in an alley.",
+        "visual": "scattered waves"
+      },
+      {
+        "start": 11.36,
+        "end": 17.844,
+        "text": "Those whispers interfere with the outgoing wave, making oscillations above the edge.",
+        "visual": "EXAFS oscillation graph"
+      },
+      {
+        "start": 17.844,
+        "end": 23.416,
+        "text": "The rhythm depends on distance. The strength depends on how many neighbors are out there.",
+        "visual": "radial shell clues"
+      },
+      {
+        "start": 23.416,
+        "end": 28.94,
+        "text": "Fourier transform the oscillations, and the local structure starts to appear from the fog.",
+        "visual": "transform to radial peaks"
+      },
+      {
+        "start": 28.94,
+        "end": 33.96,
+        "text": "EXAFS is not magic. It is atomic echo location with a trench coat.",
+        "visual": "detective reveal"
+      }
+    ]
+  },
+  "news_synchrotron_weather": {
+    "duration": 49.392,
+    "beats": [
+      {
+        "start": 0,
+        "end": 8.74,
+        "text": "Good evening from the synchrotron. The storage ring is calm, the electrons are relativistic, and the beam is bright.",
+        "visual": "news desk and storage ring map"
+      },
+      {
+        "start": 8.74,
+        "end": 16.16,
+        "text": "Undulators make the electrons wiggle, and wiggling charges throw off intense X-rays.",
+        "visual": "undulator wiggle"
+      },
+      {
+        "start": 16.16,
+        "end": 24.396,
+        "text": "Monochromators select one energy, because experiments do not appreciate chaotic buffets.",
+        "visual": "energy selection"
+      },
+      {
+        "start": 24.396,
+        "end": 32.08,
+        "text": "Mirrors focus the beam down to the sample, where chemistry, structure, and motion get interrogated.",
+        "visual": "focused beam on sample"
+      },
+      {
+        "start": 32.08,
+        "end": 41.108,
+        "text": "Detectors collect the evidence: absorption, diffraction, scattering, fluorescence, sometimes all before lunch.",
+        "visual": "detector dashboard"
+      },
+      {
+        "start": 41.108,
+        "end": 49.392,
+        "text": "Tomorrow’s forecast: more photons, more coffee, and a small craft advisory for anyone aligning slits.",
+        "visual": "weather forecast outro"
+      }
+    ]
+  },
+  "roundtable_knowledge_wisdom": {
+    "duration": 322.632,
+    "beats": [
+      {
+        "start": 0,
+        "end": 12.94,
+        "text": "Host: Welcome to a fictional roundtable built from public lives, texts, lectures, and artworks. One question for nine minds: when knowledge gives us power faster than judgment, what should it serve?",
+        "visual": "source-built fictional roundtable opens",
+        "speaker": "Host",
+        "role": "host"
+      },
+      {
+        "start": 12.94,
+        "end": 24.92,
+        "text": "Einstein: Distill me as distrust of the obvious. Relativity taught me that measurement depends on frames; wonder taught me that knowledge should make power more humble, not more arrogant.",
+        "visual": "distillation: frames, wonder, humility",
+        "speaker": "Einstein",
+        "role": "physicist"
+      },
+      {
+        "start": 24.92,
+        "end": 37.308,
+        "text": "Curie: Distill me as disciplined evidence. Radioactivity was invisible, so I trusted instruments, tons of pitchblende, and years of repeated separation before I trusted fame.",
+        "visual": "distillation: measurement makes invisible forces visible",
+        "speaker": "Curie",
+        "role": "physicist"
+      },
+      {
+        "start": 37.308,
+        "end": 47.032,
+        "text": "Feynman: Distill me as curiosity with a trapdoor. The pleasure is finding things out, but scientific integrity begins when you work hardest against fooling yourself.",
+        "visual": "distillation: curiosity disciplined by self-suspicion",
+        "speaker": "Feynman",
+        "role": "physicist"
+      },
+      {
+        "start": 47.032,
+        "end": 58.004,
+        "text": "Socrates: Distill me as a public question. Before asking what knowledge can do, examine the person using it; an unexamined intelligence is only a faster appetite.",
+        "visual": "distillation: examine the knower",
+        "speaker": "Socrates",
+        "role": "humanist"
+      },
+      {
+        "start": 58.004,
+        "end": 74.472,
+        "text": "Confucius: Distill me as relationship made ethical. Learning becomes humane through ren, and becomes reliable through li: habits, roles, respect, and care practiced daily.",
+        "visual": "distillation: learning becomes humane through relation",
+        "speaker": "Confucius",
+        "role": "humanist"
+      },
+      {
+        "start": 74.472,
+        "end": 84.844,
+        "text": "Shakespeare: Distill me as motive under stage light. Humans can know the truth and still kneel to ambition, jealousy, vanity, fear, or love.",
+        "visual": "distillation: truth enters human drama",
+        "speaker": "Shakespeare",
+        "role": "humanist"
+      },
+      {
+        "start": 84.844,
+        "end": 97.28,
+        "text": "Leonardo: Distill me as the eye that experiments. To know a wing, draw it; to know water, follow the spiral. Art and science meet in attention.",
+        "visual": "distillation: drawing as experiment",
+        "speaker": "Leonardo",
+        "role": "artist-history"
+      },
+      {
+        "start": 97.28,
+        "end": 110.508,
+        "text": "Frida: Distill me as truth returning to the body. Pain, identity, color, politics, and love are not footnotes; they are where history enters the skin.",
+        "visual": "distillation: truth has a body",
+        "speaker": "Frida",
+        "role": "artist-history"
+      },
+      {
+        "start": 110.508,
+        "end": 121.888,
+        "text": "Mandela: Distill me as dignity organized. Knowledge matters when it becomes courage, negotiation, law, schools, and institutions strong enough to outlive revenge.",
+        "visual": "distillation: dignity organized into justice",
+        "speaker": "Mandela",
+        "role": "artist-history"
+      },
+      {
+        "start": 121.888,
+        "end": 130.964,
+        "text": "Host: So the table is not asking whether knowledge is powerful. It is asking who disciplines power: evidence, character, community, beauty, or justice?",
+        "visual": "the central question sharpens",
+        "speaker": "Host",
+        "role": "host"
+      },
+      {
+        "start": 130.964,
+        "end": 142.032,
+        "text": "Einstein: Evidence must discipline power first. But equations do not end responsibility. When science changes war, energy, or the planet, the scientist becomes a citizen in public.",
+        "visual": "responsibility radiates beyond equations",
+        "speaker": "Einstein",
+        "role": "physicist"
+      },
+      {
+        "start": 142.032,
+        "end": 154.108,
+        "text": "Socrates: Then test the word responsibility. Is it guilt after action, or the habit of asking before action: what is good, who is harmed, and what do I pretend not to know?",
+        "visual": "responsibility as pre-action questioning",
+        "speaker": "Socrates",
+        "role": "humanist"
+      },
+      {
+        "start": 154.108,
+        "end": 164.696,
+        "text": "Curie: Better questions require patience. The public sees the glow, but not the notebook, the failed separations, the burns, the long obedience to fact.",
+        "visual": "the notebook slows appetite",
+        "speaker": "Curie",
+        "role": "physicist"
+      },
+      {
+        "start": 164.696,
+        "end": 174.78,
+        "text": "Feynman: And the notebook has to report what ruins your favorite idea. Nature is the judge. A beautiful theory still gets tossed when the experiment says no.",
+        "visual": "nature interrupts beautiful theory",
+        "speaker": "Feynman",
+        "role": "physicist"
+      },
+      {
+        "start": 174.78,
+        "end": 188.008,
+        "text": "Confucius: Honesty is not only a method. It is a social practice. A laboratory has teachers, students, sponsors, elders, juniors, and duties to the wider household.",
+        "visual": "truth as a social practice",
+        "speaker": "Confucius",
+        "role": "humanist"
+      },
+      {
+        "start": 188.008,
+        "end": 201.14,
+        "text": "Leonardo: Add craft. A tool carries the hand that made it. Design is ethics while it is still a sketch, before bronze, gears, code, or policy harden it.",
+        "visual": "design as ethics in material form",
+        "speaker": "Leonardo",
+        "role": "artist-history"
+      },
+      {
+        "start": 201.14,
+        "end": 211.224,
+        "text": "Frida: And ask whose body the tool touches. Grand words are clean because they have no nerves. A scar is more precise.",
+        "visual": "the abstract becomes bodily consequence",
+        "speaker": "Frida",
+        "role": "artist-history"
+      },
+      {
+        "start": 211.224,
+        "end": 221.164,
+        "text": "Shakespeare: Every age crowns its cleverest ambition and calls it destiny. My job is to bring the crown downstage until the blood on it can be seen.",
+        "visual": "ambition revealed under theatre lights",
+        "speaker": "Shakespeare",
+        "role": "humanist"
+      },
+      {
+        "start": 221.164,
+        "end": 230.24,
+        "text": "Mandela: Seeing the blood is not enough. A wounded society needs courts, schools, habits of listening, and a path back from revenge into shared rule.",
+        "visual": "justice as institutions and repair",
+        "speaker": "Mandela",
+        "role": "artist-history"
+      },
+      {
+        "start": 230.24,
+        "end": 240.276,
+        "text": "Host: The room divides into three verbs: discover, interpret, and repair. Is wisdom one of them, or the rhythm that keeps all three from becoming dangerous alone?",
+        "visual": "three verbs: discover, interpret, repair",
+        "speaker": "Host",
+        "role": "host"
+      },
+      {
+        "start": 240.276,
+        "end": 251.2,
+        "text": "Feynman: Discovery has to move first sometimes; you cannot regulate a mystery nobody has noticed. But discovery must publish the uncertainty, not hide it in the drawer.",
+        "visual": "discovery with uncertainty attached",
+        "speaker": "Feynman",
+        "role": "physicist"
+      },
+      {
+        "start": 251.2,
+        "end": 260.372,
+        "text": "Socrates: Interpretation must walk beside it. Facts do not tell us by themselves what courage, justice, moderation, or a good life should mean.",
+        "visual": "facts need a question about the good",
+        "speaker": "Socrates",
+        "role": "humanist"
+      },
+      {
+        "start": 260.372,
+        "end": 268.992,
+        "text": "Mandela: Repair must not arrive last. If knowledge helps break a community, apology without reconstruction is only another performance.",
+        "visual": "repair cannot be the afterthought",
+        "speaker": "Mandela",
+        "role": "artist-history"
+      },
+      {
+        "start": 268.992,
+        "end": 278.812,
+        "text": "Curie: Then the answer is not one ruler. Knowledge should serve life, and life asks for accuracy, restraint, usefulness, mercy, and time.",
+        "visual": "accuracy, restraint, mercy, and time",
+        "speaker": "Curie",
+        "role": "physicist"
+      },
+      {
+        "start": 278.812,
+        "end": 289.4,
+        "text": "Shakespeare: I accept that ending if tragedy remains in the room. Wisdom begins when triumph stops flattering itself and listens for the cost offstage.",
+        "visual": "wisdom interrupts triumph",
+        "speaker": "Shakespeare",
+        "role": "humanist"
+      },
+      {
+        "start": 289.4,
+        "end": 299.028,
+        "text": "Einstein: Wonder keeps expertise from becoming ownership. The universe is not small enough to belong to one profession, one nation, or one victorious method.",
+        "visual": "wonder keeps expertise humble",
+        "speaker": "Einstein",
+        "role": "physicist"
+      },
+      {
+        "start": 299.028,
+        "end": 312.616,
+        "text": "Host: Final synthesis: knowledge should serve the enlargement of life: tested by evidence, disciplined by doubt, interpreted by culture, shaped by craft, embodied in care, and accountable to justice.",
+        "visual": "final synthesis around the table",
+        "speaker": "Host",
+        "role": "host"
+      },
+      {
+        "start": 312.616,
+        "end": 322.892,
+        "text": "Host: That is the episode. Nine distilled minds, one impossible table, and a reminder: intelligence becomes wisdom only when it learns whom it serves.",
+        "visual": "closing reminder: whom does intelligence serve",
+        "speaker": "Host",
+        "role": "host"
+      }
+    ]
+  }
+}

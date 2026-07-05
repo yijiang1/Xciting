@@ -1,0 +1,33 @@
+1
+00:00:00,000 --> 00:00:07,588
+Welcome to Guess That Peak, where crystals
+reveal themselves with suspiciously perfect
+lineups.
+
+2
+00:00:07,588 --> 00:00:16,064
+Contestant one gets three peaks: low angle,
+medium angle, high angle. Not random. Never
+random.
+
+3
+00:00:16,064 --> 00:00:21,444
+Each peak is a set of atomic planes satisfying
+Bragg’s law at a different spacing.
+
+4
+00:00:21,444 --> 00:00:28,312
+Change the structure, and the peak positions
+move. Change the grain size, and the peaks
+broaden.
+
+5
+00:00:28,312 --> 00:00:36,188
+So an XRD pattern is a fingerprint: positions
+identify phases; widths reveal size and strain.
+
+6
+00:00:36,188 --> 00:00:42,528
+Final answer: the crystal was telling us its
+identity the whole time. The detector just kept
+score.

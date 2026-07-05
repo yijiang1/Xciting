@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+youtube_pipeline/**/output/
+youtube_pipeline/**/dist/
+youtube_pipeline/**/renders/
+youtube_pipeline/**/cache/
+youtube_pipeline/**/.cache/
+youtube_pipeline/viral_xray_factory/public/audio/

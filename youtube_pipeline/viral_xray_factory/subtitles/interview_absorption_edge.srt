@@ -1,0 +1,32 @@
+1
+00:00:00,000 --> 00:00:07,780
+Welcome back. Today our guest is an atom, and
+the question is personal: why do you absorb
+X-rays?
+
+2
+00:00:07,780 --> 00:00:14,648
+The atom says: I only take energy packets that
+can kick an inner electron into an allowed
+state.
+
+3
+00:00:14,648 --> 00:00:21,036
+Below the edge, the photon is too weak. It
+knocks, but nobody answers.
+
+4
+00:00:21,036 --> 00:00:28,504
+At the edge, the photon has enough energy to
+launch a core electron. The absorption jumps.
+
+5
+00:00:28,504 --> 00:00:36,428
+Near the edge, the outgoing electron wave feels
+the local chemistry and shape of empty states.
+
+6
+00:00:36,428 --> 00:00:45,360
+That is why XAS can tell oxidation state,
+coordination, and local structure without asking
+the crystal to behave.

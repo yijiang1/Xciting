@@ -1,0 +1,53 @@
+# The Nine Minds Podcast: Einstein, Curie, Socrates, Frida, Mandela and More
+
+Video ID: roundtable_knowledge_wisdom
+Style: roundtable
+Topic: Knowledge, wisdom, beauty, justice
+
+## Asset Files
+Video: renders/roundtable_knowledge_wisdom.mp4
+Subtitles: subtitles/roundtable_knowledge_wisdom.srt
+
+## YouTube Title
+The Nine Minds Podcast: Einstein, Curie, Socrates, Frida, Mandela and More
+
+## Description
+Fictional educational dialogue inspired by public historical ideas. AI-generated synthetic voices are not impersonations.
+An animated roundtable podcast where nine historical figures debate what knowledge should serve when discovery outruns wisdom.
+
+## Tags
+animated podcast, history of ideas, Einstein, Marie Curie, Socrates, Confucius, Shakespeare, Frida Kahlo, Nelson Mandela
+
+## Pinned Comment Draft
+Which impossible roundtable should we animate next: climate, AI, education, or the future of science?
+
+## Voiceover Script
+1. Host: Welcome to a fictional roundtable built from public lives, texts, lectures, and artworks. One question for nine minds: when knowledge gives us power faster than judgment, what should it serve?
+2. Einstein: Distill me as distrust of the obvious. Relativity taught me that measurement depends on frames; wonder taught me that knowledge should make power more humble, not more arrogant.
+3. Curie: Distill me as disciplined evidence. Radioactivity was invisible, so I trusted instruments, tons of pitchblende, and years of repeated separation before I trusted fame.
+4. Feynman: Distill me as curiosity with a trapdoor. The pleasure is finding things out, but scientific integrity begins when you work hardest against fooling yourself.
+5. Socrates: Distill me as a public question. Before asking what knowledge can do, examine the person using it; an unexamined intelligence is only a faster appetite.
+6. Confucius: Distill me as relationship made ethical. Learning becomes humane through ren, and becomes reliable through li: habits, roles, respect, and care practiced daily.
+7. Shakespeare: Distill me as motive under stage light. Humans can know the truth and still kneel to ambition, jealousy, vanity, fear, or love.
+8. Leonardo: Distill me as the eye that experiments. To know a wing, draw it; to know water, follow the spiral. Art and science meet in attention.
+9. Frida: Distill me as truth returning to the body. Pain, identity, color, politics, and love are not footnotes; they are where history enters the skin.
+10. Mandela: Distill me as dignity organized. Knowledge matters when it becomes courage, negotiation, law, schools, and institutions strong enough to outlive revenge.
+11. Host: So the table is not asking whether knowledge is powerful. It is asking who disciplines power: evidence, character, community, beauty, or justice?
+12. Einstein: Evidence must discipline power first. But equations do not end responsibility. When science changes war, energy, or the planet, the scientist becomes a citizen in public.
+13. Socrates: Then test the word responsibility. Is it guilt after action, or the habit of asking before action: what is good, who is harmed, and what do I pretend not to know?
+14. Curie: Better questions require patience. The public sees the glow, but not the notebook, the failed separations, the burns, the long obedience to fact.
+15. Feynman: And the notebook has to report what ruins your favorite idea. Nature is the judge. A beautiful theory still gets tossed when the experiment says no.
+16. Confucius: Honesty is not only a method. It is a social practice. A laboratory has teachers, students, sponsors, elders, juniors, and duties to the wider household.
+17. Leonardo: Add craft. A tool carries the hand that made it. Design is ethics while it is still a sketch, before bronze, gears, code, or policy harden it.
+18. Frida: And ask whose body the tool touches. Grand words are clean because they have no nerves. A scar is more precise.
+19. Shakespeare: Every age crowns its cleverest ambition and calls it destiny. My job is to bring the crown downstage until the blood on it can be seen.
+20. Mandela: Seeing the blood is not enough. A wounded society needs courts, schools, habits of listening, and a path back from revenge into shared rule.
+21. Host: The room divides into three verbs: discover, interpret, and repair. Is wisdom one of them, or the rhythm that keeps all three from becoming dangerous alone?
+22. Feynman: Discovery has to move first sometimes; you cannot regulate a mystery nobody has noticed. But discovery must publish the uncertainty, not hide it in the drawer.
+23. Socrates: Interpretation must walk beside it. Facts do not tell us by themselves what courage, justice, moderation, or a good life should mean.
+24. Mandela: Repair must not arrive last. If knowledge helps break a community, apology without reconstruction is only another performance.
+25. Curie: Then the answer is not one ruler. Knowledge should serve life, and life asks for accuracy, restraint, usefulness, mercy, and time.
+26. Shakespeare: I accept that ending if tragedy remains in the room. Wisdom begins when triumph stops flattering itself and listens for the cost offstage.
+27. Einstein: Wonder keeps expertise from becoming ownership. The universe is not small enough to belong to one profession, one nation, or one victorious method.
+28. Host: Final synthesis: knowledge should serve the enlargement of life: tested by evidence, disciplined by doubt, interpreted by culture, shaped by craft, embodied in care, and accountable to justice.
+29. Host: That is the episode. Nine distilled minds, one impossible table, and a reminder: intelligence becomes wisdom only when it learns whom it serves.

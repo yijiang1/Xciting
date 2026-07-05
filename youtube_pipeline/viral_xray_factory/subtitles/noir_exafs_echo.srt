@@ -1,0 +1,29 @@
+1
+00:00:00,000 --> 00:00:04,636
+Past the absorption edge, a photoelectron walks
+into the dark.
+
+2
+00:00:04,636 --> 00:00:11,360
+It does not travel alone. Neighboring atoms
+scatter the wave back like whispers in an alley.
+
+3
+00:00:11,360 --> 00:00:17,844
+Those whispers interfere with the outgoing wave,
+making oscillations above the edge.
+
+4
+00:00:17,844 --> 00:00:23,416
+The rhythm depends on distance. The strength
+depends on how many neighbors are out there.
+
+5
+00:00:23,416 --> 00:00:28,940
+Fourier transform the oscillations, and the
+local structure starts to appear from the fog.
+
+6
+00:00:28,940 --> 00:00:33,960
+EXAFS is not magic. It is atomic echo location
+with a trench coat.
