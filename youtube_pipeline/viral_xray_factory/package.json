@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "generate:audio": "tsx scripts/generate-audio.ts",
+    "generate:visuals": "tsx scripts/generate-visuals.ts",
+    "generate:music": "tsx scripts/generate-music.ts",
     "generate:local-podcast-audio": "tsx scripts/generate-local-podcast-audio.ts",
     "subtitles": "tsx scripts/write-subtitles.ts",
     "metadata": "tsx scripts/write-metadata.ts",

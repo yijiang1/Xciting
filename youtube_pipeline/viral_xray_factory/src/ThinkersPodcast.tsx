@@ -166,7 +166,10 @@ export const ThinkersPodcastScene: React.FC<{
   beatIndex: number;
   beatProgress: number;
   seconds: number;
-}> = ({concept, activeBeat, beatIndex, beatProgress, seconds}) => {
+  // When ambient generated footage plays behind the scene, thin out the
+  // painted backdrop so the footage shows through.
+  dimBackdrop?: boolean;
+}> = ({concept, activeBeat, beatIndex, beatProgress, seconds, dimBackdrop}) => {
   const activeName = activeBeat?.speaker ?? 'Host';
   const activePerson = people.find((person) => person.name === activeName);
   const pulse = 0.5 + 0.5 * Math.sin(seconds * Math.PI * 2.2);
@@ -202,8 +205,10 @@ export const ThinkersPodcastScene: React.FC<{
         </filter>
       </defs>
 
-      <rect width={WIDTH} height={HEIGHT} fill="url(#studioGlow)" opacity={0.82} />
-      <CinematicBackdrop seconds={seconds} activeColor={activeColor} />
+      <rect width={WIDTH} height={HEIGHT} fill="url(#studioGlow)" opacity={dimBackdrop ? 0.4 : 0.82} />
+      <g opacity={dimBackdrop ? 0.55 : 1}>
+        <CinematicBackdrop seconds={seconds} activeColor={activeColor} />
+      </g>
       <StarMap seconds={seconds} />
       <g transform={camera}>
         <RoleRails />

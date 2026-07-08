@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {
   AbsoluteFill,
   Audio,
-  Easing,
+  Loop,
+  OffthreadVideo,
+  Sequence,
   interpolate,
   spring,
   staticFile,
@@ -11,7 +13,10 @@ import {
 } from 'remotion';
 import {concepts, FPS, HEIGHT, VideoConcept, WIDTH} from './concepts';
 import {ThinkersPodcastScene} from './ThinkersPodcast';
+import {CaptionWord, buildCaptionPages} from './captions';
 import timings from '../public/data/timings.json';
+import footageManifest from '../public/data/footage.json';
+import musicManifest from '../public/data/music.json';
 
 type BeatTiming = {
   start: number;
@@ -22,9 +27,13 @@ type BeatTiming = {
   role?: 'host' | 'physicist' | 'humanist' | 'artist-history';
 };
 
-type Timings = Record<string, {duration: number; beats: BeatTiming[]}>;
+type Timings = Record<string, {duration: number; beats: BeatTiming[]; words?: CaptionWord[]}>;
+type FootageClip = {beat?: number; file: string; seconds?: number};
+type FootageManifest = Record<string, {mode: 'per-beat' | 'ambient'; clips: FootageClip[]}>;
 
 const timingData = timings as Timings;
+const footageData = footageManifest as FootageManifest;
+const musicData = musicManifest as Record<string, string>;
 
 export const XrayShort: React.FC<{conceptId: string}> = ({conceptId}) => {
   const concept = concepts.find((item) => item.id === conceptId) ?? concepts[0];
@@ -33,18 +42,61 @@ export const XrayShort: React.FC<{conceptId: string}> = ({conceptId}) => {
   const seconds = frame / FPS;
   const timing = timingData[concept.id];
   const beats = timing?.beats ?? fallbackBeats(concept, durationInFrames / FPS);
+  const words = timing?.words;
   const activeIndex = Math.max(0, beats.findIndex((beat) => seconds >= beat.start && seconds < beat.end));
   const activeBeat = beats[activeIndex] ?? beats[beats.length - 1];
   const beatProgress = activeBeat ? clamp((seconds - activeBeat.start) / Math.max(activeBeat.end - activeBeat.start, 0.1)) : 0;
   const globalProgress = frame / Math.max(durationInFrames - 1, 1);
 
+  const footage = footageData[concept.id];
+  const hasFootage = Boolean(footage && footage.clips.length > 0);
+  const musicFile = musicData[concept.id];
+  const isRoundtable = concept.style === 'roundtable';
+
+  // The roundtable keeps its stylized scene, with ambient footage as a living
+  // backdrop behind it. Shorts go full-bleed footage when clips exist.
+  const showProceduralScene = !hasFootage || isRoundtable;
+
   return (
     <AbsoluteFill style={{background: concept.palette.bg, color: concept.palette.ink, fontFamily: 'Inter, Arial, sans-serif'}}>
       <Audio src={staticFile(`audio/${concept.id}.mp3`)} />
-      <Background concept={concept} progress={globalProgress} />
-      <Scene concept={concept} beatIndex={activeIndex} beatProgress={beatProgress} seconds={seconds} activeBeat={activeBeat} />
-      <Header concept={concept} progress={globalProgress} />
-      <Caption text={activeBeat?.text ?? concept.hook} concept={concept} />
+      {musicFile ? (
+        <Audio
+          loop
+          src={staticFile(musicFile)}
+          volume={(f) =>
+            interpolate(f, [0, 45, durationInFrames - 60, durationInFrames - 5], [0, 0.09, 0.09, 0], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+            })
+          }
+        />
+      ) : null}
+
+      {hasFootage ? (
+        <FootageLayer footage={footage} beats={beats} durationInFrames={durationInFrames} dimmed={isRoundtable} />
+      ) : (
+        <Background concept={concept} progress={globalProgress} />
+      )}
+
+      {showProceduralScene ? (
+        <Scene
+          concept={concept}
+          beatIndex={activeIndex}
+          beatProgress={beatProgress}
+          seconds={seconds}
+          activeBeat={activeBeat}
+          overFootage={hasFootage}
+        />
+      ) : null}
+
+      <CinemaGrade concept={concept} frame={frame} strong={hasFootage && !isRoundtable} />
+      <Header concept={concept} progress={globalProgress} minimal={hasFootage && !isRoundtable} />
+      {words && words.length > 0 ? (
+        <KaraokeCaption words={words} seconds={seconds} concept={concept} speaker={activeBeat?.speaker} />
+      ) : (
+        <Caption text={activeBeat?.text ?? concept.hook} concept={concept} />
+      )}
     </AbsoluteFill>
   );
 };
@@ -60,9 +112,216 @@ const fallbackBeats = (concept: VideoConcept, duration: number): BeatTiming[] =>
 
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 
-const Header: React.FC<{concept: VideoConcept; progress: number}> = ({concept, progress}) => {
+// ---------------------------------------------------------------------------
+// Generated footage layer: per-beat clips with crossfades and a slow Ken Burns
+// drift so held frames never feel static.
+// ---------------------------------------------------------------------------
+
+const CROSSFADE_FRAMES = 14;
+
+const FootageLayer: React.FC<{
+  footage: {mode: 'per-beat' | 'ambient'; clips: FootageClip[]};
+  beats: BeatTiming[];
+  durationInFrames: number;
+  dimmed: boolean;
+}> = ({footage, beats, durationInFrames, dimmed}) => {
+  const clipForBeat = (index: number): FootageClip | null => {
+    if (footage.mode === 'ambient') {
+      return footage.clips[index % footage.clips.length] ?? null;
+    }
+    const exact = footage.clips.find((clip) => clip.beat === index);
+    if (exact) return exact;
+    // Reuse the nearest earlier clip when a beat failed to generate.
+    for (let i = index - 1; i >= 0; i -= 1) {
+      const previous = footage.clips.find((clip) => clip.beat === i);
+      if (previous) return previous;
+    }
+    return footage.clips[0] ?? null;
+  };
+
+  return (
+    <AbsoluteFill style={{opacity: dimmed ? 0.5 : 1}}>
+      {beats.map((beat, index) => {
+        const clip = clipForBeat(index);
+        if (!clip) return null;
+        const from = Math.max(0, Math.round(beat.start * FPS) - (index === 0 ? 0 : CROSSFADE_FRAMES));
+        const until = index === beats.length - 1 ? durationInFrames : Math.round(beat.end * FPS);
+        const clipDuration = Math.max(until - from, 1);
+        return (
+          <Sequence key={`${index}-${clip.file}`} from={from} durationInFrames={clipDuration} layout="none">
+            <FootageClipView clip={clip} index={index} clipDuration={clipDuration} fadeIn={index > 0} />
+          </Sequence>
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
+const FootageClipView: React.FC<{clip: FootageClip; index: number; clipDuration: number; fadeIn: boolean}> = ({
+  clip,
+  index,
+  clipDuration,
+  fadeIn,
+}) => {
+  const frame = useCurrentFrame();
+  const opacity = fadeIn ? interpolate(frame, [0, CROSSFADE_FRAMES], [0, 1], {extrapolateRight: 'clamp'}) : 1;
+  // Alternate slow push-in / pull-out per beat.
+  const drift = interpolate(frame, [0, clipDuration], index % 2 === 0 ? [1.04, 1.12] : [1.12, 1.04]);
+  const panX = interpolate(frame, [0, clipDuration], index % 3 === 0 ? [-12, 12] : [10, -10]);
+  const loopFrames = Math.max(1, Math.round((clip.seconds ?? 8) * FPS) - 2);
+  return (
+    <AbsoluteFill style={{opacity}}>
+      <Loop durationInFrames={loopFrames} layout="none">
+        <OffthreadVideo
+          muted
+          src={staticFile(clip.file)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: WIDTH,
+            height: HEIGHT,
+            objectFit: 'cover',
+            transform: `scale(${drift.toFixed(4)}) translateX(${panX.toFixed(1)}px)`,
+          }}
+        />
+      </Loop>
+    </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Cinematic grade: palette-tinted gradient, vignette, and animated film grain.
+// ---------------------------------------------------------------------------
+
+const CinemaGrade: React.FC<{concept: VideoConcept; frame: number; strong: boolean}> = ({concept, frame, strong}) => (
+  <AbsoluteFill style={{pointerEvents: 'none'}}>
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        background: `linear-gradient(180deg, rgba(0,0,0,${strong ? 0.34 : 0.12}) 0%, rgba(0,0,0,0) 26%, rgba(0,0,0,0) 62%, rgba(0,0,0,${strong ? 0.52 : 0.2}) 100%)`,
+      }}
+    />
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        background: `radial-gradient(ellipse at center, rgba(0,0,0,0) 58%, rgba(0,0,0,${strong ? 0.42 : 0.18}) 100%)`,
+      }}
+    />
+    <svg width={WIDTH} height={HEIGHT} style={{position: 'absolute', inset: 0, opacity: 0.05, transform: `translate(${(frame % 4) * 2 - 3}px, ${(frame % 3) * 2 - 2}px)`}}>
+      <filter id="xsGrain">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" />
+        <feColorMatrix type="saturate" values="0" />
+      </filter>
+      <rect width={WIDTH} height={HEIGHT} filter="url(#xsGrain)" />
+    </svg>
+  </AbsoluteFill>
+);
+
+// ---------------------------------------------------------------------------
+// Karaoke captions: word-accurate highlight from Whisper timestamps.
+// ---------------------------------------------------------------------------
+
+const KaraokeCaption: React.FC<{words: CaptionWord[]; seconds: number; concept: VideoConcept; speaker?: string}> = ({
+  words,
+  seconds,
+  concept,
+  speaker,
+}) => {
+  const pages = useMemo(() => buildCaptionPages(words, {maxWords: 4, maxDuration: 2.6, maxGap: 0.7}), [words]);
+  const page = pages.find((candidate) => seconds >= candidate.start && seconds < candidate.end);
+  if (!page) return null;
+
+  const isRoundtable = concept.style === 'roundtable';
+  const entry = clamp((seconds - page.start) / 0.14);
+  const pop = 0.94 + 0.06 * entry;
+  const fontSize = isRoundtable ? 46 : 66;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: isRoundtable ? 54 : 92,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 14,
+        transform: `scale(${pop.toFixed(3)})`,
+        opacity: entry,
+      }}
+    >
+      {isRoundtable && speaker ? (
+        <div
+          style={{
+            fontSize: 26,
+            fontWeight: 900,
+            letterSpacing: 2,
+            textTransform: 'uppercase',
+            color: concept.palette.accent,
+            background: 'rgba(0,0,0,0.55)',
+            borderRadius: 999,
+            padding: '6px 22px',
+          }}
+        >
+          {speaker}
+        </div>
+      ) : null}
+      <div
+        style={{
+          display: 'flex',
+          gap: '0.34em',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          maxWidth: 1500,
+          fontSize,
+          fontWeight: 900,
+          lineHeight: 1.12,
+          textShadow: '0 3px 0 rgba(0,0,0,0.85), 0 0 26px rgba(0,0,0,0.9), 0 8px 34px rgba(0,0,0,0.7)',
+        }}
+      >
+        {page.words.map((word, index) => {
+          const active = seconds >= word.start && seconds < Math.max(word.end, word.start + 0.12);
+          const spoken = seconds >= word.start;
+          return (
+            <span
+              key={`${word.start}-${index}`}
+              style={{
+                color: active ? concept.palette.accent : spoken ? concept.palette.ink : 'rgba(255,255,255,0.82)',
+                transform: active ? 'scale(1.09)' : 'scale(1)',
+                display: 'inline-block',
+                transition: 'none',
+              }}
+            >
+              {word.text}
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Chrome (header + fallback caption)
+// ---------------------------------------------------------------------------
+
+const Header: React.FC<{concept: VideoConcept; progress: number; minimal?: boolean}> = ({concept, progress, minimal}) => {
   const titleIn = interpolate(progress, [0, 0.06], [-40, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const brand = concept.style === 'roundtable' ? 'Imaginary Roundtable' : 'Exciting';
+  if (minimal) {
+    // Over generated footage, keep the chrome light so the picture breathes.
+    return (
+      <div style={{position: 'absolute', left: 56, top: 44, display: 'flex', alignItems: 'center', gap: 18, transform: `translateY(${titleIn}px)`, opacity: clamp(progress / 0.04) * 0.92}}>
+        <div style={{fontSize: 26, letterSpacing: 3, textTransform: 'uppercase', color: concept.palette.accent2, fontWeight: 900, background: 'rgba(0,0,0,0.42)', borderRadius: 999, padding: '8px 20px'}}>
+          {brand}
+        </div>
+        <div style={{fontSize: 30, fontWeight: 800, opacity: 0.94, textShadow: '0 2px 14px rgba(0,0,0,0.8)'}}>{concept.title}</div>
+      </div>
+    );
+  }
   return (
     <div style={{position: 'absolute', left: 64, top: 52, right: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
       <div style={{transform: `translateY(${titleIn}px)`, opacity: clamp(progress / 0.04)}}>
@@ -125,14 +384,25 @@ const Background: React.FC<{concept: VideoConcept; progress: number}> = ({concep
   );
 };
 
-const Scene: React.FC<{concept: VideoConcept; beatIndex: number; beatProgress: number; seconds: number; activeBeat?: BeatTiming}> = ({
+const Scene: React.FC<{concept: VideoConcept; beatIndex: number; beatProgress: number; seconds: number; activeBeat?: BeatTiming; overFootage?: boolean}> = ({
   concept,
   beatIndex,
   beatProgress,
   seconds,
   activeBeat,
+  overFootage,
 }) => {
-  if (concept.style === 'roundtable') return <ThinkersPodcastScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} activeBeat={activeBeat} />;
+  if (concept.style === 'roundtable')
+    return (
+      <ThinkersPodcastScene
+        concept={concept}
+        beatIndex={beatIndex}
+        beatProgress={beatProgress}
+        seconds={seconds}
+        activeBeat={activeBeat}
+        dimBackdrop={overFootage}
+      />
+    );
   if (concept.style === 'cartoon') return <CartoonScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
   if (concept.style === 'interview') return <InterviewScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
   if (concept.style === 'gameshow') return <GameShowScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
