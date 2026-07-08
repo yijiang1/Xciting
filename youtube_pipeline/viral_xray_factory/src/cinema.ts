@@ -26,7 +26,7 @@ export const cinema: Record<string, CinemaSpec> = {
       'Slow lateral dolly across perfectly ordered horizontal planes of glowing atoms stacked like apartment floors, tiny electrons shimmering on each level.',
       'Two bright X-ray beams enter at the same angle: one reflects off the top plane of atoms, the other dives one layer deeper and reflects back, both drawn as elegant curving light trails.',
       'Close-up on the deeper beam threading between two atomic planes, its extra path glowing warm amber while the geometry of the layers stays crisp and calm.',
-      'The two reflected waves overlap crest to crest and bloom into synchronized golden ripples; the whole crystal city sparkles in resonance.',
+      'Two gentle golden light waves drift together over the crystal city and align into one calm synchronized ripple pattern, the city softly glowing in harmony.',
       'Triumphant hero shot: the photon detective tips his fedora as a radiant starburst of diffracted light erupts from the crystal skyline, celebratory sparks drifting down.',
     ],
     musicPrompt:
