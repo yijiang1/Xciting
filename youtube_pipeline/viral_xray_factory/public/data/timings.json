@@ -817,5 +817,1231 @@
         "role": "host"
       }
     ]
+  },
+  "mockumentary_professor_vane": {
+    "duration": 124.656,
+    "beats": [
+      {
+        "start": 0,
+        "end": 12.944,
+        "text": "Meet Professor Alistair Vane. Legendary scientist. Four hundred papers, sixty awards, one small problem: a great deal of it was fiction.",
+        "visual": "grand office, awards wall, proud professor"
+      },
+      {
+        "start": 12.944,
+        "end": 27.64,
+        "text": "As a young researcher, he discovered something more powerful than any molecule: the image editor. Flip a figure, tweak a curve, and suddenly every experiment works on the first try.",
+        "visual": "young researcher at glowing monitor, duplicated images"
+      },
+      {
+        "start": 27.64,
+        "end": 42.192,
+        "text": "Years later, the internet's data detectives noticed the same cells starring in five different papers. Same image, new caption. His research had become a cinematic universe.",
+        "visual": "red string collage of duplicated figures"
+      },
+      {
+        "start": 42.192,
+        "end": 56.336,
+        "text": "The university investigated. The committee were his old friends. The journals? He reviewed for them. The inquiry took six years and concluded, with great confidence, nothing.",
+        "visual": "committee closes folders in unison"
+      },
+      {
+        "start": 56.336,
+        "end": 70.288,
+        "text": "Students who asked questions were invited to pursue exciting opportunities elsewhere. Students who stayed quiet received glowing letters. Everyone learned something. Mostly fear.",
+        "visual": "young researcher leaves with cardboard box"
+      },
+      {
+        "start": 70.288,
+        "end": 84.192,
+        "text": "For twenty years, nothing stuck. The evidence piled up online, and the awards piled up on his shelf. Fraud, it turns out, is also peer reviewed.",
+        "visual": "trophy shelf grows, professor ages"
+      },
+      {
+        "start": 84.192,
+        "end": 96.96,
+        "text": "Then came his sixty-fifth birthday. An ice sculpture. A string quartet. A cake covered in actual gold. All of it billed to his research grant as 'conference catering.'",
+        "visual": "opulent gala, gilded cake, ice sculpture"
+      },
+      {
+        "start": 96.96,
+        "end": 110,
+        "text": "And that was the end. Not the fabricated data — the cake. The finance office does not debate statistics. A receipt is a receipt, and an ice sculpture is not a conference.",
+        "visual": "auditor lamp, receipts, escorted out"
+      },
+      {
+        "start": 110,
+        "end": 124.696,
+        "text": "He survived two decades of scientific misconduct and fell to a birthday party. The moral: peer review forgives many sins. Accounting forgives none.",
+        "visual": "empty chair, bright rectangle where portrait hung"
+      }
+    ],
+    "words": [
+      {
+        "text": "Meet",
+        "start": 0,
+        "end": 0.48
+      },
+      {
+        "text": "Professor",
+        "start": 0.48,
+        "end": 1.38
+      },
+      {
+        "text": "Alistair",
+        "start": 1.38,
+        "end": 2.02
+      },
+      {
+        "text": "Vane",
+        "start": 2.02,
+        "end": 2.36
+      },
+      {
+        "text": "legendary",
+        "start": 3.32,
+        "end": 3.78
+      },
+      {
+        "text": "scientist",
+        "start": 3.78,
+        "end": 4.52
+      },
+      {
+        "text": "400",
+        "start": 5.22,
+        "end": 5.74
+      },
+      {
+        "text": "papers",
+        "start": 5.74,
+        "end": 6.26
+      },
+      {
+        "text": "60",
+        "start": 6.8,
+        "end": 7.14
+      },
+      {
+        "text": "awards",
+        "start": 7.14,
+        "end": 7.64
+      },
+      {
+        "text": "one",
+        "start": 8.26,
+        "end": 8.46
+      },
+      {
+        "text": "small",
+        "start": 8.46,
+        "end": 8.86
+      },
+      {
+        "text": "problem",
+        "start": 8.86,
+        "end": 9.3
+      },
+      {
+        "text": "a",
+        "start": 9.9,
+        "end": 10.06
+      },
+      {
+        "text": "great",
+        "start": 10.06,
+        "end": 10.32
+      },
+      {
+        "text": "deal",
+        "start": 10.32,
+        "end": 10.54
+      },
+      {
+        "text": "of",
+        "start": 10.54,
+        "end": 10.72
+      },
+      {
+        "text": "it",
+        "start": 10.72,
+        "end": 10.94
+      },
+      {
+        "text": "was",
+        "start": 10.94,
+        "end": 11.52
+      },
+      {
+        "text": "fiction",
+        "start": 11.52,
+        "end": 11.92
+      },
+      {
+        "text": "As",
+        "start": 12.88,
+        "end": 13.34
+      },
+      {
+        "text": "a",
+        "start": 13.34,
+        "end": 13.68
+      },
+      {
+        "text": "young",
+        "start": 13.68,
+        "end": 14.08
+      },
+      {
+        "text": "researcher",
+        "start": 14.08,
+        "end": 14.58
+      },
+      {
+        "text": "he",
+        "start": 15.34,
+        "end": 15.44
+      },
+      {
+        "text": "discovered",
+        "start": 15.44,
+        "end": 15.88
+      },
+      {
+        "text": "something",
+        "start": 15.88,
+        "end": 16.36
+      },
+      {
+        "text": "more",
+        "start": 16.36,
+        "end": 16.82
+      },
+      {
+        "text": "powerful",
+        "start": 16.82,
+        "end": 17.1
+      },
+      {
+        "text": "than",
+        "start": 17.1,
+        "end": 17.42
+      },
+      {
+        "text": "any",
+        "start": 17.42,
+        "end": 17.94
+      },
+      {
+        "text": "molecule",
+        "start": 17.94,
+        "end": 18.34
+      },
+      {
+        "text": "the",
+        "start": 19.2,
+        "end": 19.48
+      },
+      {
+        "text": "image",
+        "start": 19.48,
+        "end": 19.76
+      },
+      {
+        "text": "editor",
+        "start": 19.76,
+        "end": 20.16
+      },
+      {
+        "text": "Flip",
+        "start": 21.2,
+        "end": 21.22
+      },
+      {
+        "text": "a",
+        "start": 21.22,
+        "end": 21.8
+      },
+      {
+        "text": "figure",
+        "start": 21.8,
+        "end": 21.8
+      },
+      {
+        "text": "tweak",
+        "start": 22.46,
+        "end": 22.46
+      },
+      {
+        "text": "a",
+        "start": 22.46,
+        "end": 22.98
+      },
+      {
+        "text": "curve",
+        "start": 22.98,
+        "end": 22.98
+      },
+      {
+        "text": "and",
+        "start": 23.28,
+        "end": 23.72
+      },
+      {
+        "text": "suddenly",
+        "start": 23.72,
+        "end": 24.08
+      },
+      {
+        "text": "every",
+        "start": 24.08,
+        "end": 24.72
+      },
+      {
+        "text": "experiment",
+        "start": 24.72,
+        "end": 25.2
+      },
+      {
+        "text": "works",
+        "start": 25.2,
+        "end": 25.68
+      },
+      {
+        "text": "on",
+        "start": 25.68,
+        "end": 25.88
+      },
+      {
+        "text": "the",
+        "start": 25.88,
+        "end": 26.04
+      },
+      {
+        "text": "first",
+        "start": 26.04,
+        "end": 26.34
+      },
+      {
+        "text": "try",
+        "start": 26.34,
+        "end": 26.8
+      },
+      {
+        "text": "Years",
+        "start": 27.68,
+        "end": 28.14
+      },
+      {
+        "text": "later",
+        "start": 28.14,
+        "end": 28.58
+      },
+      {
+        "text": "the",
+        "start": 29.12,
+        "end": 29.26
+      },
+      {
+        "text": "internet's",
+        "start": 29.26,
+        "end": 29.96
+      },
+      {
+        "text": "data",
+        "start": 29.96,
+        "end": 30.2
+      },
+      {
+        "text": "detectives",
+        "start": 30.2,
+        "end": 30.78
+      },
+      {
+        "text": "noticed",
+        "start": 30.78,
+        "end": 31.42
+      },
+      {
+        "text": "the",
+        "start": 31.42,
+        "end": 31.68
+      },
+      {
+        "text": "same",
+        "start": 31.68,
+        "end": 32.06
+      },
+      {
+        "text": "cells",
+        "start": 32.06,
+        "end": 32.58
+      },
+      {
+        "text": "starring",
+        "start": 32.58,
+        "end": 33.34
+      },
+      {
+        "text": "in",
+        "start": 33.34,
+        "end": 33.7
+      },
+      {
+        "text": "five",
+        "start": 33.7,
+        "end": 34.1
+      },
+      {
+        "text": "different",
+        "start": 34.1,
+        "end": 34.52
+      },
+      {
+        "text": "papers",
+        "start": 34.52,
+        "end": 34.9
+      },
+      {
+        "text": "same",
+        "start": 35.74,
+        "end": 36
+      },
+      {
+        "text": "image",
+        "start": 36,
+        "end": 36.4
+      },
+      {
+        "text": "new",
+        "start": 36.76,
+        "end": 37.2
+      },
+      {
+        "text": "caption",
+        "start": 37.2,
+        "end": 37.58
+      },
+      {
+        "text": "His",
+        "start": 38.4,
+        "end": 38.58
+      },
+      {
+        "text": "research",
+        "start": 38.58,
+        "end": 39.08
+      },
+      {
+        "text": "had",
+        "start": 39.08,
+        "end": 39.66
+      },
+      {
+        "text": "become",
+        "start": 39.66,
+        "end": 39.88
+      },
+      {
+        "text": "a",
+        "start": 39.88,
+        "end": 40.76
+      },
+      {
+        "text": "cinematic",
+        "start": 40.76,
+        "end": 40.76
+      },
+      {
+        "text": "universe",
+        "start": 40.76,
+        "end": 41.36
+      },
+      {
+        "text": "The",
+        "start": 42.34,
+        "end": 42.42
+      },
+      {
+        "text": "university",
+        "start": 42.42,
+        "end": 43.18
+      },
+      {
+        "text": "investigated",
+        "start": 43.18,
+        "end": 44.12
+      },
+      {
+        "text": "The",
+        "start": 45.02,
+        "end": 45.16
+      },
+      {
+        "text": "committee",
+        "start": 45.16,
+        "end": 45.54
+      },
+      {
+        "text": "were",
+        "start": 45.54,
+        "end": 46.04
+      },
+      {
+        "text": "his",
+        "start": 46.04,
+        "end": 46.22
+      },
+      {
+        "text": "old",
+        "start": 46.22,
+        "end": 46.64
+      },
+      {
+        "text": "friends",
+        "start": 46.64,
+        "end": 47.02
+      },
+      {
+        "text": "The",
+        "start": 47.58,
+        "end": 48.22
+      },
+      {
+        "text": "journals",
+        "start": 48.22,
+        "end": 48.22
+      },
+      {
+        "text": "he",
+        "start": 48.82,
+        "end": 49.02
+      },
+      {
+        "text": "reviewed",
+        "start": 49.02,
+        "end": 49.24
+      },
+      {
+        "text": "for",
+        "start": 49.24,
+        "end": 49.6
+      },
+      {
+        "text": "them",
+        "start": 49.6,
+        "end": 49.74
+      },
+      {
+        "text": "The",
+        "start": 50.04,
+        "end": 50.5
+      },
+      {
+        "text": "inquiry",
+        "start": 50.5,
+        "end": 50.88
+      },
+      {
+        "text": "took",
+        "start": 50.88,
+        "end": 51.22
+      },
+      {
+        "text": "six",
+        "start": 51.22,
+        "end": 51.6
+      },
+      {
+        "text": "years",
+        "start": 51.6,
+        "end": 51.96
+      },
+      {
+        "text": "and",
+        "start": 51.96,
+        "end": 52.56
+      },
+      {
+        "text": "concluded",
+        "start": 52.56,
+        "end": 53.06
+      },
+      {
+        "text": "with",
+        "start": 53.06,
+        "end": 53.58
+      },
+      {
+        "text": "great",
+        "start": 53.58,
+        "end": 54
+      },
+      {
+        "text": "confidence",
+        "start": 54,
+        "end": 54.56
+      },
+      {
+        "text": "nothing",
+        "start": 55.46,
+        "end": 55.46
+      },
+      {
+        "text": "Students",
+        "start": 56.9,
+        "end": 56.9
+      },
+      {
+        "text": "who",
+        "start": 56.9,
+        "end": 57.2
+      },
+      {
+        "text": "asked",
+        "start": 57.2,
+        "end": 57.56
+      },
+      {
+        "text": "questions",
+        "start": 57.56,
+        "end": 58.22
+      },
+      {
+        "text": "were",
+        "start": 58.22,
+        "end": 58.78
+      },
+      {
+        "text": "invited",
+        "start": 58.78,
+        "end": 59.08
+      },
+      {
+        "text": "to",
+        "start": 59.08,
+        "end": 59.72
+      },
+      {
+        "text": "pursue",
+        "start": 59.72,
+        "end": 59.72
+      },
+      {
+        "text": "exciting",
+        "start": 59.72,
+        "end": 60.3
+      },
+      {
+        "text": "opportunities",
+        "start": 60.3,
+        "end": 61
+      },
+      {
+        "text": "elsewhere",
+        "start": 61,
+        "end": 61.6
+      },
+      {
+        "text": "Students",
+        "start": 62.84,
+        "end": 62.84
+      },
+      {
+        "text": "who",
+        "start": 62.84,
+        "end": 63.3
+      },
+      {
+        "text": "stayed",
+        "start": 63.3,
+        "end": 63.4
+      },
+      {
+        "text": "quiet",
+        "start": 63.4,
+        "end": 63.86
+      },
+      {
+        "text": "received",
+        "start": 63.86,
+        "end": 64.66
+      },
+      {
+        "text": "glowing",
+        "start": 64.66,
+        "end": 65.2
+      },
+      {
+        "text": "letters",
+        "start": 65.2,
+        "end": 65.64
+      },
+      {
+        "text": "Everyone",
+        "start": 66.68,
+        "end": 66.8
+      },
+      {
+        "text": "learned",
+        "start": 66.8,
+        "end": 67.22
+      },
+      {
+        "text": "something",
+        "start": 67.22,
+        "end": 67.66
+      },
+      {
+        "text": "mostly",
+        "start": 68.4,
+        "end": 68.84
+      },
+      {
+        "text": "fear",
+        "start": 68.84,
+        "end": 69.64
+      },
+      {
+        "text": "For",
+        "start": 70.74,
+        "end": 70.92
+      },
+      {
+        "text": "20",
+        "start": 70.92,
+        "end": 71.4
+      },
+      {
+        "text": "years",
+        "start": 71.4,
+        "end": 71.86
+      },
+      {
+        "text": "nothing",
+        "start": 72.5,
+        "end": 72.68
+      },
+      {
+        "text": "stuck",
+        "start": 72.68,
+        "end": 73.12
+      },
+      {
+        "text": "The",
+        "start": 73.84,
+        "end": 74.06
+      },
+      {
+        "text": "evidence",
+        "start": 74.06,
+        "end": 74.38
+      },
+      {
+        "text": "piled",
+        "start": 74.38,
+        "end": 74.72
+      },
+      {
+        "text": "up",
+        "start": 74.72,
+        "end": 75.06
+      },
+      {
+        "text": "online",
+        "start": 75.06,
+        "end": 75.52
+      },
+      {
+        "text": "and",
+        "start": 75.52,
+        "end": 76.08
+      },
+      {
+        "text": "the",
+        "start": 76.08,
+        "end": 76.76
+      },
+      {
+        "text": "awards",
+        "start": 76.76,
+        "end": 76.76
+      },
+      {
+        "text": "piled",
+        "start": 76.76,
+        "end": 77.14
+      },
+      {
+        "text": "up",
+        "start": 77.14,
+        "end": 77.42
+      },
+      {
+        "text": "on",
+        "start": 77.42,
+        "end": 77.56
+      },
+      {
+        "text": "his",
+        "start": 77.56,
+        "end": 77.8
+      },
+      {
+        "text": "shelf",
+        "start": 77.8,
+        "end": 78.1
+      },
+      {
+        "text": "Fraud",
+        "start": 79.04,
+        "end": 79.36
+      },
+      {
+        "text": "it",
+        "start": 79.68,
+        "end": 79.78
+      },
+      {
+        "text": "turns",
+        "start": 79.78,
+        "end": 80.04
+      },
+      {
+        "text": "out",
+        "start": 80.04,
+        "end": 80.46
+      },
+      {
+        "text": "is",
+        "start": 80.72,
+        "end": 80.96
+      },
+      {
+        "text": "also",
+        "start": 80.96,
+        "end": 81.46
+      },
+      {
+        "text": "peer",
+        "start": 81.46,
+        "end": 81.74
+      },
+      {
+        "text": "reviewed",
+        "start": 81.74,
+        "end": 82.46
+      },
+      {
+        "text": "Then",
+        "start": 84.38,
+        "end": 84.62
+      },
+      {
+        "text": "came",
+        "start": 84.62,
+        "end": 85.1
+      },
+      {
+        "text": "his",
+        "start": 85.1,
+        "end": 85.36
+      },
+      {
+        "text": "65th",
+        "start": 85.36,
+        "end": 86.32
+      },
+      {
+        "text": "birthday",
+        "start": 86.32,
+        "end": 86.7
+      },
+      {
+        "text": "An",
+        "start": 87.28,
+        "end": 87.56
+      },
+      {
+        "text": "ice",
+        "start": 87.56,
+        "end": 87.92
+      },
+      {
+        "text": "sculpture",
+        "start": 87.92,
+        "end": 88.02
+      },
+      {
+        "text": "a",
+        "start": 88.58,
+        "end": 88.86
+      },
+      {
+        "text": "string",
+        "start": 88.86,
+        "end": 89.1
+      },
+      {
+        "text": "quartet",
+        "start": 89.1,
+        "end": 89.62
+      },
+      {
+        "text": "a",
+        "start": 90.06,
+        "end": 90.5
+      },
+      {
+        "text": "cake",
+        "start": 90.5,
+        "end": 90.5
+      },
+      {
+        "text": "covered",
+        "start": 90.5,
+        "end": 90.82
+      },
+      {
+        "text": "in",
+        "start": 90.82,
+        "end": 91.08
+      },
+      {
+        "text": "actual",
+        "start": 91.08,
+        "end": 91.56
+      },
+      {
+        "text": "gold",
+        "start": 91.56,
+        "end": 91.94
+      },
+      {
+        "text": "all",
+        "start": 92.14,
+        "end": 92.78
+      },
+      {
+        "text": "of",
+        "start": 92.78,
+        "end": 92.9
+      },
+      {
+        "text": "it",
+        "start": 92.9,
+        "end": 93.08
+      },
+      {
+        "text": "billed",
+        "start": 93.08,
+        "end": 93.38
+      },
+      {
+        "text": "to",
+        "start": 93.38,
+        "end": 93.52
+      },
+      {
+        "text": "his",
+        "start": 93.52,
+        "end": 93.72
+      },
+      {
+        "text": "research",
+        "start": 93.72,
+        "end": 94.16
+      },
+      {
+        "text": "grant",
+        "start": 94.16,
+        "end": 94.48
+      },
+      {
+        "text": "as",
+        "start": 94.48,
+        "end": 94.96
+      },
+      {
+        "text": "conference",
+        "start": 94.96,
+        "end": 95.84
+      },
+      {
+        "text": "catering",
+        "start": 95.84,
+        "end": 96.36
+      },
+      {
+        "text": "And",
+        "start": 96.82,
+        "end": 97.14
+      },
+      {
+        "text": "that",
+        "start": 97.14,
+        "end": 97.4
+      },
+      {
+        "text": "was",
+        "start": 97.4,
+        "end": 97.62
+      },
+      {
+        "text": "the",
+        "start": 97.62,
+        "end": 97.92
+      },
+      {
+        "text": "end",
+        "start": 97.92,
+        "end": 98.1
+      },
+      {
+        "text": "Not",
+        "start": 98.68,
+        "end": 98.9
+      },
+      {
+        "text": "the",
+        "start": 98.9,
+        "end": 99.18
+      },
+      {
+        "text": "fabricated",
+        "start": 99.18,
+        "end": 99.8
+      },
+      {
+        "text": "data",
+        "start": 99.8,
+        "end": 100.12
+      },
+      {
+        "text": "the",
+        "start": 100.58,
+        "end": 100.88
+      },
+      {
+        "text": "cake",
+        "start": 100.88,
+        "end": 101.18
+      },
+      {
+        "text": "The",
+        "start": 101.62,
+        "end": 102.14
+      },
+      {
+        "text": "finance",
+        "start": 102.14,
+        "end": 102.56
+      },
+      {
+        "text": "office",
+        "start": 102.56,
+        "end": 102.88
+      },
+      {
+        "text": "does",
+        "start": 102.88,
+        "end": 103.14
+      },
+      {
+        "text": "not",
+        "start": 103.14,
+        "end": 103.48
+      },
+      {
+        "text": "debate",
+        "start": 103.48,
+        "end": 103.7
+      },
+      {
+        "text": "statistics",
+        "start": 103.7,
+        "end": 104.36
+      },
+      {
+        "text": "A",
+        "start": 104.69,
+        "end": 105.16
+      },
+      {
+        "text": "receipt",
+        "start": 105.16,
+        "end": 105.52
+      },
+      {
+        "text": "is",
+        "start": 105.52,
+        "end": 105.84
+      },
+      {
+        "text": "a",
+        "start": 105.84,
+        "end": 106.32
+      },
+      {
+        "text": "receipt",
+        "start": 106.32,
+        "end": 106.32
+      },
+      {
+        "text": "and",
+        "start": 106.98,
+        "end": 107.08
+      },
+      {
+        "text": "an",
+        "start": 107.08,
+        "end": 107.36
+      },
+      {
+        "text": "ice",
+        "start": 107.36,
+        "end": 107.48
+      },
+      {
+        "text": "sculpture",
+        "start": 107.48,
+        "end": 107.78
+      },
+      {
+        "text": "is",
+        "start": 107.78,
+        "end": 108.4
+      },
+      {
+        "text": "not",
+        "start": 108.4,
+        "end": 108.6
+      },
+      {
+        "text": "a",
+        "start": 108.6,
+        "end": 108.74
+      },
+      {
+        "text": "conference",
+        "start": 108.74,
+        "end": 109.28
+      },
+      {
+        "text": "He",
+        "start": 110.06,
+        "end": 110.26
+      },
+      {
+        "text": "survived",
+        "start": 110.26,
+        "end": 110.88
+      },
+      {
+        "text": "two",
+        "start": 110.88,
+        "end": 111.34
+      },
+      {
+        "text": "decades",
+        "start": 111.34,
+        "end": 111.76
+      },
+      {
+        "text": "of",
+        "start": 111.76,
+        "end": 112.18
+      },
+      {
+        "text": "scientific",
+        "start": 112.18,
+        "end": 112.66
+      },
+      {
+        "text": "misconduct",
+        "start": 112.66,
+        "end": 113.38
+      },
+      {
+        "text": "and",
+        "start": 113.38,
+        "end": 114.24
+      },
+      {
+        "text": "fell",
+        "start": 114.24,
+        "end": 114.64
+      },
+      {
+        "text": "to",
+        "start": 114.64,
+        "end": 115.46
+      },
+      {
+        "text": "a",
+        "start": 115.46,
+        "end": 115.74
+      },
+      {
+        "text": "birthday",
+        "start": 115.74,
+        "end": 116
+      },
+      {
+        "text": "party",
+        "start": 116,
+        "end": 116.42
+      },
+      {
+        "text": "The",
+        "start": 117.28,
+        "end": 117.8
+      },
+      {
+        "text": "moral",
+        "start": 117.8,
+        "end": 117.8
+      },
+      {
+        "text": "peer",
+        "start": 118.64,
+        "end": 118.84
+      },
+      {
+        "text": "review",
+        "start": 118.84,
+        "end": 119.32
+      },
+      {
+        "text": "forgives",
+        "start": 119.32,
+        "end": 119.76
+      },
+      {
+        "text": "many",
+        "start": 119.76,
+        "end": 120.36
+      },
+      {
+        "text": "sins",
+        "start": 120.36,
+        "end": 120.74
+      },
+      {
+        "text": "accounting",
+        "start": 121.48,
+        "end": 122
+      },
+      {
+        "text": "forgives",
+        "start": 122,
+        "end": 123.12
+      },
+      {
+        "text": "none",
+        "start": 123.12,
+        "end": 123.54
+      }
+    ]
   }
 }

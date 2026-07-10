@@ -92,6 +92,24 @@ export const cinema: Record<string, CinemaSpec> = {
     musicPrompt:
       'Modern broadcast news bed: pulsing synth arps, confident strings, subtle percussion, urgent but bright, instrumental, loopable, no vocals.',
   },
+  mockumentary_professor_vane: {
+    mode: 'per-beat',
+    stylePrompt:
+      'Prestige dark-academia documentary reenactment: wood-paneled university interiors, brass banker lamps, oil portraits, dust motes drifting in shafts of window light, moody cinematic lighting with a muted amber and deep-green grade, shallow depth of field, slow dolly and rack-focus moves, photorealistic, dry satirical tone.',
+    shots: [
+      'Slow push-in on a distinguished elderly professor in a tweed jacket posing proudly in a grand wood-paneled office, the wall behind him crowded with framed medals and trophies, golden late-afternoon window light.',
+      'Reenactment: a young researcher alone in a dark laboratory at night, face lit only by a bright monitor showing rows of nearly identical microscope images, a faint satisfied smile.',
+      'A detective-style evidence wall: printed scientific figures pinned up and connected by red string, a magnifying glass held over two identical images, dramatic desk-lamp lighting.',
+      'A long mahogany committee table in a dim boardroom; a row of older academics in suits close identical leather folders in unison and nod to one another, lamplight and drifting dust.',
+      'A dejected young researcher carries a cardboard box of belongings down a grand vaulted university corridor while colleagues watch silently from doorways.',
+      'A bookshelf slowly filling with golden trophies and framed medals as dust motes drift; the aging professor admires his own reflection in the glass cabinet.',
+      'An opulent banquet-hall birthday gala: a towering gilded cake with sparkling candles, a glistening swan ice sculpture, a string quartet playing, a champagne tower under chandelier light.',
+      "A stern auditor's desk at night with a green banker's lamp and tall stacks of paper receipts; through the open doorway, the old professor carries a small box past his own awards wall.",
+      'An empty leather office chair in the grand wood-paneled office; on the wall, a bright clean rectangle where a large portrait once hung, a single medal lying on the floor.',
+    ],
+    musicPrompt:
+      'Sly satirical documentary underscore: sneaky pizzicato strings, harpsichord, a lopsided little waltz, dry and mischievous, instrumental, loopable, no vocals.',
+  },
   roundtable_knowledge_wisdom: {
     mode: 'ambient',
     stylePrompt:

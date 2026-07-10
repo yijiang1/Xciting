@@ -104,6 +104,7 @@ const elevenDefaultVoices: Record<string, string> = {
   gameshow_xrd_peaks: 'bIHbv24MWmeRgasZH58o', // Will - energetic
   noir_exafs_echo: 'N2lVS1w4EtoT3dr4eOWO', // Callum - gravelly, cinematic
   news_synchrotron_weather: 'nPczCjzI2devNBz1zQrb', // Brian - anchor
+  mockumentary_professor_vane: 'JBFqnCBsd6RMkjVDRZzb', // George - dry storyteller
   // Roundtable cast keyed by speaker
   Host: 'onwK4e9ZLuTAKqWW03F9', // Daniel - authoritative host
   Einstein: 'JBFqnCBsd6RMkjVDRZzb', // George - warm, mature

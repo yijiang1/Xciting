@@ -2,7 +2,7 @@ export const FPS = 30;
 export const WIDTH = 1920;
 export const HEIGHT = 1080;
 
-export type VideoStyle = 'cartoon' | 'interview' | 'gameshow' | 'noir' | 'news' | 'roundtable';
+export type VideoStyle = 'cartoon' | 'interview' | 'gameshow' | 'noir' | 'news' | 'roundtable' | 'mockumentary';
 export type OpenAiVoice = 'alloy' | 'ash' | 'ballad' | 'cedar' | 'coral' | 'echo' | 'fable' | 'marin' | 'nova' | 'onyx' | 'sage' | 'shimmer' | 'verse';
 
 export type Beat = {
@@ -42,6 +42,8 @@ export type VideoConcept = {
 const aiDisclosure = 'Voiceover is AI-generated.';
 const fictionalRoundtableDisclosure =
   'Fictional educational dialogue inspired by public historical ideas. AI-generated synthetic voices are not impersonations.';
+const fictionalSatireDisclosure =
+  'Fictional satire. Professor Alistair Vane does not exist; any resemblance to real persons or institutions is coincidental. Voiceover is AI-generated.';
 
 export const concepts: VideoConcept[] = [
   {
@@ -412,6 +414,60 @@ export const concepts: VideoConcept[] = [
       title: 'The Nine Minds Podcast: Einstein, Curie, Socrates, Frida, Mandela and More',
       description: `${fictionalRoundtableDisclosure}\nAn animated roundtable podcast where nine historical figures debate what knowledge should serve when discovery outruns wisdom.`,
       tags: ['animated podcast', 'history of ideas', 'Einstein', 'Marie Curie', 'Socrates', 'Confucius', 'Shakespeare', 'Frida Kahlo', 'Nelson Mandela'],
+    },
+  },
+  {
+    id: 'mockumentary_professor_vane',
+    style: 'mockumentary',
+    title: 'The Untouchable Professor',
+    hook: 'He faked science for twenty years. A birthday cake ended him.',
+    topic: 'Research misconduct (fictional satire)',
+    voice: 'ash',
+    ttsInstructions:
+      'Prestige true-crime documentary narrator: dry, deadpan, quietly amused. Slow deliberate pacing, perfect diction, a hint of an eyebrow raised on every punchline. Never break into laughter; let the absurdity do the work.',
+    palette: {bg: '#17110B', accent: '#D9A441', accent2: '#B33A3A', ink: '#F5EFE2', panel: '#2A2118'},
+    beats: [
+      {
+        text: 'Meet Professor Alistair Vane. Legendary scientist. Four hundred papers, sixty awards, one small problem: a great deal of it was fiction.',
+        visual: 'grand office, awards wall, proud professor',
+      },
+      {
+        text: 'As a young researcher, he discovered something more powerful than any molecule: the image editor. Flip a figure, tweak a curve, and suddenly every experiment works on the first try.',
+        visual: 'young researcher at glowing monitor, duplicated images',
+      },
+      {
+        text: "Years later, the internet's data detectives noticed the same cells starring in five different papers. Same image, new caption. His research had become a cinematic universe.",
+        visual: 'red string collage of duplicated figures',
+      },
+      {
+        text: 'The university investigated. The committee were his old friends. The journals? He reviewed for them. The inquiry took six years and concluded, with great confidence, nothing.',
+        visual: 'committee closes folders in unison',
+      },
+      {
+        text: 'Students who asked questions were invited to pursue exciting opportunities elsewhere. Students who stayed quiet received glowing letters. Everyone learned something. Mostly fear.',
+        visual: 'young researcher leaves with cardboard box',
+      },
+      {
+        text: 'For twenty years, nothing stuck. The evidence piled up online, and the awards piled up on his shelf. Fraud, it turns out, is also peer reviewed.',
+        visual: 'trophy shelf grows, professor ages',
+      },
+      {
+        text: "Then came his sixty-fifth birthday. An ice sculpture. A string quartet. A cake covered in actual gold. All of it billed to his research grant as 'conference catering.'",
+        visual: 'opulent gala, gilded cake, ice sculpture',
+      },
+      {
+        text: 'And that was the end. Not the fabricated data — the cake. The finance office does not debate statistics. A receipt is a receipt, and an ice sculpture is not a conference.',
+        visual: 'auditor lamp, receipts, escorted out',
+      },
+      {
+        text: 'He survived two decades of scientific misconduct and fell to a birthday party. The moral: peer review forgives many sins. Accounting forgives none.',
+        visual: 'empty chair, bright rectangle where portrait hung',
+      },
+    ],
+    upload: {
+      title: 'He Faked Science for 20 Years. A Birthday Cake Ended Him.',
+      description: `${fictionalSatireDisclosure}\nA satirical mockumentary about research misconduct: fabricated figures, toothless inquiries, and the one thing academia audits properly — receipts.`,
+      tags: ['research fraud', 'academic misconduct', 'satire', 'peer review', 'science', 'mockumentary', 'retraction', 'academia'],
     },
   },
 ];

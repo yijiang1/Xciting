@@ -403,6 +403,9 @@ const Scene: React.FC<{concept: VideoConcept; beatIndex: number; beatProgress: n
         dimBackdrop={overFootage}
       />
     );
+  // Documentary-style concepts are footage-first; without footage the plain
+  // graded background plus karaoke captions carries the story.
+  if (concept.style === 'mockumentary') return null;
   if (concept.style === 'cartoon') return <CartoonScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
   if (concept.style === 'interview') return <InterviewScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
   if (concept.style === 'gameshow') return <GameShowScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
