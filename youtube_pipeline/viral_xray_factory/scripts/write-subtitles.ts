@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import {CaptionWord, buildCaptionPages} from '../src/captions';
 
 type TimedBeat = {
   start: number;
@@ -8,7 +9,7 @@ type TimedBeat = {
   text: string;
 };
 
-type Timings = Record<string, {duration: number; beats: TimedBeat[]}>;
+type Timings = Record<string, {duration: number; beats: TimedBeat[]; words?: CaptionWord[]}>;
 
 const root = process.cwd();
 const dataFile = path.resolve(root, 'public/data/timings.json');
@@ -51,12 +52,19 @@ const run = async () => {
   await fs.mkdir(subtitlesDir, {recursive: true});
 
   for (const [id, timeline] of Object.entries(timings)) {
-    const blocks = timeline.beats.map((beat, index) =>
-      [
-        String(index + 1),
-        `${formatSrtTime(beat.start)} --> ${formatSrtTime(beat.end)}`,
-        splitCaption(beat.text),
-      ].join('\n'),
+    // Word-accurate short cues when Whisper alignment exists; beat-level
+    // blocks otherwise.
+    const cues =
+      timeline.words && timeline.words.length > 0
+        ? buildCaptionPages(timeline.words, {maxWords: 8, maxDuration: 4, maxGap: 0.8}).map((page) => ({
+            start: page.start,
+            end: page.end,
+            text: page.words.map((word) => word.text).join(' '),
+          }))
+        : timeline.beats;
+
+    const blocks = cues.map((cue, index) =>
+      [String(index + 1), `${formatSrtTime(cue.start)} --> ${formatSrtTime(cue.end)}`, splitCaption(cue.text)].join('\n'),
     );
     await fs.writeFile(path.join(subtitlesDir, `${id}.srt`), `${blocks.join('\n\n')}\n`);
   }

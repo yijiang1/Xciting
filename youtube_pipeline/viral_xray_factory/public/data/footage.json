@@ -1,0 +1,55 @@
+{
+  "cartoon_bragg_detective": {
+    "mode": "per-beat",
+    "clips": [
+      {
+        "beat": 0,
+        "file": "footage/cartoon_bragg_detective/beat-01.mp4",
+        "seconds": 8,
+        "prompt": "Premium 2D animated educational short in the spirit of a top-tier science animation studio: flat design with soft paper texture, subtle grain, gentle parallax, deep navy palette with warm amber and teal rim light, smooth cinematic camera moves. A tiny glowing photon character wearing a detective trench coat and fedora explores a vast luminous crystal city built from neatly stacked glowing atom spheres.\n\nShot: Wide establishing shot at night: the photon detective walks into a glittering crystal city, rows of glowing atomic spheres stacked like skyscraper floors, volumetric light shafts drifting between the towers.\n\nNo on-screen text, no letters, no numbers, no captions, no subtitles, no user interface, no watermark, no logo.",
+        "provider": "sora",
+        "model": "sora-2"
+      },
+      {
+        "beat": 1,
+        "file": "footage/cartoon_bragg_detective/beat-02.mp4",
+        "seconds": 8,
+        "prompt": "Premium 2D animated educational short in the spirit of a top-tier science animation studio: flat design with soft paper texture, subtle grain, gentle parallax, deep navy palette with warm amber and teal rim light, smooth cinematic camera moves. A tiny glowing photon character wearing a detective trench coat and fedora explores a vast luminous crystal city built from neatly stacked glowing atom spheres.\n\nShot: Slow lateral dolly across perfectly ordered horizontal planes of glowing atoms stacked like apartment floors, tiny electrons shimmering on each level.\n\nNo on-screen text, no letters, no numbers, no captions, no subtitles, no user interface, no watermark, no logo.",
+        "provider": "sora",
+        "model": "sora-2"
+      },
+      {
+        "beat": 2,
+        "file": "footage/cartoon_bragg_detective/beat-03.mp4",
+        "seconds": 8,
+        "prompt": "Premium 2D animated educational short in the spirit of a top-tier science animation studio: flat design with soft paper texture, subtle grain, gentle parallax, deep navy palette with warm amber and teal rim light, smooth cinematic camera moves. A tiny glowing photon character wearing a detective trench coat and fedora explores a vast luminous crystal city built from neatly stacked glowing atom spheres.\n\nShot: Two bright X-ray beams enter at the same angle: one reflects off the top plane of atoms, the other dives one layer deeper and reflects back, both drawn as elegant curving light trails.\n\nNo on-screen text, no letters, no numbers, no captions, no subtitles, no user interface, no watermark, no logo.",
+        "provider": "sora",
+        "model": "sora-2"
+      },
+      {
+        "beat": 3,
+        "file": "footage/cartoon_bragg_detective/beat-04.mp4",
+        "seconds": 8,
+        "prompt": "Premium 2D animated educational short in the spirit of a top-tier science animation studio: flat design with soft paper texture, subtle grain, gentle parallax, deep navy palette with warm amber and teal rim light, smooth cinematic camera moves. A tiny glowing photon character wearing a detective trench coat and fedora explores a vast luminous crystal city built from neatly stacked glowing atom spheres.\n\nShot: Close-up on the deeper beam threading between two atomic planes, its extra path glowing warm amber while the geometry of the layers stays crisp and calm.\n\nNo on-screen text, no letters, no numbers, no captions, no subtitles, no user interface, no watermark, no logo.",
+        "provider": "sora",
+        "model": "sora-2"
+      },
+      {
+        "beat": 5,
+        "file": "footage/cartoon_bragg_detective/beat-06.mp4",
+        "seconds": 8,
+        "prompt": "Premium 2D animated educational short in the spirit of a top-tier science animation studio: flat design with soft paper texture, subtle grain, gentle parallax, deep navy palette with warm amber and teal rim light, smooth cinematic camera moves. A tiny glowing photon character wearing a detective trench coat and fedora explores a vast luminous crystal city built from neatly stacked glowing atom spheres.\n\nShot: Triumphant hero shot: the photon detective tips his fedora as a radiant starburst of diffracted light erupts from the crystal skyline, celebratory sparks drifting down.\n\nNo on-screen text, no letters, no numbers, no captions, no subtitles, no user interface, no watermark, no logo.",
+        "provider": "sora",
+        "model": "sora-2"
+      },
+      {
+        "beat": 4,
+        "file": "footage/cartoon_bragg_detective/beat-05.mp4",
+        "seconds": 8,
+        "prompt": "Premium 2D animated educational short in the spirit of a top-tier science animation studio: flat design with soft paper texture, subtle grain, gentle parallax, deep navy palette with warm amber and teal rim light, smooth cinematic camera moves. A tiny glowing photon character wearing a detective trench coat and fedora explores a vast luminous crystal city built from neatly stacked glowing atom spheres.\n\nShot: Two gentle golden light waves drift together over the crystal city and align into one calm synchronized ripple pattern, the city softly glowing in harmony.\n\nNo on-screen text, no letters, no numbers, no captions, no subtitles, no user interface, no watermark, no logo.",
+        "provider": "sora",
+        "model": "sora-2"
+      }
+    ]
+  }
+}

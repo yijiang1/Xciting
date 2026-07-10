@@ -1,42 +1,419 @@
 {
   "cartoon_bragg_detective": {
-    "duration": 37.92,
+    "duration": 37.695,
     "beats": [
       {
         "start": 0,
-        "end": 6.028,
+        "end": 7.12,
         "text": "Detective Photon enters the crystal city with one question: who stole the X-ray beam?",
         "visual": "cartoon detective photon arrives"
       },
       {
-        "start": 6.028,
-        "end": 12.248,
+        "start": 7.12,
+        "end": 13.608,
         "text": "Every atom is lined up in planes, like tiny apartment floors made of electrons.",
         "visual": "stacked atom floors"
       },
       {
-        "start": 12.248,
-        "end": 18.42,
+        "start": 13.608,
+        "end": 19.808,
         "text": "One beam bounces from the top floor. Another dives deeper, then bounces back.",
         "visual": "two animated ray paths"
       },
       {
-        "start": 18.42,
-        "end": 23.944,
+        "start": 19.808,
+        "end": 25.312,
         "text": "The deeper beam walks an extra distance: two d sine theta.",
         "visual": "highlight path difference"
       },
       {
-        "start": 23.944,
-        "end": 29.18,
+        "start": 25.312,
+        "end": 30.504,
         "text": "If that extra walk is exactly n wavelengths, the waves clap together.",
         "visual": "waves align and sparkle"
       },
       {
-        "start": 29.18,
-        "end": 37.92,
+        "start": 30.504,
+        "end": 37.712,
         "text": "That is Bragg's law: n lambda equals two d sine theta. Mystery solved; diffraction peak unlocked.",
         "visual": "formula badge and peak burst"
+      }
+    ],
+    "words": [
+      {
+        "text": "Detective",
+        "start": 0,
+        "end": 0.84
+      },
+      {
+        "text": "Photon",
+        "start": 0.84,
+        "end": 1.42
+      },
+      {
+        "text": "enters",
+        "start": 1.42,
+        "end": 1.94
+      },
+      {
+        "text": "the",
+        "start": 1.94,
+        "end": 2.24
+      },
+      {
+        "text": "crystal",
+        "start": 2.24,
+        "end": 2.6
+      },
+      {
+        "text": "city",
+        "start": 2.6,
+        "end": 2.9
+      },
+      {
+        "text": "with",
+        "start": 2.9,
+        "end": 3.14
+      },
+      {
+        "text": "one",
+        "start": 3.14,
+        "end": 3.5
+      },
+      {
+        "text": "question",
+        "start": 3.5,
+        "end": 3.9
+      },
+      {
+        "text": "Who",
+        "start": 4.5,
+        "end": 4.74
+      },
+      {
+        "text": "stole",
+        "start": 4.74,
+        "end": 5.1
+      },
+      {
+        "text": "the",
+        "start": 5.1,
+        "end": 5.56
+      },
+      {
+        "text": "X",
+        "start": 5.56,
+        "end": 5.78
+      },
+      {
+        "text": "ray",
+        "start": 5.78,
+        "end": 5.78
+      },
+      {
+        "text": "beam",
+        "start": 5.78,
+        "end": 6.02
+      },
+      {
+        "text": "Every",
+        "start": 7.16,
+        "end": 7.64
+      },
+      {
+        "text": "atom",
+        "start": 7.64,
+        "end": 7.98
+      },
+      {
+        "text": "is",
+        "start": 7.98,
+        "end": 8.46
+      },
+      {
+        "text": "lined",
+        "start": 8.46,
+        "end": 8.68
+      },
+      {
+        "text": "up",
+        "start": 8.68,
+        "end": 8.96
+      },
+      {
+        "text": "in",
+        "start": 8.96,
+        "end": 9.62
+      },
+      {
+        "text": "planes",
+        "start": 9.62,
+        "end": 9.62
+      },
+      {
+        "text": "like",
+        "start": 10.06,
+        "end": 10.28
+      },
+      {
+        "text": "tiny",
+        "start": 10.28,
+        "end": 10.74
+      },
+      {
+        "text": "apartment",
+        "start": 10.74,
+        "end": 11.16
+      },
+      {
+        "text": "floors",
+        "start": 11.16,
+        "end": 11.56
+      },
+      {
+        "text": "made",
+        "start": 11.56,
+        "end": 12.1
+      },
+      {
+        "text": "of",
+        "start": 12.1,
+        "end": 12.32
+      },
+      {
+        "text": "electrons",
+        "start": 12.32,
+        "end": 12.8
+      },
+      {
+        "text": "One",
+        "start": 13.7,
+        "end": 14.08
+      },
+      {
+        "text": "beam",
+        "start": 14.08,
+        "end": 14.44
+      },
+      {
+        "text": "bounces",
+        "start": 14.44,
+        "end": 15.04
+      },
+      {
+        "text": "from",
+        "start": 15.04,
+        "end": 15.4
+      },
+      {
+        "text": "the",
+        "start": 15.4,
+        "end": 15.56
+      },
+      {
+        "text": "top",
+        "start": 15.56,
+        "end": 15.82
+      },
+      {
+        "text": "floor",
+        "start": 15.82,
+        "end": 16.04
+      },
+      {
+        "text": "Another",
+        "start": 16.86,
+        "end": 16.96
+      },
+      {
+        "text": "dives",
+        "start": 16.96,
+        "end": 17.44
+      },
+      {
+        "text": "deeper",
+        "start": 17.44,
+        "end": 17.82
+      },
+      {
+        "text": "then",
+        "start": 18.12,
+        "end": 18.46
+      },
+      {
+        "text": "bounces",
+        "start": 18.46,
+        "end": 18.74
+      },
+      {
+        "text": "back",
+        "start": 18.74,
+        "end": 19.2
+      },
+      {
+        "text": "The",
+        "start": 19.78,
+        "end": 20.16
+      },
+      {
+        "text": "deeper",
+        "start": 20.16,
+        "end": 20.54
+      },
+      {
+        "text": "beam",
+        "start": 20.54,
+        "end": 20.92
+      },
+      {
+        "text": "walks",
+        "start": 20.92,
+        "end": 21.4
+      },
+      {
+        "text": "an",
+        "start": 21.4,
+        "end": 21.8
+      },
+      {
+        "text": "extra",
+        "start": 21.8,
+        "end": 22.04
+      },
+      {
+        "text": "distance",
+        "start": 22.04,
+        "end": 22.56
+      },
+      {
+        "text": "2D",
+        "start": 23.1,
+        "end": 23.6
+      },
+      {
+        "text": "sine",
+        "start": 23.6,
+        "end": 24.1
+      },
+      {
+        "text": "theta",
+        "start": 24.1,
+        "end": 24.4
+      },
+      {
+        "text": "If",
+        "start": 25,
+        "end": 25.44
+      },
+      {
+        "text": "that",
+        "start": 25.44,
+        "end": 25.78
+      },
+      {
+        "text": "extra",
+        "start": 25.78,
+        "end": 26.16
+      },
+      {
+        "text": "walk",
+        "start": 26.16,
+        "end": 26.42
+      },
+      {
+        "text": "is",
+        "start": 26.42,
+        "end": 26.76
+      },
+      {
+        "text": "exactly",
+        "start": 26.76,
+        "end": 27.16
+      },
+      {
+        "text": "N",
+        "start": 27.16,
+        "end": 27.58
+      },
+      {
+        "text": "wavelengths",
+        "start": 27.58,
+        "end": 28.06
+      },
+      {
+        "text": "the",
+        "start": 28.5,
+        "end": 28.92
+      },
+      {
+        "text": "waves",
+        "start": 28.92,
+        "end": 28.92
+      },
+      {
+        "text": "clap",
+        "start": 28.92,
+        "end": 29.28
+      },
+      {
+        "text": "together",
+        "start": 29.28,
+        "end": 29.76
+      },
+      {
+        "text": "N",
+        "start": 30.76,
+        "end": 30.92
+      },
+      {
+        "text": "lambda",
+        "start": 30.92,
+        "end": 31.46
+      },
+      {
+        "text": "equals",
+        "start": 31.46,
+        "end": 32.16
+      },
+      {
+        "text": "2D",
+        "start": 32.16,
+        "end": 32.84
+      },
+      {
+        "text": "sine",
+        "start": 32.84,
+        "end": 33.18
+      },
+      {
+        "text": "theta",
+        "start": 33.18,
+        "end": 33.48
+      },
+      {
+        "text": "Mystery",
+        "start": 34.26,
+        "end": 34.44
+      },
+      {
+        "text": "solved",
+        "start": 34.44,
+        "end": 34.9
+      },
+      {
+        "text": "Diffraction",
+        "start": 35.64,
+        "end": 35.72
+      },
+      {
+        "text": "peak",
+        "start": 35.72,
+        "end": 36.18
+      },
+      {
+        "text": "unlocked",
+        "start": 36.18,
+        "end": 36.92
       }
     ]
   },

@@ -1,30 +1,45 @@
 1
-00:00:00,000 --> 00:00:06,028
+00:00:00,000 --> 00:00:03,500
 Detective Photon enters the crystal city with
-one question: who stole the X-ray beam?
+one
 
 2
-00:00:06,028 --> 00:00:12,248
-Every atom is lined up in planes, like tiny
-apartment floors made of electrons.
+00:00:03,500 --> 00:00:06,520
+question Who stole the X ray beam
 
 3
-00:00:12,248 --> 00:00:18,420
-One beam bounces from the top floor. Another
-dives deeper, then bounces back.
+00:00:07,160 --> 00:00:10,280
+Every atom is lined up in planes like
 
 4
-00:00:18,420 --> 00:00:23,944
-The deeper beam walks an extra distance: two d
-sine theta.
+00:00:10,280 --> 00:00:13,300
+tiny apartment floors made of electrons
 
 5
-00:00:23,944 --> 00:00:29,180
-If that extra walk is exactly n wavelengths, the
-waves clap together.
+00:00:13,700 --> 00:00:16,540
+One beam bounces from the top floor
 
 6
-00:00:29,180 --> 00:00:37,920
-That is Bragg's law: n lambda equals two d sine
-theta. Mystery solved; diffraction peak
-unlocked.
+00:00:16,860 --> 00:00:20,540
+Another dives deeper then bounces back The
+deeper
+
+7
+00:00:20,540 --> 00:00:24,900
+beam walks an extra distance 2D sine theta
+
+8
+00:00:25,000 --> 00:00:28,500
+If that extra walk is exactly N wavelengths
+
+9
+00:00:28,500 --> 00:00:30,260
+the waves clap together
+
+10
+00:00:30,760 --> 00:00:34,440
+N lambda equals 2D sine theta Mystery
+
+11
+00:00:34,440 --> 00:00:37,320
+solved Diffraction peak unlocked

@@ -9,3 +9,5 @@ youtube_pipeline/**/renders/
 youtube_pipeline/**/cache/
 youtube_pipeline/**/.cache/
 youtube_pipeline/viral_xray_factory/public/audio/
+youtube_pipeline/viral_xray_factory/public/footage/
+youtube_pipeline/viral_xray_factory/public/music/
