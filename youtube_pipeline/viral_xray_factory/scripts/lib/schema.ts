@@ -24,9 +24,12 @@ export const OPENAI_VOICES = [
 export const formatSchema = z.enum(['portrait', 'landscape']);
 export type Format = z.infer<typeof formatSchema>;
 
-// Presentation archetypes. Each doubles as a procedural-scene key for the
-// zero-cost fallback visuals; LLM-generated concepts reuse them as tones.
-export const styleSchema = z.enum(['cartoon', 'interview', 'gameshow', 'noir', 'news', 'roundtable']);
+// Presentation archetype, e.g. "cartoon", "interview", "noir" -- free text so
+// the daily content strategist can invent new ones. The original six
+// (cartoon/interview/gameshow/noir/news/roundtable) double as procedural-scene
+// keys for the zero-cost fallback visuals; anything else just skips that
+// fallback and relies on generated footage + the palette background.
+export const styleSchema = z.string().min(1);
 export type VideoStyle = z.infer<typeof styleSchema>;
 
 const hexColor = z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'expected a #RRGGBB hex color');
@@ -68,6 +71,10 @@ export const conceptSchema = z.object({
   status: z.enum(['draft', 'approved']).default('draft'),
   // Channel series the video belongs to; used for branding and pinned comments.
   series: z.enum(['science', 'xray', 'roundtable']).default('science'),
+  // Content theme/bucket (e.g. "light_optics"), freely chosen by the daily
+  // content strategist and reused across videos so performance can be
+  // compared theme-to-theme. Undefined for older/hand-authored concepts.
+  theme: z.string().min(1).optional(),
   style: styleSchema,
   // Output aspect ratios; first entry is the primary (upload) format.
   formats: z.array(formatSchema).min(1).default(['portrait']),

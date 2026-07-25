@@ -5,8 +5,9 @@
 //
 // Usage:
 //   npm run concepts -- "why glass is transparent"
-//   npm run concepts -- "topic" --series xray --style noir --formats portrait,landscape
+//   npm run concepts -- "topic" --series xray --style noir --theme xray_vision --formats portrait,landscape
 //   npm run concepts -- --auto 3          # pull the next unused topics from content/topic-bank.json
+//   npm run daily                         # LLM-driven pick informed by past performance (scripts/daily.ts)
 
 import path from 'node:path';
 import process from 'node:process';
@@ -27,7 +28,7 @@ const analyticsFile = path.resolve(projectRoot, 'content/analytics.json');
 // stamped on by this script.
 const generatedSchema = z.object({
   id: z.string().regex(/^[a-z0-9_]+$/),
-  style: z.enum(['cartoon', 'interview', 'gameshow', 'noir', 'news']),
+  style: z.string().min(1),
   title: z.string().min(1),
   hook: z.string().min(1),
   topic: z.string().min(1),
@@ -64,7 +65,7 @@ Non-negotiable craft rules:
 - Every technical term gets an instant plain-language translation in the same breath.
 - Final beat lands a satisfying button that loops naturally back to the hook. Never say "subscribe", "like", or "follow".
 - Scientific accuracy beats punchiness. Never state something false to sound cool.
-${styleHint ? `- Use the "${styleHint}" presentation style.` : '- Pick whichever style (cartoon, interview, gameshow, noir, news) best fits the topic; vary across a series.'}
+${styleHint ? `- Use the "${styleHint}" presentation style.` : '- Pick whichever presentation style best fits the topic — reuse a proven archetype (cartoon, interview, gameshow, noir, news) or invent a new one; vary across a series.'}
 
 Cinema rules (for AI-generated footage):
 - cinema.stylePrompt: a 40-80 word style bible (medium, texture, color palette, lighting, camera feel) so all clips cut together.
@@ -108,7 +109,7 @@ const uniqueId = (requested: string, taken: Set<string>): string => {
 
 export const generateOne = async (
   topic: string,
-  options: {series: StoredConcept['series']; formats: StoredConcept['formats']; style?: string; angle?: string},
+  options: {series: StoredConcept['series']; formats: StoredConcept['formats']; style?: string; angle?: string; theme?: string},
 ): Promise<StoredConcept> => {
   const existing = await loadConcepts();
   const taken = new Set(existing.map((concept) => concept.id));
@@ -139,6 +140,7 @@ export const generateOne = async (
     id: uniqueId(generated.id, taken),
     status: 'draft',
     series: options.series,
+    theme: options.theme,
     formats: options.formats,
     cinema: {mode: 'per-beat', ...generated.cinema},
     upload: {
@@ -163,10 +165,13 @@ const run = async () => {
   const autoCount = autoIndex >= 0 ? Number(args[autoIndex + 1] ?? 1) : 0;
   const series = (flagValue('--series') ?? 'science') as 'science' | 'xray';
   const style = flagValue('--style');
+  const theme = flagValue('--theme');
   const formats = formatSchema.array().parse((flagValue('--formats') ?? 'portrait').split(','));
 
   const flagValueIndexes = new Set(
-    ['--series', '--style', '--formats', '--auto'].map((name) => args.findIndex((arg) => arg === name) + 1).filter((index) => index > 0),
+    ['--series', '--style', '--theme', '--formats', '--auto']
+      .map((name) => args.findIndex((arg) => arg === name) + 1)
+      .filter((index) => index > 0),
   );
   const topicArgs = args.filter((arg, index) => !arg.startsWith('-') && !flagValueIndexes.has(index));
 
@@ -177,19 +182,20 @@ const run = async () => {
       throw new Error('Topic bank has no unused topics. Add more to content/topic-bank.json.');
     }
     for (const entry of unused.slice(0, autoCount)) {
-      const concept = await generateOne(entry.topic, {series: entry.series, formats, style, angle: entry.angle});
+      const concept = await generateOne(entry.topic, {series: entry.series, formats, style, angle: entry.angle, theme: entry.theme});
       entry.used = true;
       entry.conceptId = concept.id;
       await saveTopicBank(bank);
     }
   } else if (topicArgs.length > 0) {
     for (const topic of topicArgs) {
-      await generateOne(topic, {series, formats, style});
+      await generateOne(topic, {series, formats, style, theme});
     }
   } else {
     console.log('Usage:');
-    console.log('  npm run concepts -- "why glass is transparent" [--series science|xray] [--style noir] [--formats portrait,landscape]');
+    console.log('  npm run concepts -- "why glass is transparent" [--series science|xray] [--style noir] [--theme light_optics] [--formats portrait,landscape]');
     console.log('  npm run concepts -- --auto 3');
+    console.log('  npm run daily          # LLM-driven theme/style pick informed by past performance');
     return;
   }
 
