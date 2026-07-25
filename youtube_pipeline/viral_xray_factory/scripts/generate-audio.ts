@@ -5,7 +5,9 @@ import process from 'node:process';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import {execa} from 'execa';
-import {Beat, OpenAiVoice, concepts} from '../src/concepts';
+import {ffmpeg, ffprobe} from './lib/ffmpeg';
+import type {Beat, OpenAiVoice, StoredConcept} from './lib/schema';
+import {loadConcepts} from './lib/content';
 import type {CaptionWord} from '../src/captions';
 
 const root = process.cwd();
@@ -27,7 +29,9 @@ type TimedBeat = {
 
 type Timeline = {duration: number; beats: TimedBeat[]; words?: CaptionWord[]};
 
-const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+// Lazy so ElevenLabs-only setups (no OPENAI_API_KEY) can still run TTS.
+let cachedClient: OpenAI | undefined;
+const client = () => (cachedClient ??= new OpenAI({apiKey: process.env.OPENAI_API_KEY}));
 
 const ttsProvider = (process.env.TTS_PROVIDER ?? (process.env.ELEVENLABS_API_KEY ? 'elevenlabs' : 'openai')) as
   | 'elevenlabs'
@@ -98,12 +102,6 @@ const roundtableSpeakerProfiles: Record<string, SpeakerProfile> = {
 // Override any entry with the ELEVENLABS_VOICE_MAP env var, a JSON object of
 // {"<speaker-or-concept-id>": "<voiceId>"}.
 const elevenDefaultVoices: Record<string, string> = {
-  // Narrators keyed by concept id
-  cartoon_bragg_detective: 'cgSgspJ2msm6clMCkdW9', // Jessica - playful, expressive
-  interview_absorption_edge: 'IKne3meq5aSn9XLyUdCB', // Charlie - conversational
-  gameshow_xrd_peaks: 'bIHbv24MWmeRgasZH58o', // Will - energetic
-  noir_exafs_echo: 'N2lVS1w4EtoT3dr4eOWO', // Callum - gravelly, cinematic
-  news_synchrotron_weather: 'nPczCjzI2devNBz1zQrb', // Brian - anchor
   // Roundtable cast keyed by speaker
   Host: 'onwK4e9ZLuTAKqWW03F9', // Daniel - authoritative host
   Einstein: 'JBFqnCBsd6RMkjVDRZzb', // George - warm, mature
@@ -126,9 +124,26 @@ const elevenVoiceOverrides: Record<string, string> = (() => {
   }
 })();
 
-const elevenVoiceFor = (conceptId: string, beat: Beat): string => {
-  const key = beat.speaker ?? conceptId;
-  return elevenVoiceOverrides[key] ?? elevenDefaultVoices[key] ?? elevenDefaultVoices[conceptId] ?? 'onwK4e9ZLuTAKqWW03F9';
+// Narrator fallbacks per style, so generated concepts get a sensible casting
+// without naming a voice id.
+const elevenStyleDefaults: Record<string, string> = {
+  cartoon: 'cgSgspJ2msm6clMCkdW9', // Jessica - playful, expressive
+  interview: 'IKne3meq5aSn9XLyUdCB', // Charlie - conversational
+  gameshow: 'bIHbv24MWmeRgasZH58o', // Will - energetic
+  noir: 'N2lVS1w4EtoT3dr4eOWO', // Callum - gravelly, cinematic
+  news: 'nPczCjzI2devNBz1zQrb', // Brian - anchor
+  roundtable: 'onwK4e9ZLuTAKqWW03F9', // Daniel - authoritative host
+};
+
+const elevenVoiceFor = (concept: StoredConcept, beat: Beat): string => {
+  const key = beat.speaker ?? concept.id;
+  return (
+    elevenVoiceOverrides[key] ??
+    elevenDefaultVoices[key] ??
+    concept.elevenVoiceId ??
+    elevenStyleDefaults[concept.style] ??
+    'onwK4e9ZLuTAKqWW03F9'
+  );
 };
 
 // ---------------------------------------------------------------------------
@@ -137,8 +152,8 @@ const elevenVoiceFor = (conceptId: string, beat: Beat): string => {
 
 const speechInputFor = (beat: Beat) => beat.text.replace(/^[A-Za-z .'-]{1,32}:\s*/, '');
 
-const ttsProfileFor = (conceptId: string, beat: Beat, fallbackVoice: OpenAiVoice, fallbackInstructions: string): SpeakerProfile => {
-  const speakerProfile = conceptId === 'roundtable_knowledge_wisdom' && beat.speaker ? roundtableSpeakerProfiles[beat.speaker] : undefined;
+const ttsProfileFor = (beat: Beat, fallbackVoice: OpenAiVoice, fallbackInstructions: string): SpeakerProfile => {
+  const speakerProfile = beat.speaker ? roundtableSpeakerProfiles[beat.speaker] : undefined;
   return {
     voice: beat.openaiVoice ?? speakerProfile?.voice ?? fallbackVoice,
     instructions: [fallbackInstructions, speakerProfile?.instructions, beat.openaiInstructions].filter(Boolean).join('\n'),
@@ -146,7 +161,7 @@ const ttsProfileFor = (conceptId: string, beat: Beat, fallbackVoice: OpenAiVoice
 };
 
 const makeOpenAiSpeech = async (input: string, voice: string, instructions: string, outFile: string) => {
-  const response = await client.audio.speech.create({
+  const response = await client().audio.speech.create({
     model: process.env.OPENAI_TTS_MODEL ?? 'gpt-4o-mini-tts',
     voice,
     input,
@@ -216,7 +231,7 @@ const gapAfter = (beat: Beat, nextBeat: Beat | undefined): number => {
 };
 
 const durationOf = async (file: string): Promise<number> => {
-  const {stdout} = await execa('ffprobe', [
+  const {stdout} = await ffprobe( [
     '-v',
     'error',
     '-show_entries',
@@ -232,11 +247,11 @@ const concatAudio = async (files: string[], output: string) => {
   const listFile = path.join(tmpDir, `concat-${path.basename(output)}.txt`);
   const lines = files.map((file) => `file '${file.replaceAll("'", "'\\''")}'`).join('\n');
   await fs.writeFile(listFile, lines);
-  await execa('ffmpeg', ['-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', listFile, '-ar', '44100', '-c:a', 'libmp3lame', '-q:a', '2', output]);
+  await ffmpeg( ['-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', listFile, '-ar', '44100', '-c:a', 'libmp3lame', '-q:a', '2', output]);
 };
 
 const makeSilence = async (duration: number, output: string) => {
-  await execa('ffmpeg', [
+  await ffmpeg( [
     '-y',
     '-v',
     'error',
@@ -258,7 +273,7 @@ const makeSilence = async (duration: number, output: string) => {
 // silence between lines, then loudnorm brings the track to the -14 LUFS
 // streaming standard.
 const masterAudio = async (input: string, output: string) => {
-  await execa('ffmpeg', [
+  await ffmpeg( [
     '-y',
     '-v',
     'error',
@@ -291,7 +306,7 @@ const transcribeWords = async (file: string): Promise<CaptionWord[] | undefined>
   if (process.env.CAPTION_WORDS === '0') return undefined;
   if (!process.env.OPENAI_API_KEY) return undefined;
   try {
-    const transcription = (await client.audio.transcriptions.create({
+    const transcription = (await client().audio.transcriptions.create({
       file: createReadStream(file),
       model: 'whisper-1',
       response_format: 'verbose_json',
@@ -329,6 +344,7 @@ const run = async () => {
   await fs.mkdir(dataDir, {recursive: true});
   await fs.mkdir(tmpDir, {recursive: true});
 
+  const concepts = await loadConcepts();
   const requestedIds = process.argv.slice(2).filter((arg) => !arg.startsWith('-'));
   const selectedConcepts = requestedIds.length > 0 ? concepts.filter((concept) => requestedIds.includes(concept.id)) : concepts;
   const missingIds = requestedIds.filter((id) => !concepts.some((concept) => concept.id === id));
@@ -356,7 +372,7 @@ const run = async () => {
       const input = speechInputFor(beat);
 
       if (ttsProvider === 'elevenlabs') {
-        const voiceId = elevenVoiceFor(concept.id, beat);
+        const voiceId = elevenVoiceFor(concept, beat);
         console.log(`  ${String(index + 1).padStart(2, '0')}/${concept.beats.length}: ${beat.speaker ?? 'Narrator'} -> eleven:${voiceId}`);
         await withRetries(`beat ${index + 1}`, 3, () =>
           makeElevenSpeech(
@@ -370,7 +386,7 @@ const run = async () => {
           ),
         );
       } else {
-        const profile = ttsProfileFor(concept.id, beat, concept.voice, concept.ttsInstructions);
+        const profile = ttsProfileFor(beat, concept.voice, concept.ttsInstructions);
         console.log(`  ${String(index + 1).padStart(2, '0')}/${concept.beats.length}: ${beat.speaker ?? 'Narrator'} -> ${profile.voice}`);
         await withRetries(`beat ${index + 1}`, 3, () => makeOpenAiSpeech(input, profile.voice, profile.instructions, piece));
       }

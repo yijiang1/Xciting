@@ -1,0 +1,83 @@
+{
+  "id": "news_synchrotron_weather",
+  "status": "approved",
+  "series": "xray",
+  "style": "news",
+  "formats": [
+    "portrait",
+    "landscape"
+  ],
+  "title": "Synchrotron Weather Report",
+  "hook": "Today’s forecast: bright beam, scattered photons, and a 90 percent chance of data.",
+  "topic": "synchrotron beamlines",
+  "voice": "sage",
+  "ttsInstructions": "Fast-paced science news anchor with playful confidence. Clear, punchy, and slightly dramatic.",
+  "elevenVoiceId": "nPczCjzI2devNBz1zQrb",
+  "palette": {
+    "bg": "#052E2B",
+    "accent": "#67E8F9",
+    "accent2": "#FBBF24",
+    "ink": "#F8FAFC",
+    "panel": "#0F4A45"
+  },
+  "beats": [
+    {
+      "text": "Good evening from the synchrotron. The storage ring is calm, the electrons are relativistic, and the beam is bright.",
+      "visual": "news desk and storage ring map"
+    },
+    {
+      "text": "Undulators make the electrons wiggle, and wiggling charges throw off intense X-rays.",
+      "visual": "undulator wiggle"
+    },
+    {
+      "text": "Monochromators select one energy, because experiments do not appreciate chaotic buffets.",
+      "visual": "energy selection"
+    },
+    {
+      "text": "Mirrors focus the beam down to the sample, where chemistry, structure, and motion get interrogated.",
+      "visual": "focused beam on sample"
+    },
+    {
+      "text": "Detectors collect the evidence: absorption, diffraction, scattering, fluorescence, sometimes all before lunch.",
+      "visual": "detector dashboard"
+    },
+    {
+      "text": "Tomorrow’s forecast: more photons, more coffee, and a small craft advisory for anyone aligning slits.",
+      "visual": "weather forecast outro"
+    }
+  ],
+  "cinema": {
+    "mode": "per-beat",
+    "stylePrompt": "Sleek photorealistic broadcast news studio: glass desk, giant curved LED wall showing swirling weather-style graphics of a glowing particle storage ring, cool teal and amber studio lighting, polished floor reflections, smooth steadicam moves.",
+    "shots": [
+      "Wide studio establishing shot: the giant LED wall glows with a radar-style map of a luminous storage ring, studio lights sweeping gently.",
+      "LED wall close-up: a stream of bright electrons wiggles through an undulator of alternating magnets, throwing off brilliant fans of light.",
+      "Elegant animated diagram on the wall: a rainbow beam enters a crystal and a single pure color exits, the rest fading away.",
+      "A pair of curved mirrors focuses a thin brilliant beam down onto a tiny sample that sparkles as the beam lands.",
+      "A wall of glowing detector panels lights up one by one like a dashboard of storms, data pulses rippling across.",
+      "Weather-forecast style outro: stylized sun-like photon icons drift over a glowing aerial map of a circular synchrotron facility at dusk."
+    ],
+    "musicPrompt": "Modern broadcast news bed: pulsing synth arps, confident strings, subtle percussion, urgent but bright, instrumental, loopable, no vocals."
+  },
+  "proceduralScene": "news",
+  "upload": {
+    "title": "Synchrotron Beamlines Explained as a Weather Report",
+    "description": "Voiceover is AI-generated.\nA newsroom-style explanation of synchrotron beamlines, undulators, monochromators, mirrors, and detectors.",
+    "tags": [
+      "synchrotron",
+      "beamline",
+      "x-rays",
+      "undulator",
+      "monochromator",
+      "science news"
+    ]
+  },
+  "hashtags": [
+    "#shorts",
+    "#science",
+    "#physics",
+    "#xray",
+    "#learning"
+  ],
+  "pinnedComment": "Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?"
+}

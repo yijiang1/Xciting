@@ -9,8 +9,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import dotenv from 'dotenv';
-import {concepts} from '../src/concepts';
-import {cinema} from '../src/cinema';
+import {loadConcepts} from './lib/content';
 
 const root = process.cwd();
 dotenv.config({path: path.resolve(root, '../.env.local')});
@@ -40,6 +39,7 @@ const run = async () => {
   const args = process.argv.slice(2);
   const force = args.includes('--force');
   const ids = args.filter((arg) => !arg.startsWith('-'));
+  const concepts = await loadConcepts();
   const selected = ids.length > 0 ? concepts.filter((concept) => ids.includes(concept.id)) : concepts;
 
   await fs.mkdir(musicDir, {recursive: true});
@@ -47,7 +47,7 @@ const run = async () => {
   const manifest = await readJson<Record<string, string>>(manifestFile, {});
 
   for (const concept of selected) {
-    const prompt = cinema[concept.id]?.musicPrompt;
+    const prompt = concept.cinema.musicPrompt;
     if (!prompt) continue;
     const relFile = `music/${concept.id}.mp3`;
     const outFile = path.join(root, 'public', relFile);

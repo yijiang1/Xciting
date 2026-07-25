@@ -1,0 +1,83 @@
+{
+  "id": "noir_exafs_echo",
+  "status": "approved",
+  "series": "xray",
+  "style": "noir",
+  "formats": [
+    "portrait",
+    "landscape"
+  ],
+  "title": "EXAFS After Dark",
+  "hook": "The photoelectron leaves the atom, but the neighbors talk back.",
+  "topic": "EXAFS scattering",
+  "voice": "onyx",
+  "ttsInstructions": "Cinematic noir narrator. Low, deliberate, mysterious, with dry humor and clean pronunciation of EXAFS.",
+  "elevenVoiceId": "N2lVS1w4EtoT3dr4eOWO",
+  "palette": {
+    "bg": "#111111",
+    "accent": "#E5E7EB",
+    "accent2": "#F59E0B",
+    "ink": "#F9FAFB",
+    "panel": "#202020"
+  },
+  "beats": [
+    {
+      "text": "Past the absorption edge, a photoelectron walks into the dark.",
+      "visual": "noir electron alley"
+    },
+    {
+      "text": "It does not travel alone. Neighboring atoms scatter the wave back like whispers in an alley.",
+      "visual": "scattered waves"
+    },
+    {
+      "text": "Those whispers interfere with the outgoing wave, making oscillations above the edge.",
+      "visual": "EXAFS oscillation graph"
+    },
+    {
+      "text": "The rhythm depends on distance. The strength depends on how many neighbors are out there.",
+      "visual": "radial shell clues"
+    },
+    {
+      "text": "Fourier transform the oscillations, and the local structure starts to appear from the fog.",
+      "visual": "transform to radial peaks"
+    },
+    {
+      "text": "EXAFS is not magic. It is atomic echo location with a trench coat.",
+      "visual": "detective reveal"
+    }
+  ],
+  "cinema": {
+    "mode": "per-beat",
+    "stylePrompt": "Black-and-white film noir with heavy 35mm grain, deep chiaroscuro shadows, venetian blind light, drifting cigarette-smoke haze, rain-slick alley reflections, slow deliberate dolly moves, one single warm amber accent light in an otherwise monochrome world.",
+    "shots": [
+      "A lone glowing orb of light in a tiny trench coat walks into a foggy alley at night, its glow reflecting off the wet cobblestones.",
+      "Shadowy round figures in doorways and fire escapes send faint ripples of light back toward the glowing orb, like whispered echoes.",
+      "The overlapping ripples interfere across the wet pavement, forming slowly oscillating bands of light and dark.",
+      "Concentric rings of streetlamp glow at different distances pulse at different rhythms through the fog.",
+      "The fog slowly resolves into ghostly concentric peaks of light emerging from darkness, like a skyline appearing at dawn.",
+      "The glowing detective stands under a single streetlight, tips its hat, and the echoing ripples fade into the mist."
+    ],
+    "musicPrompt": "Smoky film-noir jazz: muted trumpet, brushed snare, double bass, sparse piano, mysterious and dry, instrumental, loopable, no vocals."
+  },
+  "proceduralScene": "noir",
+  "upload": {
+    "title": "EXAFS Explained as Atomic Noir",
+    "description": "Voiceover is AI-generated.\nA noir-style short about EXAFS: photoelectron scattering, interference, and local structure.",
+    "tags": [
+      "EXAFS",
+      "XAFS",
+      "x-ray absorption spectroscopy",
+      "photoelectron",
+      "local structure",
+      "science noir"
+    ]
+  },
+  "hashtags": [
+    "#shorts",
+    "#science",
+    "#physics",
+    "#xray",
+    "#learning"
+  ],
+  "pinnedComment": "Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?"
+}

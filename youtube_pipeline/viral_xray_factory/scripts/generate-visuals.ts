@@ -4,32 +4,47 @@
 //   - Veo 3.1 / Veo 3.1 Fast via the Gemini API (set GEMINI_API_KEY and/or
 //     VIDEO_PROVIDER=veo)
 //
-// Clips are cached under public/footage/<conceptId>/ and indexed in
-// public/data/footage.json. The Remotion composition uses the footage as the
-// full-bleed visual layer and falls back to the procedural SVG scenes for any
-// beat without a clip.
+// Clips are generated per orientation (portrait for Shorts/TikTok/Reels,
+// landscape for classic YouTube), cached under
+// public/footage/<conceptId>/<orientation>/ and indexed in
+// public/data/footage.json. The Remotion composition prefers clips matching
+// its own orientation and falls back to cover-cropping the other one; beats
+// with no clip at all use the procedural SVG scenes.
+//
+// Money guards: concepts must be status "approved", and the estimated cost per
+// concept must stay under MAX_VIDEO_BUDGET_USD (default 6). Override either
+// with --footage-ok.
 //
 // Usage:
 //   npm run generate:visuals -- <conceptId> [conceptId...]
-//   npm run generate:visuals -- --all [--force] [--dry-run]
+//   npm run generate:visuals -- --all [--force] [--dry-run] [--footage-ok]
+//   npm run generate:visuals -- <conceptId> --formats portrait,landscape
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
-import {concepts, VideoConcept} from '../src/concepts';
-import {cinema, NEGATIVE_PROMPT} from '../src/cinema';
+import type {StoredConcept, Format} from './lib/schema';
+import {NEGATIVE_PROMPT, PORTRAIT_FRAMING} from './lib/schema';
+import {loadConcepts, readJson, readState, updateState} from './lib/content';
 
 const root = process.cwd();
 dotenv.config({path: path.resolve(root, '../.env.local')});
 dotenv.config({path: path.resolve(root, '.env.local')});
 
-const footageDir = path.resolve(root, 'public/footage');
 const dataDir = path.resolve(root, 'public/data');
 const manifestFile = path.join(dataDir, 'footage.json');
 
-type FootageClip = {beat?: number; file: string; seconds: number; prompt: string; provider: string; model: string};
+type FootageClip = {
+  beat?: number;
+  orientation?: Format;
+  file: string;
+  seconds: number;
+  prompt: string;
+  provider: string;
+  model: string;
+};
 type FootageManifest = Record<string, {mode: 'per-beat' | 'ambient'; clips: FootageClip[]}>;
 
 type Provider = 'sora' | 'veo';
@@ -52,8 +67,12 @@ const pricePerSecond: Record<string, number> = {
   'veo-3.1-fast-generate-preview': 0.15,
 };
 
+const maxVideoBudgetUsd = Number(process.env.MAX_VIDEO_BUDGET_USD ?? 6);
+
 const model = provider === 'sora' ? soraModel : veoModel;
-const client = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+// Lazy so key-free commands (--dry-run, Veo-only setups) never construct it.
+let cachedClient: OpenAI | undefined;
+const client = () => (cachedClient ??= new OpenAI({apiKey: process.env.OPENAI_API_KEY}));
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -61,24 +80,20 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 // Prompts
 // ---------------------------------------------------------------------------
 
-const promptFor = (concept: VideoConcept, shot: string): string =>
-  `${cinema[concept.id]?.stylePrompt ?? ''}\n\nShot: ${shot}\n\n${NEGATIVE_PROMPT}`.trim();
+const promptFor = (concept: StoredConcept, shot: string, orientation: Format): string =>
+  [concept.cinema.stylePrompt, `Shot: ${shot}`, orientation === 'portrait' ? PORTRAIT_FRAMING : '', NEGATIVE_PROMPT]
+    .filter(Boolean)
+    .join('\n\n')
+    .trim();
 
 type PlannedClip = {
   conceptId: string;
   beat?: number;
+  orientation: Format;
   seconds: number;
   prompt: string;
   file: string;
   relFile: string;
-};
-
-const readJson = async <T>(file: string, fallback: T): Promise<T> => {
-  try {
-    return JSON.parse(await fs.readFile(file, 'utf8')) as T;
-  } catch {
-    return fallback;
-  }
 };
 
 const clipSeconds = (beatDuration: number | undefined): number => {
@@ -89,7 +104,16 @@ const clipSeconds = (beatDuration: number | undefined): number => {
   return 12;
 };
 
-const planClips = async (selected: VideoConcept[]): Promise<PlannedClip[]> => {
+const parseFormats = (value: string | undefined): Format[] | undefined => {
+  if (!value) return undefined;
+  const parts = value.split(',').map((part) => part.trim());
+  for (const part of parts) {
+    if (part !== 'portrait' && part !== 'landscape') throw new Error(`Unknown format "${part}" (expected portrait|landscape).`);
+  }
+  return parts as Format[];
+};
+
+const planClips = async (selected: StoredConcept[], formatsOverride: Format[] | undefined): Promise<PlannedClip[]> => {
   const timings = await readJson<Record<string, {beats: Array<{start: number; end: number}>}>>(
     path.join(dataDir, 'timings.json'),
     {},
@@ -97,37 +121,38 @@ const planClips = async (selected: VideoConcept[]): Promise<PlannedClip[]> => {
   const planned: PlannedClip[] = [];
 
   for (const concept of selected) {
-    const spec = cinema[concept.id];
-    if (!spec) {
-      console.warn(`No cinema spec for ${concept.id}; skipping.`);
-      continue;
-    }
-    if (spec.mode === 'ambient') {
-      for (const [index, shot] of (spec.ambientShots ?? []).entries()) {
-        const relFile = `footage/${concept.id}/ambient-${String(index + 1).padStart(2, '0')}.mp4`;
+    const spec = concept.cinema;
+    const orientations = formatsOverride ?? concept.formats;
+    for (const orientation of orientations) {
+      if (spec.mode === 'ambient') {
+        for (const [index, shot] of (spec.ambientShots ?? []).entries()) {
+          const relFile = `footage/${concept.id}/${orientation}/ambient-${String(index + 1).padStart(2, '0')}.mp4`;
+          planned.push({
+            conceptId: concept.id,
+            orientation,
+            seconds: clipSeconds(undefined),
+            prompt: promptFor(concept, shot, orientation),
+            file: path.join(root, 'public', relFile),
+            relFile,
+          });
+        }
+        continue;
+      }
+      for (let index = 0; index < concept.beats.length; index += 1) {
+        const shot = spec.shots?.[index] ?? concept.beats[index].visual;
+        const beatTiming = timings[concept.id]?.beats?.[index];
+        const beatDuration = beatTiming ? beatTiming.end - beatTiming.start : undefined;
+        const relFile = `footage/${concept.id}/${orientation}/beat-${String(index + 1).padStart(2, '0')}.mp4`;
         planned.push({
           conceptId: concept.id,
-          seconds: clipSeconds(undefined),
-          prompt: promptFor(concept, shot),
+          beat: index,
+          orientation,
+          seconds: clipSeconds(beatDuration),
+          prompt: promptFor(concept, shot, orientation),
           file: path.join(root, 'public', relFile),
           relFile,
         });
       }
-      continue;
-    }
-    for (let index = 0; index < concept.beats.length; index += 1) {
-      const shot = spec.shots?.[index] ?? concept.beats[index].visual;
-      const beatTiming = timings[concept.id]?.beats?.[index];
-      const beatDuration = beatTiming ? beatTiming.end - beatTiming.start : undefined;
-      const relFile = `footage/${concept.id}/beat-${String(index + 1).padStart(2, '0')}.mp4`;
-      planned.push({
-        conceptId: concept.id,
-        beat: index,
-        seconds: clipSeconds(beatDuration),
-        prompt: promptFor(concept, shot),
-        file: path.join(root, 'public', relFile),
-        relFile,
-      });
     }
   }
   return planned;
@@ -137,13 +162,18 @@ const planClips = async (selected: VideoConcept[]): Promise<PlannedClip[]> => {
 // Providers
 // ---------------------------------------------------------------------------
 
-const generateWithSora = async (prompt: string, seconds: number, outFile: string) => {
-  const videos = (client as unknown as {videos: any}).videos;
+const soraSize = (orientation: Format): string => {
+  const pro = soraModel.includes('pro');
+  if (orientation === 'portrait') return pro ? '1024x1792' : '720x1280';
+  return pro ? '1792x1024' : '1280x720';
+};
+
+const generateWithSora = async (prompt: string, seconds: number, orientation: Format, outFile: string) => {
+  const videos = (client() as unknown as {videos: any}).videos;
   if (!videos) {
     throw new Error('This openai SDK version has no Videos API. Run: npm install openai@latest');
   }
-  const size = soraModel.includes('pro') ? '1792x1024' : '1280x720';
-  let video = await videos.create({model: soraModel, prompt, size, seconds: String(seconds)});
+  let video = await videos.create({model: soraModel, prompt, size: soraSize(orientation), seconds: String(seconds)});
   while (video.status === 'queued' || video.status === 'in_progress') {
     await sleep(8000);
     video = await videos.retrieve(video.id);
@@ -157,7 +187,7 @@ const generateWithSora = async (prompt: string, seconds: number, outFile: string
   await fs.writeFile(outFile, Buffer.from(await content.arrayBuffer()));
 };
 
-const generateWithVeo = async (prompt: string, outFile: string) => {
+const generateWithVeo = async (prompt: string, orientation: Format, outFile: string) => {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error('GEMINI_API_KEY is missing for VIDEO_PROVIDER=veo.');
   const base = 'https://generativelanguage.googleapis.com/v1beta';
@@ -166,7 +196,10 @@ const generateWithVeo = async (prompt: string, outFile: string) => {
     headers: {'x-goog-api-key': apiKey, 'content-type': 'application/json'},
     body: JSON.stringify({
       instances: [{prompt}],
-      parameters: {aspectRatio: '16:9', resolution: process.env.VEO_RESOLUTION ?? '1080p'},
+      parameters: {
+        aspectRatio: orientation === 'portrait' ? '9:16' : '16:9',
+        resolution: process.env.VEO_RESOLUTION ?? '1080p',
+      },
     }),
   });
   if (!start.ok) throw new Error(`Veo request failed (${start.status}): ${await start.text()}`);
@@ -198,8 +231,13 @@ const run = async () => {
   const force = args.includes('--force');
   const dryRun = args.includes('--dry-run');
   const all = args.includes('--all');
-  const ids = args.filter((arg) => !arg.startsWith('-'));
+  const footageOk = args.includes('--footage-ok');
+  const formatsFlagIndex = args.findIndex((arg) => arg === '--formats');
+  const formatsOverride = parseFormats(formatsFlagIndex >= 0 ? args[formatsFlagIndex + 1] : undefined);
+  const formatsValueIndex = formatsFlagIndex >= 0 ? formatsFlagIndex + 1 : -1;
+  const ids = args.filter((arg, index) => !arg.startsWith('-') && index !== formatsValueIndex);
 
+  const concepts = await loadConcepts();
   const missing = ids.filter((id) => !concepts.some((concept) => concept.id === id));
   if (missing.length > 0) throw new Error(`Unknown concept id(s): ${missing.join(', ')}`);
   if (ids.length === 0 && !all) {
@@ -208,10 +246,19 @@ const run = async () => {
     console.log(`Available: ${concepts.map((concept) => concept.id).join(', ')}`);
     return;
   }
-  if (provider === 'sora' && !process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is missing.');
+  if (!dryRun && provider === 'sora' && !process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is missing.');
 
   const selected = all ? concepts : concepts.filter((concept) => ids.includes(concept.id));
-  const planned = await planClips(selected);
+
+  // Draft concepts are not cleared for paid footage: skim the script first,
+  // set "status": "approved" (npm run approve -- <id>), or pass --footage-ok.
+  const drafts = selected.filter((concept) => concept.status !== 'approved');
+  const cleared = footageOk ? selected : selected.filter((concept) => concept.status === 'approved');
+  if (!footageOk && drafts.length > 0) {
+    console.warn(`Skipping draft concepts (approve them or pass --footage-ok): ${drafts.map((concept) => concept.id).join(', ')}`);
+  }
+
+  const planned = await planClips(cleared, formatsOverride);
   const manifest = await readJson<FootageManifest>(manifestFile, {});
 
   const pending = [] as PlannedClip[];
@@ -224,10 +271,26 @@ const run = async () => {
     pending.push(clip);
   }
 
-  const totalSeconds = pending.reduce((sum, clip) => sum + clip.seconds, 0);
   const rate = pricePerSecond[model] ?? 0.2;
+  const totalSeconds = pending.reduce((sum, clip) => sum + clip.seconds, 0);
   console.log(`Provider: ${provider} (${model})`);
   console.log(`Clips to generate: ${pending.length}/${planned.length} (${totalSeconds}s, ~$${(totalSeconds * rate).toFixed(2)} estimated)`);
+
+  // Per-concept budget guard.
+  const overBudget: string[] = [];
+  for (const concept of cleared) {
+    const conceptSeconds = pending.filter((clip) => clip.conceptId === concept.id).reduce((sum, clip) => sum + clip.seconds, 0);
+    const estimate = conceptSeconds * rate;
+    if (estimate > maxVideoBudgetUsd) {
+      overBudget.push(`${concept.id} (~$${estimate.toFixed(2)} > $${maxVideoBudgetUsd})`);
+    }
+  }
+  if (overBudget.length > 0 && !footageOk && !dryRun) {
+    throw new Error(
+      `Estimated cost exceeds MAX_VIDEO_BUDGET_USD for: ${overBudget.join(', ')}.\n` +
+        'Re-run with --footage-ok to spend anyway, generate fewer formats (--formats portrait), or raise MAX_VIDEO_BUDGET_USD.',
+    );
+  }
 
   if (dryRun) {
     for (const clip of pending) {
@@ -236,8 +299,9 @@ const run = async () => {
     return;
   }
 
+  const spentSecondsByConcept = new Map<string, number>();
   for (const clip of planned) {
-    const entry = manifest[clip.conceptId] ?? {mode: cinema[clip.conceptId].mode, clips: []};
+    const entry = manifest[clip.conceptId] ?? {mode: concepts.find((concept) => concept.id === clip.conceptId)!.cinema.mode, clips: []};
     manifest[clip.conceptId] = entry;
 
     const needsGeneration = pending.includes(clip);
@@ -245,8 +309,9 @@ const run = async () => {
       await fs.mkdir(path.dirname(clip.file), {recursive: true});
       console.log(`Generating ${clip.relFile} (${clip.seconds}s)`);
       try {
-        if (provider === 'sora') await generateWithSora(clip.prompt, clip.seconds, clip.file);
-        else await generateWithVeo(clip.prompt, clip.file);
+        if (provider === 'sora') await generateWithSora(clip.prompt, clip.seconds, clip.orientation, clip.file);
+        else await generateWithVeo(clip.prompt, clip.orientation, clip.file);
+        spentSecondsByConcept.set(clip.conceptId, (spentSecondsByConcept.get(clip.conceptId) ?? 0) + clip.seconds);
       } catch (error) {
         console.error(`  FAILED ${clip.relFile}: ${error instanceof Error ? error.message : error}`);
         console.error('  The composition will fall back to procedural visuals for this beat.');
@@ -254,7 +319,15 @@ const run = async () => {
       }
     }
 
-    const record: FootageClip = {beat: clip.beat, file: clip.relFile, seconds: clip.seconds, prompt: clip.prompt, provider, model};
+    const record: FootageClip = {
+      beat: clip.beat,
+      orientation: clip.orientation,
+      file: clip.relFile,
+      seconds: clip.seconds,
+      prompt: clip.prompt,
+      provider,
+      model,
+    };
     const existingIndex = entry.clips.findIndex((existing) => existing.file === clip.relFile);
     if (existingIndex >= 0) entry.clips[existingIndex] = record;
     else entry.clips.push(record);
@@ -263,6 +336,18 @@ const run = async () => {
     await fs.writeFile(manifestFile, `${JSON.stringify(manifest, null, 2)}\n`);
   }
 
+  if (spentSecondsByConcept.size > 0) {
+    const state = await readState();
+    let totalSpentUsd = 0;
+    for (const [conceptId, seconds] of spentSecondsByConcept) {
+      const spentUsd = seconds * rate;
+      totalSpentUsd += spentUsd;
+      await updateState(conceptId, {
+        footageSpendUsd: Number(((state[conceptId]?.footageSpendUsd ?? 0) + spentUsd).toFixed(2)),
+      });
+    }
+    console.log(`Approximate spend this run: $${totalSpentUsd.toFixed(2)}`);
+  }
   console.log(`Footage manifest updated: ${path.relative(root, manifestFile)}`);
 };
 

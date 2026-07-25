@@ -1,72 +1,119 @@
-# Viral X-ray Factory
+# Exciting — Short-Video Content Factory
 
-Automated short-video pipeline for the Xciting YouTube channel.
+Automated pipeline that turns a topic into a publish-ready science explainer:
+LLM-written script → SOTA TTS narration → karaoke captions → AI footage →
+Remotion render in **9:16 (Shorts/TikTok/Reels) and 16:9 (YouTube)** → review
+queue → one-command YouTube publish → analytics feedback into the next topic.
 
-## What It Generates
+Content lives as JSON in `content/concepts/` (schema:
+`scripts/lib/schema.ts`). Nothing is hardcoded: `npm run concepts` writes new
+videos into the store, and every downstream stage reads from it.
 
-- Five educational X-ray shorts with different formats: cartoon, interview, game show, noir, and news.
-- One longer animated roundtable podcast with nine historical figures debating knowledge, wisdom, art, and justice.
-- **Cinematic footage** generated per beat with Sora 2 (OpenAI) or Veo 3.1 (Gemini), composited in Remotion with crossfades, Ken Burns drift, color grade, vignette, and film grain. Procedural SVG scenes remain as a zero-cost fallback.
-- **Voiceovers** via ElevenLabs `eleven_v3` (per-speaker casting, prosody continuity) or OpenAI `gpt-4o-mini-tts`, with punctuation-aware pacing, a room-tone bed, and -14 LUFS loudness mastering.
-- **Karaoke captions**: Whisper word-level timestamps drive word-accurate highlighted captions plus tight `.srt` files.
-- Optional **music beds** via ElevenLabs Music, looped quietly under the narration.
-- YouTube-ready metadata files with title, description, tags, pinned comment, and script.
-
-## Commands
+## The daily loop
 
 ```bash
-npm run generate:audio                         # TTS + mastering + word timestamps
-npm run generate:audio -- cartoon_bragg_detective
-npm run generate:visuals -- cartoon_bragg_detective   # Sora/Veo footage (paid!)
-npm run generate:visuals -- --all --dry-run    # preview prompts + cost estimate
-npm run generate:music                         # optional ElevenLabs music beds
-npm run subtitles
-npm run metadata
-npm run render
-npm run verify
+# 1. Write new video concepts (drafts; no money spent on visuals yet)
+npm run concepts -- --auto 3                     # next unused topics from content/topic-bank.json
+npm run concepts -- "why glass is transparent"   # or any topic you like
+npm run concepts -- "topic" --series xray --style noir --formats portrait,landscape
+
+# 2. Skim the script (content/concepts/<id>.json), then clear it for spending
+npm run approve -- <id>
+
+# 3. Build everything: TTS -> captions -> footage -> renders -> QA -> bundle
+npm run pipeline -- <id>
+npm run pipeline -- --all-approved
+
+# 4. Watch it, then ship it
+npm run review
+npm run publish -- <id>            # private by default
+npm run publish -- <id> --public   # straight to public
+
+# 5. Once videos are live, close the loop
+npm run analytics                  # feeds retention data into future --auto picks
 ```
 
-The full local asset build (no footage generation, since that spends real money) is:
+`npm run status` shows the whole board at any time.
 
-```bash
-npm run build
-```
+## Money guards
 
-### Footage generation costs (approximate, verify current pricing)
+Footage generation is the only expensive stage (~$5 per short with sora-2).
+Three guards keep it deliberate:
 
-| Provider | Model | $/second | 6-beat short (~48s) |
-|---|---|---|---|
-| OpenAI | `sora-2` (default) | ~$0.10 | ~$5 |
-| OpenAI | `sora-2-pro` | ~$0.30 | ~$15 |
-| Gemini | `veo-3.1-fast` | ~$0.15 | ~$7 |
-| Gemini | `veo-3.1` | ~$0.40 | ~$19 |
+1. Concepts start as `status: "draft"` — the pipeline builds drafts with free
+   procedural visuals but will not buy footage for them.
+2. Per-concept estimates above `MAX_VIDEO_BUDGET_USD` (default $6) refuse to
+   run without `--footage-ok`.
+3. `npm run generate:visuals -- <id> --dry-run` previews every prompt and the
+   exact cost before anything is spent. Clips are cached; re-runs only
+   generate what is missing.
 
-Clips are cached under `public/footage/` and indexed in `public/data/footage.json`; re-runs only generate missing clips (`--force` regenerates). Run `generate:audio` first so clip lengths match the narration beats. The roundtable uses four reusable ambient loops instead of per-beat clips.
+Approximate footage rates (verify current pricing): sora-2 ~$0.10/s,
+sora-2-pro ~$0.30/s, veo-3.1-fast ~$0.15/s, veo-3.1 ~$0.40/s. A 6-beat
+portrait short is ~48s of footage.
 
-### Provider selection
+## Formats
 
-- `TTS_PROVIDER=elevenlabs|openai` — defaults to ElevenLabs when `ELEVENLABS_API_KEY` is set.
-- `VIDEO_PROVIDER=sora|veo` — defaults to Veo when `GEMINI_API_KEY` is set, else Sora.
+Concepts declare `formats` (first entry = what `npm run publish` uploads):
 
-See `.env.example` for all knobs (models, voices, resolutions).
+- `portrait` (1080x1920) — Shorts/TikTok/Reels: hook-first chrome, big
+  3-word karaoke captions in the safe zone, retention progress bar. Portrait
+  uploads under 3 minutes are auto-classified as YouTube Shorts.
+- `landscape` (1920x1080) — classic YouTube; supports generated thumbnails
+  (`npm run thumbnails`).
 
-## Upload
+Footage is generated natively per orientation; if only one orientation
+exists, the other render cover-crops it. With no footage at all, videos fall
+back to procedural palette visuals for free.
 
-Upload is intentionally separate because it publishes to YouTube:
+## Publishing
 
-```bash
-npm run upload
-npm run upload -- cartoon_bragg_detective
-```
-
-The upload script uses the official YouTube Data API. It needs OAuth credentials with the `https://www.googleapis.com/auth/youtube.upload` scope:
+YouTube is API-automated (`npm run publish`, OAuth env vars below; uploads
+include the `.srt` captions and stay private unless `--public`). TikTok and
+Instagram posting APIs are approval-gated, so `bundles/<id>/` contains the
+video files plus ready-to-paste `tiktok.txt` / `instagram.txt` captions —
+posting manually takes under a minute per platform.
 
 ```bash
 YOUTUBE_CLIENT_ID=
 YOUTUBE_CLIENT_SECRET=
-YOUTUBE_REFRESH_TOKEN=
+YOUTUBE_REFRESH_TOKEN=   # scopes: youtube.upload + youtube.force-ssl (+ yt-analytics.readonly for npm run analytics)
 YOUTUBE_PRIVACY_STATUS=private
 YOUTUBE_MADE_FOR_KIDS=false
 ```
 
-Burned-in captions plus external `.srt` subtitle files are generated; AI/fictional disclosure belongs in metadata and descriptions, not in the video frame.
+## Providers
+
+- `TTS_PROVIDER=elevenlabs|openai` — defaults to ElevenLabs (`eleven_v3`)
+  when `ELEVENLABS_API_KEY` is set; otherwise OpenAI `gpt-4o-mini-tts`.
+- `VIDEO_PROVIDER=sora|veo` — defaults to Veo when `GEMINI_API_KEY` is set,
+  else Sora.
+- `LLM_MODEL` — script/concept writer (OpenAI, default `gpt-5.1`).
+- Optional music beds via ElevenLabs Music (`npm run generate:music`).
+
+See `.env.example` for every knob.
+
+## Individual stages
+
+The pipeline is just these, runnable on their own:
+
+```bash
+npm run sync                    # validate content/ and regenerate src/concepts.generated.json
+npm run generate:audio -- <id>  # TTS + mastering + Whisper word timestamps
+npm run generate:visuals -- <id> [--dry-run|--force|--formats portrait]
+npm run generate:music -- <id>
+npm run subtitles
+npm run metadata
+npm run render -- <id> [--formats portrait] [--force]
+npm run render:one -- <id> portrait
+npm run verify -- <id>
+npm run bundle -- <id>
+npm run thumbnails -- <id>
+```
+
+## Disclosure
+
+Upload descriptions state that voiceover/visuals are AI-generated; the
+roundtable series additionally discloses fictional dialogue and synthetic
+voices (not impersonations). Keep it that way — platforms increasingly
+require it, and it protects the channel.

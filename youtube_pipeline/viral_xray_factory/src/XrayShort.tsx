@@ -27,8 +27,9 @@ type BeatTiming = {
   role?: 'host' | 'physicist' | 'humanist' | 'artist-history';
 };
 
+type Orientation = 'portrait' | 'landscape';
 type Timings = Record<string, {duration: number; beats: BeatTiming[]; words?: CaptionWord[]}>;
-type FootageClip = {beat?: number; file: string; seconds?: number};
+type FootageClip = {beat?: number; orientation?: string; file: string; seconds?: number};
 type FootageManifest = Record<string, {mode: 'per-beat' | 'ambient'; clips: FootageClip[]}>;
 
 const timingData = timings as Timings;
@@ -38,7 +39,9 @@ const musicData = musicManifest as Record<string, string>;
 export const XrayShort: React.FC<{conceptId: string}> = ({conceptId}) => {
   const concept = concepts.find((item) => item.id === conceptId) ?? concepts[0];
   const frame = useCurrentFrame();
-  const {durationInFrames} = useVideoConfig();
+  const {durationInFrames, width, height} = useVideoConfig();
+  const isPortrait = height > width;
+  const orientation: Orientation = isPortrait ? 'portrait' : 'landscape';
   const seconds = frame / FPS;
   const timing = timingData[concept.id];
   const beats = timing?.beats ?? fallbackBeats(concept, durationInFrames / FPS);
@@ -54,8 +57,10 @@ export const XrayShort: React.FC<{conceptId: string}> = ({conceptId}) => {
   const isRoundtable = concept.style === 'roundtable';
 
   // The roundtable keeps its stylized scene, with ambient footage as a living
-  // backdrop behind it. Shorts go full-bleed footage when clips exist.
-  const showProceduralScene = !hasFootage || isRoundtable;
+  // backdrop behind it. Shorts go full-bleed footage when clips exist. Only
+  // the hand-built concepts declare a procedural scene; generated concepts
+  // fall back to the animated palette background.
+  const showProceduralScene = (!hasFootage || isRoundtable) && Boolean(concept.proceduralScene);
 
   return (
     <AbsoluteFill style={{background: concept.palette.bg, color: concept.palette.ink, fontFamily: 'Inter, Arial, sans-serif'}}>
@@ -74,32 +79,89 @@ export const XrayShort: React.FC<{conceptId: string}> = ({conceptId}) => {
       ) : null}
 
       {hasFootage ? (
-        <FootageLayer footage={footage} beats={beats} durationInFrames={durationInFrames} dimmed={isRoundtable} />
+        <FootageLayer
+          footage={footage}
+          beats={beats}
+          durationInFrames={durationInFrames}
+          dimmed={isRoundtable}
+          orientation={orientation}
+          width={width}
+          height={height}
+        />
       ) : (
-        <Background concept={concept} progress={globalProgress} />
+        <Background concept={concept} progress={globalProgress} width={width} height={height} />
       )}
 
       {showProceduralScene ? (
-        <Scene
-          concept={concept}
-          beatIndex={activeIndex}
-          beatProgress={beatProgress}
-          seconds={seconds}
-          activeBeat={activeBeat}
-          overFootage={hasFootage}
-        />
+        <SceneCover width={width} height={height}>
+          <Scene
+            concept={concept}
+            beatIndex={activeIndex}
+            beatProgress={beatProgress}
+            seconds={seconds}
+            activeBeat={activeBeat}
+            overFootage={hasFootage}
+          />
+        </SceneCover>
       ) : null}
 
-      <CinemaGrade concept={concept} frame={frame} strong={hasFootage && !isRoundtable} />
-      <Header concept={concept} progress={globalProgress} minimal={hasFootage && !isRoundtable} />
+      <CinemaGrade concept={concept} frame={frame} strong={hasFootage && !isRoundtable} width={width} height={height} />
+      <Header concept={concept} progress={globalProgress} minimal={hasFootage && !isRoundtable} isPortrait={isPortrait} />
       {words && words.length > 0 ? (
-        <KaraokeCaption words={words} seconds={seconds} concept={concept} speaker={activeBeat?.speaker} />
+        <KaraokeCaption
+          words={words}
+          seconds={seconds}
+          concept={concept}
+          speaker={activeBeat?.speaker}
+          isPortrait={isPortrait}
+          width={width}
+          height={height}
+        />
       ) : (
-        <Caption text={activeBeat?.text ?? concept.hook} concept={concept} />
+        <Caption text={activeBeat?.text ?? concept.hook} concept={concept} isPortrait={isPortrait} height={height} />
       )}
+      {isPortrait ? <ProgressBar progress={globalProgress} color={concept.palette.accent} width={width} /> : null}
     </AbsoluteFill>
   );
 };
+
+// Scales the fixed landscape (1920x1080) procedural scenes to cover any
+// canvas, center-cropping the overflow (portrait keeps the middle third).
+const SceneCover: React.FC<{width: number; height: number; children: React.ReactNode}> = ({width, height, children}) => {
+  const scale = Math.max(width / WIDTH, height / HEIGHT);
+  const offsetX = (width - WIDTH * scale) / 2;
+  const offsetY = (height - HEIGHT * scale) / 2;
+  return (
+    <div style={{position: 'absolute', inset: 0, overflow: 'hidden'}}>
+      <div
+        style={{
+          position: 'absolute',
+          width: WIDTH,
+          height: HEIGHT,
+          transformOrigin: 'top left',
+          transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale})`,
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
+// Subtle retention cue for vertical shorts; sits at the very bottom edge.
+const ProgressBar: React.FC<{progress: number; color: string; width: number}> = ({progress, color, width}) => (
+  <div
+    style={{
+      position: 'absolute',
+      left: 0,
+      bottom: 0,
+      height: 8,
+      width: width * clamp(progress),
+      background: color,
+      opacity: 0.55,
+    }}
+  />
+);
 
 const fallbackBeats = (concept: VideoConcept, duration: number): BeatTiming[] => {
   const slice = duration / concept.beats.length;
@@ -124,19 +186,28 @@ const FootageLayer: React.FC<{
   beats: BeatTiming[];
   durationInFrames: number;
   dimmed: boolean;
-}> = ({footage, beats, durationInFrames, dimmed}) => {
+  orientation: Orientation;
+  width: number;
+  height: number;
+}> = ({footage, beats, durationInFrames, dimmed, orientation, width, height}) => {
+  // Prefer clips generated for this orientation; fall back to cover-cropping
+  // whatever exists (legacy manifest entries without an orientation are
+  // landscape).
+  const oriented = footage.clips.filter((clip) => (clip.orientation ?? 'landscape') === orientation);
+  const pool = oriented.length > 0 ? oriented : footage.clips;
+
   const clipForBeat = (index: number): FootageClip | null => {
     if (footage.mode === 'ambient') {
-      return footage.clips[index % footage.clips.length] ?? null;
+      return pool[index % pool.length] ?? null;
     }
-    const exact = footage.clips.find((clip) => clip.beat === index);
+    const exact = pool.find((clip) => clip.beat === index);
     if (exact) return exact;
     // Reuse the nearest earlier clip when a beat failed to generate.
     for (let i = index - 1; i >= 0; i -= 1) {
-      const previous = footage.clips.find((clip) => clip.beat === i);
+      const previous = pool.find((clip) => clip.beat === i);
       if (previous) return previous;
     }
-    return footage.clips[0] ?? null;
+    return pool[0] ?? null;
   };
 
   return (
@@ -149,7 +220,7 @@ const FootageLayer: React.FC<{
         const clipDuration = Math.max(until - from, 1);
         return (
           <Sequence key={`${index}-${clip.file}`} from={from} durationInFrames={clipDuration} layout="none">
-            <FootageClipView clip={clip} index={index} clipDuration={clipDuration} fadeIn={index > 0} />
+            <FootageClipView clip={clip} index={index} clipDuration={clipDuration} fadeIn={index > 0} width={width} height={height} />
           </Sequence>
         );
       })}
@@ -157,11 +228,13 @@ const FootageLayer: React.FC<{
   );
 };
 
-const FootageClipView: React.FC<{clip: FootageClip; index: number; clipDuration: number; fadeIn: boolean}> = ({
+const FootageClipView: React.FC<{clip: FootageClip; index: number; clipDuration: number; fadeIn: boolean; width: number; height: number}> = ({
   clip,
   index,
   clipDuration,
   fadeIn,
+  width,
+  height,
 }) => {
   const frame = useCurrentFrame();
   const opacity = fadeIn ? interpolate(frame, [0, CROSSFADE_FRAMES], [0, 1], {extrapolateRight: 'clamp'}) : 1;
@@ -178,8 +251,8 @@ const FootageClipView: React.FC<{clip: FootageClip; index: number; clipDuration:
           style={{
             position: 'absolute',
             inset: 0,
-            width: WIDTH,
-            height: HEIGHT,
+            width,
+            height,
             objectFit: 'cover',
             transform: `scale(${drift.toFixed(4)}) translateX(${panX.toFixed(1)}px)`,
           }}
@@ -193,7 +266,12 @@ const FootageClipView: React.FC<{clip: FootageClip; index: number; clipDuration:
 // Cinematic grade: palette-tinted gradient, vignette, and animated film grain.
 // ---------------------------------------------------------------------------
 
-const CinemaGrade: React.FC<{concept: VideoConcept; frame: number; strong: boolean}> = ({concept, frame, strong}) => (
+const CinemaGrade: React.FC<{concept: VideoConcept; frame: number; strong: boolean; width: number; height: number}> = ({
+  frame,
+  strong,
+  width,
+  height,
+}) => (
   <AbsoluteFill style={{pointerEvents: 'none'}}>
     <div
       style={{
@@ -209,12 +287,12 @@ const CinemaGrade: React.FC<{concept: VideoConcept; frame: number; strong: boole
         background: `radial-gradient(ellipse at center, rgba(0,0,0,0) 58%, rgba(0,0,0,${strong ? 0.42 : 0.18}) 100%)`,
       }}
     />
-    <svg width={WIDTH} height={HEIGHT} style={{position: 'absolute', inset: 0, opacity: 0.05, transform: `translate(${(frame % 4) * 2 - 3}px, ${(frame % 3) * 2 - 2}px)`}}>
+    <svg width={width} height={height} style={{position: 'absolute', inset: 0, opacity: 0.05, transform: `translate(${(frame % 4) * 2 - 3}px, ${(frame % 3) * 2 - 2}px)`}}>
       <filter id="xsGrain">
         <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" />
         <feColorMatrix type="saturate" values="0" />
       </filter>
-      <rect width={WIDTH} height={HEIGHT} filter="url(#xsGrain)" />
+      <rect width={width} height={height} filter="url(#xsGrain)" />
     </svg>
   </AbsoluteFill>
 );
@@ -223,20 +301,29 @@ const CinemaGrade: React.FC<{concept: VideoConcept; frame: number; strong: boole
 // Karaoke captions: word-accurate highlight from Whisper timestamps.
 // ---------------------------------------------------------------------------
 
-const KaraokeCaption: React.FC<{words: CaptionWord[]; seconds: number; concept: VideoConcept; speaker?: string}> = ({
-  words,
-  seconds,
-  concept,
-  speaker,
-}) => {
-  const pages = useMemo(() => buildCaptionPages(words, {maxWords: 4, maxDuration: 2.6, maxGap: 0.7}), [words]);
+const KaraokeCaption: React.FC<{
+  words: CaptionWord[];
+  seconds: number;
+  concept: VideoConcept;
+  speaker?: string;
+  isPortrait: boolean;
+  width: number;
+  height: number;
+}> = ({words, seconds, concept, speaker, isPortrait, width, height}) => {
+  const pages = useMemo(
+    () => buildCaptionPages(words, {maxWords: isPortrait ? 3 : 4, maxDuration: 2.6, maxGap: 0.7}),
+    [words, isPortrait],
+  );
   const page = pages.find((candidate) => seconds >= candidate.start && seconds < candidate.end);
   if (!page) return null;
 
   const isRoundtable = concept.style === 'roundtable';
   const entry = clamp((seconds - page.start) / 0.14);
   const pop = 0.94 + 0.06 * entry;
-  const fontSize = isRoundtable ? 46 : 66;
+  const fontSize = isRoundtable ? 46 : isPortrait ? 80 : 66;
+  // Portrait captions sit in the lower-middle band, clear of the Shorts /
+  // TikTok / Reels UI overlays at the bottom and the action rail on the right.
+  const bottom = isRoundtable ? 54 : isPortrait ? Math.round(height * 0.3) : 92;
 
   return (
     <div
@@ -244,7 +331,7 @@ const KaraokeCaption: React.FC<{words: CaptionWord[]; seconds: number; concept: 
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: isRoundtable ? 54 : 92,
+        bottom,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -275,7 +362,7 @@ const KaraokeCaption: React.FC<{words: CaptionWord[]; seconds: number; concept: 
           gap: '0.34em',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          maxWidth: 1500,
+          maxWidth: isPortrait ? Math.round(width * 0.86) : 1500,
           fontSize,
           fontWeight: 900,
           lineHeight: 1.12,
@@ -308,9 +395,48 @@ const KaraokeCaption: React.FC<{words: CaptionWord[]; seconds: number; concept: 
 // Chrome (header + fallback caption)
 // ---------------------------------------------------------------------------
 
-const Header: React.FC<{concept: VideoConcept; progress: number; minimal?: boolean}> = ({concept, progress, minimal}) => {
+const Header: React.FC<{concept: VideoConcept; progress: number; minimal?: boolean; isPortrait?: boolean}> = ({
+  concept,
+  progress,
+  minimal,
+  isPortrait,
+}) => {
   const titleIn = interpolate(progress, [0, 0.06], [-40, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   const brand = concept.style === 'roundtable' ? 'Imaginary Roundtable' : 'Exciting';
+  if (isPortrait) {
+    // Vertical shorts get a single small brand pill, top-center: every extra
+    // pixel of chrome competes with the hook, and platform UI owns the top
+    // corners anyway.
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          top: 128,
+          left: 0,
+          right: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          transform: `translateY(${titleIn}px)`,
+          opacity: clamp(progress / 0.04) * 0.9,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 30,
+            letterSpacing: 4,
+            textTransform: 'uppercase',
+            color: concept.palette.accent2,
+            fontWeight: 900,
+            background: 'rgba(0,0,0,0.42)',
+            borderRadius: 999,
+            padding: '10px 26px',
+          }}
+        >
+          {brand}
+        </div>
+      </div>
+    );
+  }
   if (minimal) {
     // Over generated footage, keep the chrome light so the picture breathes.
     return (
@@ -335,15 +461,15 @@ const Header: React.FC<{concept: VideoConcept; progress: number; minimal?: boole
   );
 };
 
-const Caption: React.FC<{text: string; concept: VideoConcept}> = ({text, concept}) => {
+const Caption: React.FC<{text: string; concept: VideoConcept; isPortrait?: boolean; height?: number}> = ({text, concept, isPortrait, height}) => {
   const isRoundtable = concept.style === 'roundtable';
   return (
   <div
     style={{
       position: 'absolute',
-      left: isRoundtable ? 120 : 150,
-      right: isRoundtable ? 120 : 150,
-      bottom: isRoundtable ? 50 : 70,
+      left: isRoundtable ? 120 : isPortrait ? 70 : 150,
+      right: isRoundtable ? 120 : isPortrait ? 70 : 150,
+      bottom: isRoundtable ? 50 : isPortrait ? Math.round((height ?? 1920) * 0.3) : 70,
       minHeight: isRoundtable ? 150 : 126,
       borderRadius: 18,
       padding: isRoundtable ? '24px 36px' : '26px 34px',
@@ -353,7 +479,7 @@ const Caption: React.FC<{text: string; concept: VideoConcept}> = ({text, concept
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
-      fontSize: isRoundtable ? 34 : 44,
+      fontSize: isRoundtable ? 34 : isPortrait ? 54 : 44,
       lineHeight: isRoundtable ? 1.18 : 1.16,
       fontWeight: 850,
     }}
@@ -363,8 +489,9 @@ const Caption: React.FC<{text: string; concept: VideoConcept}> = ({text, concept
   );
 };
 
-const Background: React.FC<{concept: VideoConcept; progress: number}> = ({concept, progress}) => {
+const Background: React.FC<{concept: VideoConcept; progress: number; width: number; height: number}> = ({concept, progress, width, height}) => {
   const pulse = Math.sin(progress * Math.PI * 2);
+  const lineCount = Math.ceil(height / 90) + 6;
   return (
     <>
       <div
@@ -374,10 +501,10 @@ const Background: React.FC<{concept: VideoConcept; progress: number}> = ({concep
           background: `radial-gradient(circle at ${25 + progress * 50}% ${30 + pulse * 10}%, ${concept.palette.panel} 0%, ${concept.palette.bg} 54%, #05070C 100%)`,
         }}
       />
-      <svg width={WIDTH} height={HEIGHT} style={{position: 'absolute', inset: 0, opacity: 0.42}}>
-        {Array.from({length: 18}).map((_, i) => {
-          const y = 150 + i * 48 + Math.sin(progress * 8 + i) * 10;
-          return <line key={i} x1={-80} x2={WIDTH + 80} y1={y} y2={y + 110} stroke={concept.palette.accent} strokeOpacity={0.05 + (i % 3) * 0.025} strokeWidth={3} />;
+      <svg width={width} height={height} style={{position: 'absolute', inset: 0, opacity: 0.42}}>
+        {Array.from({length: lineCount}).map((_, i) => {
+          const y = height * 0.08 + i * (height / (lineCount - 4)) + Math.sin(progress * 8 + i) * 10;
+          return <line key={i} x1={-80} x2={width + 80} y1={y} y2={y + 110} stroke={concept.palette.accent} strokeOpacity={0.05 + (i % 3) * 0.025} strokeWidth={3} />;
         })}
       </svg>
     </>
@@ -392,7 +519,8 @@ const Scene: React.FC<{concept: VideoConcept; beatIndex: number; beatProgress: n
   activeBeat,
   overFootage,
 }) => {
-  if (concept.style === 'roundtable')
+  const scene = concept.proceduralScene ?? concept.style;
+  if (scene === 'roundtable')
     return (
       <ThinkersPodcastScene
         concept={concept}
@@ -403,10 +531,10 @@ const Scene: React.FC<{concept: VideoConcept; beatIndex: number; beatProgress: n
         dimBackdrop={overFootage}
       />
     );
-  if (concept.style === 'cartoon') return <CartoonScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
-  if (concept.style === 'interview') return <InterviewScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
-  if (concept.style === 'gameshow') return <GameShowScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
-  if (concept.style === 'noir') return <NoirScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
+  if (scene === 'cartoon') return <CartoonScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
+  if (scene === 'interview') return <InterviewScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
+  if (scene === 'gameshow') return <GameShowScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
+  if (scene === 'noir') return <NoirScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
   return <NewsScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
 };
 

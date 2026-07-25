@@ -1,0 +1,83 @@
+{
+  "id": "gameshow_xrd_peaks",
+  "status": "approved",
+  "series": "xray",
+  "style": "gameshow",
+  "formats": [
+    "portrait",
+    "landscape"
+  ],
+  "title": "Guess That Peak!",
+  "hook": "Can you identify a crystal from three bright lines?",
+  "topic": "XRD peak fingerprints",
+  "voice": "nova",
+  "ttsInstructions": "High-energy game show host. Big smiles, punchy pacing, dramatic pauses, but keep the scientific terms clear.",
+  "elevenVoiceId": "bIHbv24MWmeRgasZH58o",
+  "palette": {
+    "bg": "#101827",
+    "accent": "#A7F3D0",
+    "accent2": "#FDE047",
+    "ink": "#F8FAFC",
+    "panel": "#1F2937"
+  },
+  "beats": [
+    {
+      "text": "Welcome to Guess That Peak, where crystals reveal themselves with suspiciously perfect lineups.",
+      "visual": "game show stage"
+    },
+    {
+      "text": "Contestant one gets three peaks: low angle, medium angle, high angle. Not random. Never random.",
+      "visual": "three peak podiums"
+    },
+    {
+      "text": "Each peak is a set of atomic planes satisfying Bragg’s law at a different spacing.",
+      "visual": "planes to peaks mapping"
+    },
+    {
+      "text": "Change the structure, and the peak positions move. Change the grain size, and the peaks broaden.",
+      "visual": "peak shift and broadening"
+    },
+    {
+      "text": "So an XRD pattern is a fingerprint: positions identify phases; widths reveal size and strain.",
+      "visual": "fingerprint peak pattern"
+    },
+    {
+      "text": "Final answer: the crystal was telling us its identity the whole time. The detector just kept score.",
+      "visual": "winner reveal"
+    }
+  ],
+  "cinema": {
+    "mode": "per-beat",
+    "stylePrompt": "Retro-futuristic television game show stage with glossy reflective floor, sweeping neon teal and gold spotlights, glittering curtain backdrop, dramatic crane camera moves, vibrant stylized 3D with 1980s glamour and modern polish.",
+    "shots": [
+      "Sweeping crane shot over the glittering stage as spotlights converge on three empty podiums, confetti cannons waiting in the wings.",
+      "Three luminous crystal columns of different heights rise from the podiums like chart peaks, each catching a different colored spotlight.",
+      "A giant hologram of stacked atomic planes rotates above the stage; beams of light reflect off it at distinct angles toward the podiums.",
+      "The middle crystal column stretches taller and visibly broadens while the stage lights shift hue, the audience silhouettes gasping.",
+      "A giant glowing fingerprint made of sharp spectral peaks hovers over the stage, slowly rotating under the spotlights.",
+      "Winner moment: golden confetti rains down on a gleaming crystal trophy at center stage under a single triumphant spotlight."
+    ],
+    "musicPrompt": "High-energy retro game show theme: funky brass stabs, disco strings, driving bass, glittering synth arps, exciting, instrumental, loopable, no vocals."
+  },
+  "proceduralScene": "gameshow",
+  "upload": {
+    "title": "Guess That Peak: XRD Patterns Explained Like a Game Show",
+    "description": "Voiceover is AI-generated.\nA game-show style explanation of how XRD peak positions, widths, and intensities reveal crystal phases.",
+    "tags": [
+      "XRD",
+      "x-ray diffraction",
+      "crystal structure",
+      "powder diffraction",
+      "phase identification",
+      "science game"
+    ]
+  },
+  "hashtags": [
+    "#shorts",
+    "#science",
+    "#physics",
+    "#xray",
+    "#learning"
+  ],
+  "pinnedComment": "Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?"
+}

@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import {execa} from 'execa';
+import {ffmpeg, ffprobe} from './lib/ffmpeg';
 import {concepts} from '../src/concepts';
 
 type TimedBeat = {
@@ -35,7 +36,7 @@ const readJson = async <T>(file: string, fallback: T): Promise<T> => {
 };
 
 const durationOf = async (file: string): Promise<number> => {
-  const {stdout} = await execa('ffprobe', [
+  const {stdout} = await ffprobe( [
     '-v',
     'error',
     '-show_entries',
@@ -50,11 +51,11 @@ const durationOf = async (file: string): Promise<number> => {
 const makeSpeech = async (input: string, voice: string, rate: number, outFile: string) => {
   const aiffFile = outFile.replace(/\.mp3$/, '.aiff');
   await execa('say', ['-v', voice, '-r', String(rate), '-o', aiffFile, input]);
-  await execa('ffmpeg', ['-y', '-v', 'error', '-i', aiffFile, '-ar', '44100', '-ac', '2', '-codec:a', 'libmp3lame', '-q:a', '4', outFile]);
+  await ffmpeg( ['-y', '-v', 'error', '-i', aiffFile, '-ar', '44100', '-ac', '2', '-codec:a', 'libmp3lame', '-q:a', '4', outFile]);
 };
 
 const makeSilence = async (duration: number, output: string) => {
-  await execa('ffmpeg', [
+  await ffmpeg( [
     '-y',
     '-v',
     'error',
@@ -76,7 +77,7 @@ const concatAudio = async (files: string[], output: string) => {
   const listFile = path.join(tmpDir, `concat-${path.basename(output)}.txt`);
   const lines = files.map((file) => `file '${file.replaceAll("'", "'\\''")}'`).join('\n');
   await fs.writeFile(listFile, lines);
-  await execa('ffmpeg', ['-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', listFile, '-c:a', 'libmp3lame', '-q:a', '3', output]);
+  await ffmpeg( ['-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', listFile, '-c:a', 'libmp3lame', '-q:a', '3', output]);
 };
 
 const run = async () => {

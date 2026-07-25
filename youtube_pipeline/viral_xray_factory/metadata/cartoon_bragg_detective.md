@@ -2,10 +2,13 @@
 
 Video ID: cartoon_bragg_detective
 Style: cartoon
+Series: xray
 Topic: Bragg's law
+Status: approved
 
 ## Asset Files
-Video: renders/cartoon_bragg_detective.mp4
+Video (portrait): renders/cartoon_bragg_detective-portrait.mp4
+Video (landscape): renders/cartoon_bragg_detective.mp4
 Subtitles: subtitles/cartoon_bragg_detective.srt
 
 ## YouTube Title
@@ -17,6 +20,9 @@ A short cartoon explanation of X-ray diffraction and Bragg's law: n lambda = 2 d
 
 ## Tags
 x-ray diffraction, Bragg law, crystallography, science animation, XRD, physics
+
+## Hashtags
+#shorts #science #physics #xray #learning
 
 ## Pinned Comment Draft
 Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?

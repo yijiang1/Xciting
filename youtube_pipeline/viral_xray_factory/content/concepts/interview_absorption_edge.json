@@ -1,0 +1,83 @@
+{
+  "id": "interview_absorption_edge",
+  "status": "approved",
+  "series": "xray",
+  "style": "interview",
+  "formats": [
+    "portrait",
+    "landscape"
+  ],
+  "title": "An X-ray Interviews an Atom",
+  "hook": "Why does absorption suddenly jump at an edge?",
+  "topic": "X-ray absorption edges",
+  "voice": "coral",
+  "ttsInstructions": "Two-person science podcast energy in one voice: warm, witty, crisp. Slight changes in tone between interviewer and atom.",
+  "elevenVoiceId": "IKne3meq5aSn9XLyUdCB",
+  "palette": {
+    "bg": "#15151E",
+    "accent": "#7DD3FC",
+    "accent2": "#FCA5A5",
+    "ink": "#F8FAFC",
+    "panel": "#242436"
+  },
+  "beats": [
+    {
+      "text": "Welcome back. Today our guest is an atom, and the question is personal: why do you absorb X-rays?",
+      "visual": "studio host and atom guest"
+    },
+    {
+      "text": "The atom says: I only take energy packets that can kick an inner electron into an allowed state.",
+      "visual": "electron shell closeup"
+    },
+    {
+      "text": "Below the edge, the photon is too weak. It knocks, but nobody answers.",
+      "visual": "low energy photon rejected"
+    },
+    {
+      "text": "At the edge, the photon has enough energy to launch a core electron. The absorption jumps.",
+      "visual": "edge jump graph"
+    },
+    {
+      "text": "Near the edge, the outgoing electron wave feels the local chemistry and shape of empty states.",
+      "visual": "XANES region waves"
+    },
+    {
+      "text": "That is why XAS can tell oxidation state, coordination, and local structure without asking the crystal to behave.",
+      "visual": "XAS summary cards"
+    }
+  ],
+  "cinema": {
+    "mode": "per-beat",
+    "stylePrompt": "Stylized 3D animated late-night podcast studio: cozy dramatic lighting, walnut desk with two studio microphones, cyan and coral neon rim light, shallow depth of field with cinematic bokeh. The two charming abstract characters are a glowing X-ray photon orb with expressive energy and a plush round atom with softly glowing electron shells.",
+    "shots": [
+      "Warm wide two-shot of the studio: the glowing photon-orb host leans in while the plush atom guest settles into its chair, city lights bokeh behind the glass.",
+      "Macro close-up of the atom guest: its inner electron shells glow and rotate slowly as it gestures, dust motes floating in the key light.",
+      "A dim, weak photon drifts up to the atom and taps against the outer shell like knocking on a door, then bounces away into the dark, the atom unmoved.",
+      "A bright energetic photon strikes the atom; a tiny core electron launches upward like a rocket with a luminous trail while the whole shell flares.",
+      "Dreamlike shot: a rippling electron wave expands from the atom and explores the glowing shapes of its neighborhood, like an aurora feeling out empty spaces.",
+      "Pull-back shot of the studio desk where soft holographic panels of abstract glowing charts and molecular shapes float between host and guest."
+    ],
+    "musicPrompt": "Late-night talk show lo-fi: warm Rhodes piano, soft upright bass, brushed drums, relaxed and witty, instrumental, loopable, no vocals."
+  },
+  "proceduralScene": "interview",
+  "upload": {
+    "title": "X-ray Absorption Edges Explained as an Interview",
+    "description": "Voiceover is AI-generated.\nA fast, conversational explanation of why X-ray absorption edges happen and what XAS can reveal.",
+    "tags": [
+      "XAS",
+      "XANES",
+      "x-ray absorption",
+      "synchrotron",
+      "oxidation state",
+      "science podcast"
+    ]
+  },
+  "hashtags": [
+    "#shorts",
+    "#science",
+    "#physics",
+    "#xray",
+    "#learning"
+  ],
+  "pinnedComment": "Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?"
+}

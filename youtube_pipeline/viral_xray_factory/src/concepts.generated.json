@@ -1,0 +1,706 @@
+[
+  {
+    "id": "cartoon_bragg_detective",
+    "status": "approved",
+    "series": "xray",
+    "style": "cartoon",
+    "formats": [
+      "portrait",
+      "landscape"
+    ],
+    "title": "The Crystal Mirror Mystery",
+    "hook": "Why does a crystal flash at one angle and ignore the next?",
+    "topic": "Bragg's law",
+    "voice": "marin",
+    "ttsInstructions": "Energetic cartoon narrator. Bright, playful, fast but clear. Add curiosity and comic timing without sounding childish.",
+    "elevenVoiceId": "cgSgspJ2msm6clMCkdW9",
+    "palette": {
+      "bg": "#0C2742",
+      "accent": "#FFD166",
+      "accent2": "#5EEAD4",
+      "ink": "#F8FAFC",
+      "panel": "#12395C"
+    },
+    "beats": [
+      {
+        "text": "Detective Photon enters the crystal city with one question: who stole the X-ray beam?",
+        "visual": "cartoon detective photon arrives"
+      },
+      {
+        "text": "Every atom is lined up in planes, like tiny apartment floors made of electrons.",
+        "visual": "stacked atom floors"
+      },
+      {
+        "text": "One beam bounces from the top floor. Another dives deeper, then bounces back.",
+        "visual": "two animated ray paths"
+      },
+      {
+        "text": "The deeper beam walks an extra distance: two d sine theta.",
+        "visual": "highlight path difference"
+      },
+      {
+        "text": "If that extra walk is exactly n wavelengths, the waves clap together.",
+        "visual": "waves align and sparkle"
+      },
+      {
+        "text": "That is Bragg's law: n lambda equals two d sine theta. Mystery solved; diffraction peak unlocked.",
+        "visual": "formula badge and peak burst"
+      }
+    ],
+    "cinema": {
+      "mode": "per-beat",
+      "stylePrompt": "Premium 2D animated educational short in the spirit of a top-tier science animation studio: flat design with soft paper texture, subtle grain, gentle parallax, deep navy palette with warm amber and teal rim light, smooth cinematic camera moves. A tiny glowing photon character wearing a detective trench coat and fedora explores a vast luminous crystal city built from neatly stacked glowing atom spheres.",
+      "shots": [
+        "Wide establishing shot at night: the photon detective walks into a glittering crystal city, rows of glowing atomic spheres stacked like skyscraper floors, volumetric light shafts drifting between the towers.",
+        "Slow lateral dolly across perfectly ordered horizontal planes of glowing atoms stacked like apartment floors, tiny electrons shimmering on each level.",
+        "Two bright X-ray beams enter at the same angle: one reflects off the top plane of atoms, the other dives one layer deeper and reflects back, both drawn as elegant curving light trails.",
+        "Close-up on the deeper beam threading between two atomic planes, its extra path glowing warm amber while the geometry of the layers stays crisp and calm.",
+        "Two gentle golden light waves drift together over the crystal city and align into one calm synchronized ripple pattern, the city softly glowing in harmony.",
+        "Triumphant hero shot: the photon detective tips his fedora as a radiant starburst of diffracted light erupts from the crystal skyline, celebratory sparks drifting down."
+      ],
+      "musicPrompt": "Playful mystery-cartoon underscore: pizzicato strings, light woodwinds, soft vibraphone, gentle percussion, curious and warm, instrumental, loopable, no vocals."
+    },
+    "proceduralScene": "cartoon",
+    "upload": {
+      "title": "Why Crystals Flash: Bragg's Law as a Cartoon Mystery",
+      "description": "Voiceover is AI-generated.\nA short cartoon explanation of X-ray diffraction and Bragg's law: n lambda = 2 d sin(theta).",
+      "tags": [
+        "x-ray diffraction",
+        "Bragg law",
+        "crystallography",
+        "science animation",
+        "XRD",
+        "physics"
+      ]
+    },
+    "hashtags": [
+      "#shorts",
+      "#science",
+      "#physics",
+      "#xray",
+      "#learning"
+    ],
+    "pinnedComment": "Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?"
+  },
+  {
+    "id": "gameshow_xrd_peaks",
+    "status": "approved",
+    "series": "xray",
+    "style": "gameshow",
+    "formats": [
+      "portrait",
+      "landscape"
+    ],
+    "title": "Guess That Peak!",
+    "hook": "Can you identify a crystal from three bright lines?",
+    "topic": "XRD peak fingerprints",
+    "voice": "nova",
+    "ttsInstructions": "High-energy game show host. Big smiles, punchy pacing, dramatic pauses, but keep the scientific terms clear.",
+    "elevenVoiceId": "bIHbv24MWmeRgasZH58o",
+    "palette": {
+      "bg": "#101827",
+      "accent": "#A7F3D0",
+      "accent2": "#FDE047",
+      "ink": "#F8FAFC",
+      "panel": "#1F2937"
+    },
+    "beats": [
+      {
+        "text": "Welcome to Guess That Peak, where crystals reveal themselves with suspiciously perfect lineups.",
+        "visual": "game show stage"
+      },
+      {
+        "text": "Contestant one gets three peaks: low angle, medium angle, high angle. Not random. Never random.",
+        "visual": "three peak podiums"
+      },
+      {
+        "text": "Each peak is a set of atomic planes satisfying Bragg’s law at a different spacing.",
+        "visual": "planes to peaks mapping"
+      },
+      {
+        "text": "Change the structure, and the peak positions move. Change the grain size, and the peaks broaden.",
+        "visual": "peak shift and broadening"
+      },
+      {
+        "text": "So an XRD pattern is a fingerprint: positions identify phases; widths reveal size and strain.",
+        "visual": "fingerprint peak pattern"
+      },
+      {
+        "text": "Final answer: the crystal was telling us its identity the whole time. The detector just kept score.",
+        "visual": "winner reveal"
+      }
+    ],
+    "cinema": {
+      "mode": "per-beat",
+      "stylePrompt": "Retro-futuristic television game show stage with glossy reflective floor, sweeping neon teal and gold spotlights, glittering curtain backdrop, dramatic crane camera moves, vibrant stylized 3D with 1980s glamour and modern polish.",
+      "shots": [
+        "Sweeping crane shot over the glittering stage as spotlights converge on three empty podiums, confetti cannons waiting in the wings.",
+        "Three luminous crystal columns of different heights rise from the podiums like chart peaks, each catching a different colored spotlight.",
+        "A giant hologram of stacked atomic planes rotates above the stage; beams of light reflect off it at distinct angles toward the podiums.",
+        "The middle crystal column stretches taller and visibly broadens while the stage lights shift hue, the audience silhouettes gasping.",
+        "A giant glowing fingerprint made of sharp spectral peaks hovers over the stage, slowly rotating under the spotlights.",
+        "Winner moment: golden confetti rains down on a gleaming crystal trophy at center stage under a single triumphant spotlight."
+      ],
+      "musicPrompt": "High-energy retro game show theme: funky brass stabs, disco strings, driving bass, glittering synth arps, exciting, instrumental, loopable, no vocals."
+    },
+    "proceduralScene": "gameshow",
+    "upload": {
+      "title": "Guess That Peak: XRD Patterns Explained Like a Game Show",
+      "description": "Voiceover is AI-generated.\nA game-show style explanation of how XRD peak positions, widths, and intensities reveal crystal phases.",
+      "tags": [
+        "XRD",
+        "x-ray diffraction",
+        "crystal structure",
+        "powder diffraction",
+        "phase identification",
+        "science game"
+      ]
+    },
+    "hashtags": [
+      "#shorts",
+      "#science",
+      "#physics",
+      "#xray",
+      "#learning"
+    ],
+    "pinnedComment": "Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?"
+  },
+  {
+    "id": "interview_absorption_edge",
+    "status": "approved",
+    "series": "xray",
+    "style": "interview",
+    "formats": [
+      "portrait",
+      "landscape"
+    ],
+    "title": "An X-ray Interviews an Atom",
+    "hook": "Why does absorption suddenly jump at an edge?",
+    "topic": "X-ray absorption edges",
+    "voice": "coral",
+    "ttsInstructions": "Two-person science podcast energy in one voice: warm, witty, crisp. Slight changes in tone between interviewer and atom.",
+    "elevenVoiceId": "IKne3meq5aSn9XLyUdCB",
+    "palette": {
+      "bg": "#15151E",
+      "accent": "#7DD3FC",
+      "accent2": "#FCA5A5",
+      "ink": "#F8FAFC",
+      "panel": "#242436"
+    },
+    "beats": [
+      {
+        "text": "Welcome back. Today our guest is an atom, and the question is personal: why do you absorb X-rays?",
+        "visual": "studio host and atom guest"
+      },
+      {
+        "text": "The atom says: I only take energy packets that can kick an inner electron into an allowed state.",
+        "visual": "electron shell closeup"
+      },
+      {
+        "text": "Below the edge, the photon is too weak. It knocks, but nobody answers.",
+        "visual": "low energy photon rejected"
+      },
+      {
+        "text": "At the edge, the photon has enough energy to launch a core electron. The absorption jumps.",
+        "visual": "edge jump graph"
+      },
+      {
+        "text": "Near the edge, the outgoing electron wave feels the local chemistry and shape of empty states.",
+        "visual": "XANES region waves"
+      },
+      {
+        "text": "That is why XAS can tell oxidation state, coordination, and local structure without asking the crystal to behave.",
+        "visual": "XAS summary cards"
+      }
+    ],
+    "cinema": {
+      "mode": "per-beat",
+      "stylePrompt": "Stylized 3D animated late-night podcast studio: cozy dramatic lighting, walnut desk with two studio microphones, cyan and coral neon rim light, shallow depth of field with cinematic bokeh. The two charming abstract characters are a glowing X-ray photon orb with expressive energy and a plush round atom with softly glowing electron shells.",
+      "shots": [
+        "Warm wide two-shot of the studio: the glowing photon-orb host leans in while the plush atom guest settles into its chair, city lights bokeh behind the glass.",
+        "Macro close-up of the atom guest: its inner electron shells glow and rotate slowly as it gestures, dust motes floating in the key light.",
+        "A dim, weak photon drifts up to the atom and taps against the outer shell like knocking on a door, then bounces away into the dark, the atom unmoved.",
+        "A bright energetic photon strikes the atom; a tiny core electron launches upward like a rocket with a luminous trail while the whole shell flares.",
+        "Dreamlike shot: a rippling electron wave expands from the atom and explores the glowing shapes of its neighborhood, like an aurora feeling out empty spaces.",
+        "Pull-back shot of the studio desk where soft holographic panels of abstract glowing charts and molecular shapes float between host and guest."
+      ],
+      "musicPrompt": "Late-night talk show lo-fi: warm Rhodes piano, soft upright bass, brushed drums, relaxed and witty, instrumental, loopable, no vocals."
+    },
+    "proceduralScene": "interview",
+    "upload": {
+      "title": "X-ray Absorption Edges Explained as an Interview",
+      "description": "Voiceover is AI-generated.\nA fast, conversational explanation of why X-ray absorption edges happen and what XAS can reveal.",
+      "tags": [
+        "XAS",
+        "XANES",
+        "x-ray absorption",
+        "synchrotron",
+        "oxidation state",
+        "science podcast"
+      ]
+    },
+    "hashtags": [
+      "#shorts",
+      "#science",
+      "#physics",
+      "#xray",
+      "#learning"
+    ],
+    "pinnedComment": "Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?"
+  },
+  {
+    "id": "news_synchrotron_weather",
+    "status": "approved",
+    "series": "xray",
+    "style": "news",
+    "formats": [
+      "portrait",
+      "landscape"
+    ],
+    "title": "Synchrotron Weather Report",
+    "hook": "Today’s forecast: bright beam, scattered photons, and a 90 percent chance of data.",
+    "topic": "synchrotron beamlines",
+    "voice": "sage",
+    "ttsInstructions": "Fast-paced science news anchor with playful confidence. Clear, punchy, and slightly dramatic.",
+    "elevenVoiceId": "nPczCjzI2devNBz1zQrb",
+    "palette": {
+      "bg": "#052E2B",
+      "accent": "#67E8F9",
+      "accent2": "#FBBF24",
+      "ink": "#F8FAFC",
+      "panel": "#0F4A45"
+    },
+    "beats": [
+      {
+        "text": "Good evening from the synchrotron. The storage ring is calm, the electrons are relativistic, and the beam is bright.",
+        "visual": "news desk and storage ring map"
+      },
+      {
+        "text": "Undulators make the electrons wiggle, and wiggling charges throw off intense X-rays.",
+        "visual": "undulator wiggle"
+      },
+      {
+        "text": "Monochromators select one energy, because experiments do not appreciate chaotic buffets.",
+        "visual": "energy selection"
+      },
+      {
+        "text": "Mirrors focus the beam down to the sample, where chemistry, structure, and motion get interrogated.",
+        "visual": "focused beam on sample"
+      },
+      {
+        "text": "Detectors collect the evidence: absorption, diffraction, scattering, fluorescence, sometimes all before lunch.",
+        "visual": "detector dashboard"
+      },
+      {
+        "text": "Tomorrow’s forecast: more photons, more coffee, and a small craft advisory for anyone aligning slits.",
+        "visual": "weather forecast outro"
+      }
+    ],
+    "cinema": {
+      "mode": "per-beat",
+      "stylePrompt": "Sleek photorealistic broadcast news studio: glass desk, giant curved LED wall showing swirling weather-style graphics of a glowing particle storage ring, cool teal and amber studio lighting, polished floor reflections, smooth steadicam moves.",
+      "shots": [
+        "Wide studio establishing shot: the giant LED wall glows with a radar-style map of a luminous storage ring, studio lights sweeping gently.",
+        "LED wall close-up: a stream of bright electrons wiggles through an undulator of alternating magnets, throwing off brilliant fans of light.",
+        "Elegant animated diagram on the wall: a rainbow beam enters a crystal and a single pure color exits, the rest fading away.",
+        "A pair of curved mirrors focuses a thin brilliant beam down onto a tiny sample that sparkles as the beam lands.",
+        "A wall of glowing detector panels lights up one by one like a dashboard of storms, data pulses rippling across.",
+        "Weather-forecast style outro: stylized sun-like photon icons drift over a glowing aerial map of a circular synchrotron facility at dusk."
+      ],
+      "musicPrompt": "Modern broadcast news bed: pulsing synth arps, confident strings, subtle percussion, urgent but bright, instrumental, loopable, no vocals."
+    },
+    "proceduralScene": "news",
+    "upload": {
+      "title": "Synchrotron Beamlines Explained as a Weather Report",
+      "description": "Voiceover is AI-generated.\nA newsroom-style explanation of synchrotron beamlines, undulators, monochromators, mirrors, and detectors.",
+      "tags": [
+        "synchrotron",
+        "beamline",
+        "x-rays",
+        "undulator",
+        "monochromator",
+        "science news"
+      ]
+    },
+    "hashtags": [
+      "#shorts",
+      "#science",
+      "#physics",
+      "#xray",
+      "#learning"
+    ],
+    "pinnedComment": "Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?"
+  },
+  {
+    "id": "noir_exafs_echo",
+    "status": "approved",
+    "series": "xray",
+    "style": "noir",
+    "formats": [
+      "portrait",
+      "landscape"
+    ],
+    "title": "EXAFS After Dark",
+    "hook": "The photoelectron leaves the atom, but the neighbors talk back.",
+    "topic": "EXAFS scattering",
+    "voice": "onyx",
+    "ttsInstructions": "Cinematic noir narrator. Low, deliberate, mysterious, with dry humor and clean pronunciation of EXAFS.",
+    "elevenVoiceId": "N2lVS1w4EtoT3dr4eOWO",
+    "palette": {
+      "bg": "#111111",
+      "accent": "#E5E7EB",
+      "accent2": "#F59E0B",
+      "ink": "#F9FAFB",
+      "panel": "#202020"
+    },
+    "beats": [
+      {
+        "text": "Past the absorption edge, a photoelectron walks into the dark.",
+        "visual": "noir electron alley"
+      },
+      {
+        "text": "It does not travel alone. Neighboring atoms scatter the wave back like whispers in an alley.",
+        "visual": "scattered waves"
+      },
+      {
+        "text": "Those whispers interfere with the outgoing wave, making oscillations above the edge.",
+        "visual": "EXAFS oscillation graph"
+      },
+      {
+        "text": "The rhythm depends on distance. The strength depends on how many neighbors are out there.",
+        "visual": "radial shell clues"
+      },
+      {
+        "text": "Fourier transform the oscillations, and the local structure starts to appear from the fog.",
+        "visual": "transform to radial peaks"
+      },
+      {
+        "text": "EXAFS is not magic. It is atomic echo location with a trench coat.",
+        "visual": "detective reveal"
+      }
+    ],
+    "cinema": {
+      "mode": "per-beat",
+      "stylePrompt": "Black-and-white film noir with heavy 35mm grain, deep chiaroscuro shadows, venetian blind light, drifting cigarette-smoke haze, rain-slick alley reflections, slow deliberate dolly moves, one single warm amber accent light in an otherwise monochrome world.",
+      "shots": [
+        "A lone glowing orb of light in a tiny trench coat walks into a foggy alley at night, its glow reflecting off the wet cobblestones.",
+        "Shadowy round figures in doorways and fire escapes send faint ripples of light back toward the glowing orb, like whispered echoes.",
+        "The overlapping ripples interfere across the wet pavement, forming slowly oscillating bands of light and dark.",
+        "Concentric rings of streetlamp glow at different distances pulse at different rhythms through the fog.",
+        "The fog slowly resolves into ghostly concentric peaks of light emerging from darkness, like a skyline appearing at dawn.",
+        "The glowing detective stands under a single streetlight, tips its hat, and the echoing ripples fade into the mist."
+      ],
+      "musicPrompt": "Smoky film-noir jazz: muted trumpet, brushed snare, double bass, sparse piano, mysterious and dry, instrumental, loopable, no vocals."
+    },
+    "proceduralScene": "noir",
+    "upload": {
+      "title": "EXAFS Explained as Atomic Noir",
+      "description": "Voiceover is AI-generated.\nA noir-style short about EXAFS: photoelectron scattering, interference, and local structure.",
+      "tags": [
+        "EXAFS",
+        "XAFS",
+        "x-ray absorption spectroscopy",
+        "photoelectron",
+        "local structure",
+        "science noir"
+      ]
+    },
+    "hashtags": [
+      "#shorts",
+      "#science",
+      "#physics",
+      "#xray",
+      "#learning"
+    ],
+    "pinnedComment": "Which X-ray concept should Exciting animate next: XANES, EXAFS fitting, detector dead time, or monochromators?"
+  },
+  {
+    "id": "roundtable_knowledge_wisdom",
+    "status": "approved",
+    "series": "roundtable",
+    "style": "roundtable",
+    "formats": [
+      "landscape"
+    ],
+    "title": "The Nine Minds Podcast",
+    "hook": "Nine historical minds ask what knowledge should serve.",
+    "topic": "Knowledge, wisdom, beauty, justice",
+    "voice": "sage",
+    "ttsInstructions": "Thoughtful long-form podcast narration. Calm, reflective, intellectually lively, with clear transitions between speakers.",
+    "palette": {
+      "bg": "#12131A",
+      "accent": "#F6C85F",
+      "accent2": "#5CC8FF",
+      "ink": "#FAFAF2",
+      "panel": "#243447"
+    },
+    "beats": [
+      {
+        "text": "Host: Welcome to a fictional roundtable built from public lives, texts, lectures, and artworks. One question for nine minds: when knowledge gives us power faster than judgment, what should it serve?",
+        "visual": "source-built fictional roundtable opens",
+        "speaker": "Host",
+        "localVoice": "Daniel",
+        "localRate": 176,
+        "role": "host"
+      },
+      {
+        "text": "Einstein: Distill me as distrust of the obvious. Relativity taught me that measurement depends on frames; wonder taught me that knowledge should make power more humble, not more arrogant.",
+        "visual": "distillation: frames, wonder, humility",
+        "speaker": "Einstein",
+        "localVoice": "Albert",
+        "localRate": 166,
+        "role": "physicist"
+      },
+      {
+        "text": "Curie: Distill me as disciplined evidence. Radioactivity was invisible, so I trusted instruments, tons of pitchblende, and years of repeated separation before I trusted fame.",
+        "visual": "distillation: measurement makes invisible forces visible",
+        "speaker": "Curie",
+        "localVoice": "Samantha",
+        "localRate": 168,
+        "role": "physicist"
+      },
+      {
+        "text": "Feynman: Distill me as curiosity with a trapdoor. The pleasure is finding things out, but scientific integrity begins when you work hardest against fooling yourself.",
+        "visual": "distillation: curiosity disciplined by self-suspicion",
+        "speaker": "Feynman",
+        "localVoice": "Ralph",
+        "localRate": 182,
+        "role": "physicist"
+      },
+      {
+        "text": "Socrates: Distill me as a public question. Before asking what knowledge can do, examine the person using it; an unexamined intelligence is only a faster appetite.",
+        "visual": "distillation: examine the knower",
+        "speaker": "Socrates",
+        "localVoice": "Daniel",
+        "localRate": 164,
+        "role": "humanist"
+      },
+      {
+        "text": "Confucius: Distill me as relationship made ethical. Learning becomes humane through ren, and becomes reliable through li: habits, roles, respect, and care practiced daily.",
+        "visual": "distillation: learning becomes humane through relation",
+        "speaker": "Confucius",
+        "localVoice": "Rishi",
+        "localRate": 160,
+        "role": "humanist"
+      },
+      {
+        "text": "Shakespeare: Distill me as motive under stage light. Humans can know the truth and still kneel to ambition, jealousy, vanity, fear, or love.",
+        "visual": "distillation: truth enters human drama",
+        "speaker": "Shakespeare",
+        "localVoice": "Moira",
+        "localRate": 170,
+        "role": "humanist"
+      },
+      {
+        "text": "Leonardo: Distill me as the eye that experiments. To know a wing, draw it; to know water, follow the spiral. Art and science meet in attention.",
+        "visual": "distillation: drawing as experiment",
+        "speaker": "Leonardo",
+        "localVoice": "Junior",
+        "localRate": 170,
+        "role": "artist-history"
+      },
+      {
+        "text": "Frida: Distill me as truth returning to the body. Pain, identity, color, politics, and love are not footnotes; they are where history enters the skin.",
+        "visual": "distillation: truth has a body",
+        "speaker": "Frida",
+        "localVoice": "Tessa",
+        "localRate": 166,
+        "role": "artist-history"
+      },
+      {
+        "text": "Mandela: Distill me as dignity organized. Knowledge matters when it becomes courage, negotiation, law, schools, and institutions strong enough to outlive revenge.",
+        "visual": "distillation: dignity organized into justice",
+        "speaker": "Mandela",
+        "localVoice": "Karen",
+        "localRate": 160,
+        "role": "artist-history"
+      },
+      {
+        "text": "Host: So the table is not asking whether knowledge is powerful. It is asking who disciplines power: evidence, character, community, beauty, or justice?",
+        "visual": "the central question sharpens",
+        "speaker": "Host",
+        "localVoice": "Daniel",
+        "localRate": 176,
+        "role": "host"
+      },
+      {
+        "text": "Einstein: Evidence must discipline power first. But equations do not end responsibility. When science changes war, energy, or the planet, the scientist becomes a citizen in public.",
+        "visual": "responsibility radiates beyond equations",
+        "speaker": "Einstein",
+        "localVoice": "Albert",
+        "localRate": 166,
+        "role": "physicist"
+      },
+      {
+        "text": "Socrates: Then test the word responsibility. Is it guilt after action, or the habit of asking before action: what is good, who is harmed, and what do I pretend not to know?",
+        "visual": "responsibility as pre-action questioning",
+        "speaker": "Socrates",
+        "localVoice": "Daniel",
+        "localRate": 164,
+        "role": "humanist"
+      },
+      {
+        "text": "Curie: Better questions require patience. The public sees the glow, but not the notebook, the failed separations, the burns, the long obedience to fact.",
+        "visual": "the notebook slows appetite",
+        "speaker": "Curie",
+        "localVoice": "Samantha",
+        "localRate": 168,
+        "role": "physicist"
+      },
+      {
+        "text": "Feynman: And the notebook has to report what ruins your favorite idea. Nature is the judge. A beautiful theory still gets tossed when the experiment says no.",
+        "visual": "nature interrupts beautiful theory",
+        "speaker": "Feynman",
+        "localVoice": "Ralph",
+        "localRate": 182,
+        "role": "physicist"
+      },
+      {
+        "text": "Confucius: Honesty is not only a method. It is a social practice. A laboratory has teachers, students, sponsors, elders, juniors, and duties to the wider household.",
+        "visual": "truth as a social practice",
+        "speaker": "Confucius",
+        "localVoice": "Rishi",
+        "localRate": 160,
+        "role": "humanist"
+      },
+      {
+        "text": "Leonardo: Add craft. A tool carries the hand that made it. Design is ethics while it is still a sketch, before bronze, gears, code, or policy harden it.",
+        "visual": "design as ethics in material form",
+        "speaker": "Leonardo",
+        "localVoice": "Junior",
+        "localRate": 170,
+        "role": "artist-history"
+      },
+      {
+        "text": "Frida: And ask whose body the tool touches. Grand words are clean because they have no nerves. A scar is more precise.",
+        "visual": "the abstract becomes bodily consequence",
+        "speaker": "Frida",
+        "localVoice": "Tessa",
+        "localRate": 166,
+        "role": "artist-history"
+      },
+      {
+        "text": "Shakespeare: Every age crowns its cleverest ambition and calls it destiny. My job is to bring the crown downstage until the blood on it can be seen.",
+        "visual": "ambition revealed under theatre lights",
+        "speaker": "Shakespeare",
+        "localVoice": "Moira",
+        "localRate": 170,
+        "role": "humanist"
+      },
+      {
+        "text": "Mandela: Seeing the blood is not enough. A wounded society needs courts, schools, habits of listening, and a path back from revenge into shared rule.",
+        "visual": "justice as institutions and repair",
+        "speaker": "Mandela",
+        "localVoice": "Karen",
+        "localRate": 160,
+        "role": "artist-history"
+      },
+      {
+        "text": "Host: The room divides into three verbs: discover, interpret, and repair. Is wisdom one of them, or the rhythm that keeps all three from becoming dangerous alone?",
+        "visual": "three verbs: discover, interpret, repair",
+        "speaker": "Host",
+        "localVoice": "Daniel",
+        "localRate": 176,
+        "role": "host"
+      },
+      {
+        "text": "Feynman: Discovery has to move first sometimes; you cannot regulate a mystery nobody has noticed. But discovery must publish the uncertainty, not hide it in the drawer.",
+        "visual": "discovery with uncertainty attached",
+        "speaker": "Feynman",
+        "localVoice": "Ralph",
+        "localRate": 182,
+        "role": "physicist"
+      },
+      {
+        "text": "Socrates: Interpretation must walk beside it. Facts do not tell us by themselves what courage, justice, moderation, or a good life should mean.",
+        "visual": "facts need a question about the good",
+        "speaker": "Socrates",
+        "localVoice": "Daniel",
+        "localRate": 164,
+        "role": "humanist"
+      },
+      {
+        "text": "Mandela: Repair must not arrive last. If knowledge helps break a community, apology without reconstruction is only another performance.",
+        "visual": "repair cannot be the afterthought",
+        "speaker": "Mandela",
+        "localVoice": "Karen",
+        "localRate": 160,
+        "role": "artist-history"
+      },
+      {
+        "text": "Curie: Then the answer is not one ruler. Knowledge should serve life, and life asks for accuracy, restraint, usefulness, mercy, and time.",
+        "visual": "accuracy, restraint, mercy, and time",
+        "speaker": "Curie",
+        "localVoice": "Samantha",
+        "localRate": 168,
+        "role": "physicist"
+      },
+      {
+        "text": "Shakespeare: I accept that ending if tragedy remains in the room. Wisdom begins when triumph stops flattering itself and listens for the cost offstage.",
+        "visual": "wisdom interrupts triumph",
+        "speaker": "Shakespeare",
+        "localVoice": "Moira",
+        "localRate": 170,
+        "role": "humanist"
+      },
+      {
+        "text": "Einstein: Wonder keeps expertise from becoming ownership. The universe is not small enough to belong to one profession, one nation, or one victorious method.",
+        "visual": "wonder keeps expertise humble",
+        "speaker": "Einstein",
+        "localVoice": "Albert",
+        "localRate": 166,
+        "role": "physicist"
+      },
+      {
+        "text": "Host: Final synthesis: knowledge should serve the enlargement of life: tested by evidence, disciplined by doubt, interpreted by culture, shaped by craft, embodied in care, and accountable to justice.",
+        "visual": "final synthesis around the table",
+        "speaker": "Host",
+        "localVoice": "Daniel",
+        "localRate": 176,
+        "role": "host"
+      },
+      {
+        "text": "Host: That is the episode. Nine distilled minds, one impossible table, and a reminder: intelligence becomes wisdom only when it learns whom it serves.",
+        "visual": "closing reminder: whom does intelligence serve",
+        "speaker": "Host",
+        "localVoice": "Daniel",
+        "localRate": 176,
+        "role": "host"
+      }
+    ],
+    "cinema": {
+      "mode": "ambient",
+      "stylePrompt": "Cinematic, warm and contemplative: a vast dark wood-paneled library at night, one great round table lit by candles, floating dust motes, volumetric warm light, extremely slow camera moves, photorealistic, painterly color grade.",
+      "ambientShots": [
+        "Extremely slow orbital shot around a candlelit round wooden table with nine empty leather chairs in a vast dark library, dust motes drifting in the warm light.",
+        "Slow dolly across shelves of old books and manuscripts by candlelight, soft shadows breathing as the flames flicker.",
+        "An abstract constellation of softly glowing points of light drifting above a dark round table, connected by faint luminous threads, very slow drift.",
+        "Rain streaking down tall library windows at night, warm interior candle glow reflected in the glass, extremely slow push-in."
+      ],
+      "musicPrompt": "Contemplative chamber underscore: warm cello, soft piano, distant choir pad, slow and thoughtful, instrumental, loopable, no vocals."
+    },
+    "proceduralScene": "roundtable",
+    "upload": {
+      "title": "The Nine Minds Podcast: Einstein, Curie, Socrates, Frida, Mandela and More",
+      "description": "Fictional educational dialogue inspired by public historical ideas. AI-generated synthetic voices are not impersonations.\nAn animated roundtable podcast where nine historical figures debate what knowledge should serve when discovery outruns wisdom.",
+      "tags": [
+        "animated podcast",
+        "history of ideas",
+        "Einstein",
+        "Marie Curie",
+        "Socrates",
+        "Confucius",
+        "Shakespeare",
+        "Frida Kahlo",
+        "Nelson Mandela"
+      ]
+    },
+    "hashtags": [
+      "#podcast",
+      "#philosophy",
+      "#historyofideas",
+      "#ai"
+    ],
+    "pinnedComment": "Which impossible roundtable should we animate next: climate, AI, education, or the future of science?"
+  }
+]
