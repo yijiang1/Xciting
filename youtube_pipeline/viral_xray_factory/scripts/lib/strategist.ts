@@ -28,7 +28,7 @@ type AnalyticsVideo = {
 };
 type Analytics = {videos?: AnalyticsVideo[]};
 
-type GroupStats = {
+export type GroupStats = {
   key: string;
   madeCount: number;
   publishedCount: number;
@@ -39,7 +39,7 @@ type GroupStats = {
 
 const average = (values: number[]): number => values.reduce((sum, value) => sum + value, 0) / values.length;
 
-const buildScoreboard = (concepts: StoredConcept[], videos: AnalyticsVideo[], basis: 'theme' | 'style'): GroupStats[] => {
+export const buildScoreboard = (concepts: StoredConcept[], videos: AnalyticsVideo[], basis: 'theme' | 'style'): GroupStats[] => {
   const perfByConceptId = new Map(videos.map((video) => [video.conceptId, video]));
   const groups = new Map<string, {made: number; perf: AnalyticsVideo[]}>();
   for (const concept of concepts) {

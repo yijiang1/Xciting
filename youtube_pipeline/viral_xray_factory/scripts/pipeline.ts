@@ -79,7 +79,11 @@ const run = async () => {
     await script('write-subtitles', []);
 
     // 4. Paid footage — approved concepts only, guarded by MAX_VIDEO_BUDGET_USD.
-    if (skipFootage) {
+    // Sung concepts never buy footage: they're procedural-visuals-only by
+    // design, regardless of flags or which video API keys happen to be set.
+    if (concept.song) {
+      console.log('Sung concept: skipping paid footage (procedural visuals only).');
+    } else if (skipFootage) {
       console.log('Footage skipped (--skip-footage): rendering with procedural visuals.');
     } else if (!hasVideoKey) {
       console.log('No video API key: rendering with procedural visuals.');

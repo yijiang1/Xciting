@@ -535,6 +535,7 @@ const Scene: React.FC<{concept: VideoConcept; beatIndex: number; beatProgress: n
   if (scene === 'interview') return <InterviewScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
   if (scene === 'gameshow') return <GameShowScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
   if (scene === 'noir') return <NoirScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
+  if (scene === 'singalong') return <SingalongScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
   return <NewsScene concept={concept} beatIndex={beatIndex} beatProgress={beatProgress} seconds={seconds} />;
 };
 
@@ -608,6 +609,79 @@ const NewsScene: React.FC<SceneProps> = ({concept, beatIndex, beatProgress, seco
     <NewsTicker text={tickerFor(beatIndex)} color={concept.palette.accent2} />
     <ForecastCard x={1280} y={350} color={concept.palette.accent} beatIndex={beatIndex} />
   </svg>
+);
+
+// Sing-along shorts: one big, friendly motif per section, cycling through
+// three simple X-ray-themed shapes rather than illustrating each line
+// literally -- the song repeats a lot (same chorus 3x), so the visual should
+// read as a cozy loop, not a fast cut. Bounce is softer/slower than
+// CartoonScene's pop to match sing-along pacing.
+const SingalongScene: React.FC<SceneProps> = ({concept, beatIndex, beatProgress, seconds}) => {
+  const bounce = spring({frame: beatProgress * 60, fps: FPS, config: {damping: 16, stiffness: 70}});
+  const scale = 0.92 + bounce * 0.16;
+  const bob = Math.sin(seconds * 2.2) * 18;
+  const motif = beatIndex % 3;
+  return (
+    <svg width={WIDTH} height={HEIGHT} style={{position: 'absolute', inset: 0}}>
+      <Twinkles color={concept.palette.accent2} seconds={seconds} />
+      <g transform={`translate(${WIDTH / 2} ${HEIGHT / 2 - 40 + bob}) scale(${scale})`}>
+        {motif === 0 && <SpinningAtom color={concept.palette.accent} accent={concept.palette.accent2} seconds={seconds} />}
+        {motif === 1 && <GlowTube color={concept.palette.accent} accent={concept.palette.accent2} seconds={seconds} />}
+        {motif === 2 && <PulseBeam color={concept.palette.accent} accent={concept.palette.accent2} progress={beatProgress} />}
+      </g>
+    </svg>
+  );
+};
+
+const SpinningAtom: React.FC<{color: string; accent: string; seconds: number}> = ({color, accent, seconds}) => (
+  <g>
+    <circle r={46} fill={color} />
+    {[0, 1, 2].map((i) => {
+      const angle = seconds * 1.6 + (i * Math.PI * 2) / 3;
+      const rx = 220;
+      const ry = 90 + i * 34;
+      return (
+        <g key={i} transform={`rotate(${(i * 60) % 180})`}>
+          <ellipse rx={rx} ry={ry} fill="none" stroke={accent} strokeWidth={5} opacity={0.5} />
+          <circle cx={Math.cos(angle) * rx} cy={Math.sin(angle) * ry} r={20} fill={accent} />
+        </g>
+      );
+    })}
+  </g>
+);
+
+const GlowTube: React.FC<{color: string; accent: string; seconds: number}> = ({color, accent, seconds}) => {
+  const glow = 0.55 + 0.25 * Math.abs(Math.sin(seconds * 2));
+  return (
+    <g>
+      <circle r={210} fill={accent} opacity={glow * 0.28} />
+      <rect x={-160} y={-64} width={320} height={128} rx={64} fill={color} />
+      <rect x={-100} y={-28} width={200} height={56} rx={28} fill={accent} opacity={0.85} />
+      {[-1, 0, 1].map((i) => (
+        <line key={i} x1={200 + i * 26} y1={-70 - i * 6} x2={260 + i * 26} y2={70 + i * 6} stroke={accent} strokeWidth={8} strokeLinecap="round" opacity={0.7} />
+      ))}
+    </g>
+  );
+};
+
+const PulseBeam: React.FC<{color: string; accent: string; progress: number}> = ({color, accent, progress}) => (
+  <g>
+    <circle r={200} fill={accent} opacity={0.16} />
+    <path d="M-300 -70 L0 40 L300 -70" fill="none" stroke={color} strokeWidth={16} strokeLinecap="round" strokeLinejoin="round" opacity={0.8} />
+    <path d="M-260 60 L0 150 L260 60" fill="none" stroke={color} strokeWidth={12} strokeLinecap="round" strokeLinejoin="round" opacity={0.4} />
+    <circle cx={-300 + progress * 600} cy={progress < 0.5 ? -70 + progress * 220 : 40 - (progress - 0.5) * 220} r={30} fill={accent} />
+  </g>
+);
+
+const Twinkles: React.FC<{color: string; seconds: number}> = ({color, seconds}) => (
+  <g opacity={0.5}>
+    {Array.from({length: 10}).map((_, i) => {
+      const x = 140 + ((i * 191) % (WIDTH - 280));
+      const y = 120 + ((i * 137) % (HEIGHT - 240));
+      const twinkle = 0.4 + 0.6 * Math.abs(Math.sin(seconds * 1.4 + i));
+      return <circle key={i} cx={x} cy={y} r={6 + (i % 3) * 3} fill={color} opacity={twinkle} />;
+    })}
+  </g>
 );
 
 type SceneProps = {

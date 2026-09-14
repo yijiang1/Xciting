@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "concepts": "tsx scripts/generate-concepts.ts",
+    "song": "tsx scripts/generate-song.ts",
     "daily": "tsx scripts/daily.ts",
+    "gui": "tsx scripts/gui/server.ts",
     "approve": "tsx scripts/approve.ts",
     "pipeline": "tsx scripts/pipeline.ts",
     "status": "tsx scripts/status.ts",
     "review": "tsx scripts/review.ts",
     "publish": "tsx scripts/upload-youtube.ts",
     "analytics": "tsx scripts/fetch-analytics.ts",
+    "youtube-auth": "tsx scripts/youtube-auth.ts",
     "thumbnails": "tsx scripts/generate-thumbnails.ts",
     "bundle": "tsx scripts/bundle.ts",
     "sync": "tsx scripts/sync-content.ts",
@@ -33,6 +36,7 @@
     "@remotion/player": "^4.0.386",
     "dotenv": "^16.4.7",
     "execa": "^9.5.2",
+    "express": "^5.2.1",
     "googleapis": "^172.0.0",
     "openai": "^6.10.0",
     "react": "^19.0.0",
@@ -42,6 +46,7 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^22.10.1",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",

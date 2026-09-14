@@ -181,10 +181,10 @@
     "ttsInstructions": "Two-person science podcast energy in one voice: warm, witty, crisp. Slight changes in tone between interviewer and atom.",
     "elevenVoiceId": "IKne3meq5aSn9XLyUdCB",
     "palette": {
-      "bg": "#15151E",
-      "accent": "#7DD3FC",
-      "accent2": "#FCA5A5",
-      "ink": "#F8FAFC",
+      "bg": "#15151e",
+      "accent": "#7dd3fc",
+      "accent2": "#fca5a5",
+      "ink": "#f8fafc",
       "panel": "#242436"
     },
     "beats": [

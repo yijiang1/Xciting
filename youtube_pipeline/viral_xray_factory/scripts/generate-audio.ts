@@ -271,8 +271,18 @@ const makeSilence = async (duration: number, output: string) => {
 
 // Master the narration: a whisper-quiet room-tone bed hides the dead digital
 // silence between lines, then loudnorm brings the track to the -14 LUFS
-// streaming standard.
-const masterAudio = async (input: string, output: string) => {
+// streaming standard. Sung tracks already carry their own instrumentation,
+// so the room-tone bed is skipped for those (roomTone: false).
+const masterAudio = async (input: string, output: string, options: {roomTone?: boolean} = {}) => {
+  const roomTone = options.roomTone ?? true;
+  const filterComplex = roomTone
+    ? [
+        'anoisesrc=color=pink:amplitude=0.0012:sample_rate=44100[nz]',
+        '[nz]volume=0.35[nzq]',
+        '[0:a][nzq]amix=inputs=2:duration=first:normalize=0[mix]',
+        '[mix]loudnorm=I=-14:TP=-1.5:LRA=11[out]',
+      ].join(';')
+    : '[0:a]loudnorm=I=-14:TP=-1.5:LRA=11[out]';
   await ffmpeg( [
     '-y',
     '-v',
@@ -280,12 +290,7 @@ const masterAudio = async (input: string, output: string) => {
     '-i',
     input,
     '-filter_complex',
-    [
-      'anoisesrc=color=pink:amplitude=0.0012:sample_rate=44100[nz]',
-      '[nz]volume=0.35[nzq]',
-      '[0:a][nzq]amix=inputs=2:duration=first:normalize=0[mix]',
-      '[mix]loudnorm=I=-14:TP=-1.5:LRA=11[out]',
-    ].join(';'),
+    filterComplex,
     '-map',
     '[out]',
     '-ar',
@@ -296,6 +301,65 @@ const masterAudio = async (input: string, output: string) => {
     '192k',
     output,
   ]);
+};
+
+// ---------------------------------------------------------------------------
+// Sung songs (Eleven Music) -- alternative to the spoken-TTS path above.
+// ---------------------------------------------------------------------------
+
+const ELEVEN_MUSIC_URL = 'https://api.elevenlabs.io/v1/music';
+
+const compositionPlanFor = (song: NonNullable<StoredConcept['song']>) => ({
+  model_id: song.modelId,
+  composition_plan: {
+    positive_global_styles: song.positiveGlobalStyles,
+    negative_global_styles: song.negativeGlobalStyles ?? [],
+    sections: song.sections.map((section) => ({
+      section_name: section.name,
+      positive_local_styles: section.positiveStyles ?? [],
+      negative_local_styles: section.negativeStyles ?? [],
+      duration_ms: section.durationMs,
+      lines: section.lines,
+    })),
+  },
+});
+
+const composeSong = async (concept: StoredConcept): Promise<Buffer> => {
+  const outputFormat = process.env.ELEVENLABS_OUTPUT_FORMAT ?? 'mp3_44100_128';
+  const response = await fetch(`${ELEVEN_MUSIC_URL}?output_format=${outputFormat}`, {
+    method: 'POST',
+    headers: {'xi-api-key': process.env.ELEVENLABS_API_KEY as string, 'content-type': 'application/json'},
+    body: JSON.stringify(compositionPlanFor(concept.song!)),
+  });
+  if (!response.ok) {
+    throw new Error(`Eleven Music compose failed (${response.status}): ${await response.text()}`);
+  }
+  return Buffer.from(await response.arrayBuffer());
+};
+
+// Lays out beats using the planned section durations, then rescales them
+// proportionally to the audio file's actual measured length -- Eleven Music
+// treats duration_ms as a guide, not a guarantee, so footage/captions must
+// follow what was actually rendered, not what was requested.
+const buildSongBeats = (concept: StoredConcept, actualDuration: number): TimedBeat[] => {
+  const song = concept.song!;
+  let cursor = 0;
+  const beats: TimedBeat[] = song.sections.map((section, index) => {
+    const beat = concept.beats[index];
+    const start = cursor;
+    cursor += section.durationMs / 1000;
+    return {start, end: cursor, text: beat.text, visual: beat.visual, speaker: beat.speaker, role: beat.role};
+  });
+  const plannedTotal = cursor;
+  const scale = plannedTotal > 0 ? actualDuration / plannedTotal : 1;
+  let running = 0;
+  for (const beat of beats) {
+    const span = (beat.end - beat.start) * scale;
+    beat.start = Number(running.toFixed(3));
+    running += span;
+    beat.end = Number(running.toFixed(3));
+  }
+  return beats;
 };
 
 // ---------------------------------------------------------------------------
@@ -334,23 +398,47 @@ const readJson = async <T>(file: string, fallback: T): Promise<T> => {
 };
 
 const run = async () => {
-  if (ttsProvider === 'openai' && !process.env.OPENAI_API_KEY) {
-    throw new Error('OPENAI_API_KEY is missing. Expected ../.env.local or .env.local.');
-  }
-  if (ttsProvider === 'elevenlabs' && !process.env.ELEVENLABS_API_KEY) {
-    throw new Error('TTS_PROVIDER=elevenlabs but ELEVENLABS_API_KEY is missing.');
-  }
-  await fs.mkdir(audioDir, {recursive: true});
-  await fs.mkdir(dataDir, {recursive: true});
-  await fs.mkdir(tmpDir, {recursive: true});
+  const args = process.argv.slice(2);
+  const dryRun = args.includes('--dry-run');
+  const requestedIds = args.filter((arg) => !arg.startsWith('-'));
 
   const concepts = await loadConcepts();
-  const requestedIds = process.argv.slice(2).filter((arg) => !arg.startsWith('-'));
   const selectedConcepts = requestedIds.length > 0 ? concepts.filter((concept) => requestedIds.includes(concept.id)) : concepts;
   const missingIds = requestedIds.filter((id) => !concepts.some((concept) => concept.id === id));
   if (missingIds.length > 0) {
     throw new Error(`Unknown concept id(s): ${missingIds.join(', ')}`);
   }
+
+  const songConcepts = selectedConcepts.filter((concept) => concept.song);
+
+  if (dryRun) {
+    if (songConcepts.length === 0) {
+      console.log('--dry-run only previews sung concepts (concept.song); none selected.');
+      return;
+    }
+    for (const concept of songConcepts) {
+      const totalMs = concept.song!.sections.reduce((sum, section) => sum + section.durationMs, 0);
+      console.log(`\n--- ${concept.id} (${concept.song!.modelId}, ~${(totalMs / 1000).toFixed(1)}s planned) ---`);
+      console.log(JSON.stringify(compositionPlanFor(concept.song!), null, 2));
+    }
+    return;
+  }
+
+  if (songConcepts.length > 0 && !process.env.ELEVENLABS_API_KEY) {
+    throw new Error(`ELEVENLABS_API_KEY is required to generate sung concepts: ${songConcepts.map((c) => c.id).join(', ')}`);
+  }
+  const spokenConcepts = selectedConcepts.filter((concept) => !concept.song);
+  if (spokenConcepts.length > 0) {
+    if (ttsProvider === 'openai' && !process.env.OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY is missing. Expected ../.env.local or .env.local.');
+    }
+    if (ttsProvider === 'elevenlabs' && !process.env.ELEVENLABS_API_KEY) {
+      throw new Error('TTS_PROVIDER=elevenlabs but ELEVENLABS_API_KEY is missing.');
+    }
+  }
+  await fs.mkdir(audioDir, {recursive: true});
+  await fs.mkdir(dataDir, {recursive: true});
+  await fs.mkdir(tmpDir, {recursive: true});
 
   console.log(`TTS provider: ${ttsProvider}${ttsProvider === 'elevenlabs' ? ` (${process.env.ELEVENLABS_MODEL_ID ?? 'eleven_v3'})` : ''}`);
 
@@ -360,6 +448,25 @@ const run = async () => {
   const metadata = await readJson<Record<string, {duration: number}>>(metadataFile, {});
 
   for (const concept of selectedConcepts) {
+    if (concept.song) {
+      console.log(`Generating song: ${concept.id} (Eleven Music ${concept.song.modelId})`);
+      const rawOutput = path.join(tmpDir, `${concept.id}-song-raw.mp3`);
+      const output = path.join(audioDir, `${concept.id}.mp3`);
+      const bytes = await withRetries('eleven music compose', 3, () => composeSong(concept));
+      await fs.writeFile(rawOutput, bytes);
+      await masterAudio(rawOutput, output, {roomTone: false});
+      const duration = await durationOf(output);
+
+      console.log('  transcribing word timestamps for karaoke captions...');
+      const words = await transcribeWords(output);
+      if (words) console.log(`  ${words.length} words aligned.`);
+
+      const beats = buildSongBeats(concept, duration);
+      timings[concept.id] = {duration: Number(duration.toFixed(3)), beats, words};
+      metadata[concept.id] = {duration: Number(duration.toFixed(3))};
+      continue;
+    }
+
     console.log(`Generating TTS: ${concept.id}`);
     const filesToConcat: string[] = [];
     const beats: TimedBeat[] = [];
@@ -386,7 +493,8 @@ const run = async () => {
           ),
         );
       } else {
-        const profile = ttsProfileFor(beat, concept.voice, concept.ttsInstructions);
+        // Non-null: the schema requires voice/ttsInstructions on any concept without a song.
+        const profile = ttsProfileFor(beat, concept.voice!, concept.ttsInstructions!);
         console.log(`  ${String(index + 1).padStart(2, '0')}/${concept.beats.length}: ${beat.speaker ?? 'Narrator'} -> ${profile.voice}`);
         await withRetries(`beat ${index + 1}`, 3, () => makeOpenAiSpeech(input, profile.voice, profile.instructions, piece));
       }

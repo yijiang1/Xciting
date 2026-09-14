@@ -47,6 +47,9 @@ const run = async () => {
   const manifest = await readJson<Record<string, string>>(manifestFile, {});
 
   for (const concept of selected) {
+    // Sung concepts (concept.song) already carry full instrumentation from
+    // Eleven Music; a second background bed would just fight the mix.
+    if (concept.song) continue;
     const prompt = concept.cinema.musicPrompt;
     if (!prompt) continue;
     const relFile = `music/${concept.id}.mp3`;

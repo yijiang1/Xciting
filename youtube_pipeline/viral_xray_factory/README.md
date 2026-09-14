@@ -93,6 +93,44 @@ YOUTUBE_MADE_FOR_KIDS=false
 
 See `.env.example` for every knob.
 
+## Sung songs
+
+A concept can declare a `song` (see `scripts/lib/schema.ts`) instead of relying
+purely on spoken narration: one lyric section per beat, sent to Eleven Music
+(`ELEVENLABS_API_KEY` required; `voice`/`ttsInstructions` become optional).
+`generate-audio.ts` posts the composition plan, masters the result, then
+transcribes it with Whisper to drive the same karaoke captions as narrated
+videos. `generate-music.ts` automatically skips concepts with a `song` so a
+second instrumental bed never layers under the vocals.
+
+Preview the exact composition plan Eleven Music will bill for before
+spending anything:
+
+```bash
+npm run generate:audio -- <id> --dry-run
+```
+
+## Sing-along shorts
+
+`npm run song` writes a complete sung concept end to end -- a "Wheels on the
+Bus"-style Verse/Chorus/Verse/Chorus/Verse/Chorus song about an X-ray/science
+topic, with `style: "singalong"` and `song` already populated. These never
+buy AI footage (`pipeline.ts` skips that stage unconditionally for any
+concept with a `song`), so cost is just the Eleven Music vocal track:
+
+```bash
+npm run song -- "why x-rays go through skin but not bone"
+npm run approve -- <id>
+npm run pipeline -- <id>      # footage auto-skipped; procedural visuals only
+npm run review
+npm run publish -- <id>
+```
+
+Rendering uses a dedicated procedural scene (`SingalongScene` in
+`src/XrayShort.tsx`) -- a big, bouncy motif that cycles between a spinning
+atom, a glowing X-ray tube, and a pulsing ray beam, built for a song that
+loops and repeats rather than a fast-cut explainer.
+
 ## Individual stages
 
 The pipeline is just these, runnable on their own:

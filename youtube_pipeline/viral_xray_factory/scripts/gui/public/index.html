@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xciting Control Panel</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Xciting <span>control panel</span></h1>
+    <div class="topbar-actions">
+      <span id="job-indicator" class="job-indicator idle">idle</span>
+      <button id="run-daily" class="btn primary">Run Daily Draft</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel scoreboard">
+      <h2>Performance scoreboard</h2>
+      <div class="scoreboard-grid">
+        <div>
+          <h3>By theme</h3>
+          <table id="theme-table"><thead><tr><th>theme</th><th>made</th><th>published</th><th>avg views</th><th>avg retention</th><th>avg subs</th></tr></thead><tbody></tbody></table>
+        </div>
+        <div>
+          <h3>By style</h3>
+          <table id="style-table"><thead><tr><th>style</th><th>made</th><th>published</th><th>avg views</th><th>avg retention</th><th>avg subs</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel concepts">
+      <h2>Concepts</h2>
+      <div id="concept-grid" class="concept-grid"></div>
+    </section>
+  </main>
+
+  <div id="detail-overlay" class="overlay hidden">
+    <div class="detail-panel">
+      <button id="detail-close" class="btn ghost close">&times;</button>
+      <div id="detail-body"></div>
+    </div>
+  </div>
+
+  <footer class="log-console">
+    <div class="log-header">
+      <span id="log-title">No job running</span>
+      <button id="log-clear" class="btn ghost small">clear</button>
+    </div>
+    <pre id="log-body"></pre>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
