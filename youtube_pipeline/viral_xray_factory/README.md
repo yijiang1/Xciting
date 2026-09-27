@@ -131,6 +131,34 @@ Rendering uses a dedicated procedural scene (`SingalongScene` in
 atom, a glowing X-ray tube, and a pulsing ray beam, built for a song that
 loops and repeats rather than a fast-cut explainer.
 
+## Control panel and agent runs
+
+`npm run gui` opens a local panel at http://localhost:4321 (loopback only):
+concepts, scoreboard, approve, pipeline, publish, and a live job log with a
+Stop button.
+
+**New video with a skill** runs Claude Code or Codex headless with a playbook
+from `.claude/skills/<name>/SKILL.md` at the repo root:
+
+- **Draft** (free): write or pick a topic, science-check the concept, and run
+  the footage `--dry-run`. Stops before approval.
+- **Build & QA** (spends money): pipeline, QA of the renders, and targeted
+  fixes for one concept you already approved. Stops before publishing.
+
+The final summary in the log lists every change, QA findings, and open
+questions, plus a command to continue the session in a terminal.
+
+Limits: the panel sets `XCITING_AGENT_RUN`, and the paid and irreversible
+scripts refuse to approve, publish, or spend on anything but that run's one
+concept (`scripts/lib/agent-guard.ts`). Claude runs also get a per-task
+command allowlist. Codex has no per-command allowlist; its drafts run in its
+workspace sandbox and its builds run unsandboxed, because Remotion's headless
+Chrome can't start inside Codex's macOS sandbox.
+
+The Codex CLI is found on PATH, then inside the Codex/ChatGPT desktop app;
+set `CODEX_BIN` to override. Both CLIs must be logged in (`claude` then
+`/login`; `codex login`).
+
 ## Individual stages
 
 The pipeline is just these, runnable on their own:

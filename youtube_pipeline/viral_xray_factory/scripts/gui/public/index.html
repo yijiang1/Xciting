@@ -16,6 +16,27 @@
   </header>
 
   <main>
+    <section class="panel agent">
+      <h2>New video with a skill</h2>
+      <p class="hint">Runs an agent in the background with the skill's playbook. Drafting is free. Building spends money on voice and footage, and only runs on a concept you approved. Approving and publishing stay with you.</p>
+      <div class="agent-form">
+        <div class="agent-row">
+          <label class="field">Skill <select id="agent-skill"></select></label>
+          <label class="field">Agent <select id="agent-engine"></select></label>
+        </div>
+        <p id="agent-skill-desc" class="hint"></p>
+        <p id="agent-engine-note" class="hint hidden">Codex has no per-command allowlist. Drafts run in its sandbox; builds run unsandboxed, because Remotion's Chrome can't start inside it. The scripts still refuse approving, publishing, and any spending beyond the chosen concept.</p>
+        <div class="opts">
+          <label><input type="radio" name="agent-task" value="draft" checked /> Draft a concept (free)</label>
+          <label><input type="radio" name="agent-task" value="build" /> Build &amp; QA an approved concept (spends money)</label>
+        </div>
+        <label class="field" id="agent-topic-field">Topic <input type="text" id="agent-topic" placeholder="Leave blank to let the daily strategist pick" /></label>
+        <label class="field hidden" id="agent-concept-field">Concept <select id="agent-concept"></select></label>
+        <label class="field">Notes for the agent (optional) <textarea id="agent-notes" rows="2"></textarea></label>
+        <div><button id="agent-start" class="btn primary">Start agent</button></div>
+      </div>
+    </section>
+
     <section class="panel scoreboard">
       <h2>Performance scoreboard</h2>
       <div class="scoreboard-grid">
@@ -46,7 +67,11 @@
   <footer class="log-console">
     <div class="log-header">
       <span id="log-title">No job running</span>
-      <button id="log-clear" class="btn ghost small">clear</button>
+      <div class="log-actions">
+        <button id="log-stop" class="btn danger small" disabled>stop</button>
+        <button id="log-expand" class="btn ghost small">expand</button>
+        <button id="log-clear" class="btn ghost small">clear</button>
+      </div>
     </div>
     <pre id="log-body"></pre>
   </footer>

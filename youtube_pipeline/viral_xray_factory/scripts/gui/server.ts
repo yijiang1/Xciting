@@ -1,8 +1,9 @@
 // Local-only control panel for the daily pipeline. Wraps the same scripts and
 // content-store helpers the CLI uses -- reads go straight through
 // scripts/lib/content.ts, and the money-spending / YouTube-touching steps
-// (pipeline, publish) run as real child processes via jobs.ts so their output
-// streams to the browser exactly like it would in a terminal.
+// (pipeline, publish, headless agent runs from agent.ts) run as real child
+// processes via jobs.ts so their output streams to the browser exactly like
+// it would in a terminal.
 //
 // Usage: npm run gui   (open http://localhost:4321)
 
@@ -24,6 +25,7 @@ import {
 import {renderOutputs} from '../lib/render-targets';
 import {conceptSchema, paletteSchema} from '../lib/schema';
 import {buildScoreboard} from '../lib/strategist';
+import {agentCommand, engineBin, listSkills} from './agent';
 import {jobRunner} from './jobs';
 
 const root = process.cwd();
@@ -255,6 +257,52 @@ app.post('/api/jobs/publish', (req, res) => {
   }
 });
 
+// Headless agent runs (Claude Code or Codex) driven by a skill. Draft is free;
+// build spends, so it only runs on a concept the user already approved.
+const agentRunSchema = z.object({
+  engine: z.enum(['claude', 'codex']),
+  skill: z.string().min(1),
+  task: z.enum(['draft', 'build']),
+  topic: z.string().max(300).optional(),
+  id: z.string().optional(),
+  notes: z.string().max(4000).optional(),
+});
+
+app.get('/api/agent-options', async (_req, res) => {
+  const skills = await listSkills();
+  res.json({
+    skills: skills.map(({name, description}) => ({name, description})),
+    engines: (['claude', 'codex'] as const).map((id) => ({id, available: Boolean(engineBin(id))})),
+  });
+});
+
+app.post('/api/jobs/agent', async (req, res) => {
+  const parsed = agentRunSchema.safeParse(req.body ?? {});
+  if (!parsed.success) {
+    return res.status(400).json({error: parsed.error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`).join('; ')});
+  }
+  const {engine, task, topic, id, notes} = parsed.data;
+  const skill = (await listSkills()).find((candidate) => candidate.name === parsed.data.skill);
+  if (!skill) return res.status(400).json({error: `Unknown skill: ${parsed.data.skill}`});
+
+  if (task === 'build') {
+    const concept = (await loadConcepts()).find((candidate) => candidate.id === id);
+    if (!concept) return res.status(400).json({error: `Unknown concept id: ${id}`});
+    if (concept.status !== 'approved') return res.status(400).json({error: `${concept.id} is a draft; approve it first.`});
+  }
+
+  try {
+    const command = agentCommand({engine, skill, task, topic: topic || undefined, id, notes: notes || undefined});
+    res.json(jobRunner.start('agent', [engine, skill.name, task, task === 'build' ? id! : topic || 'daily pick'], command));
+  } catch (error) {
+    res.status(409).json({error: error instanceof Error ? error.message : String(error)});
+  }
+});
+
+app.post('/api/jobs/stop', (_req, res) => {
+  res.json({stopped: jobRunner.stop()});
+});
+
 // Server-sent events: replays the current job's buffered log, then streams
 // new lines/status changes live. Survives across job restarts.
 app.get('/api/jobs/stream', (req, res) => {
@@ -296,6 +344,7 @@ app.use('/media/renders', express.static(path.resolve(root, 'renders')));
 app.use('/media/bundles', express.static(path.resolve(root, 'bundles')));
 app.use('/media/audio', express.static(path.resolve(root, 'public/audio')));
 
-app.listen(PORT, () => {
+// Loopback only: these endpoints spend money and drive agents with shell access.
+app.listen(PORT, '127.0.0.1', () => {
   console.log(`Xciting control panel: http://localhost:${PORT}`);
 });

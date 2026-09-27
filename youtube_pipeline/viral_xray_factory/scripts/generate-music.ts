@@ -9,6 +9,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import dotenv from 'dotenv';
+import {checkAgentSpend} from './lib/agent-guard';
 import {loadConcepts} from './lib/content';
 
 const root = process.cwd();
@@ -39,6 +40,7 @@ const run = async () => {
   const args = process.argv.slice(2);
   const force = args.includes('--force');
   const ids = args.filter((arg) => !arg.startsWith('-'));
+  checkAgentSpend(ids, args);
   const concepts = await loadConcepts();
   const selected = ids.length > 0 ? concepts.filter((concept) => ids.includes(concept.id)) : concepts;
 

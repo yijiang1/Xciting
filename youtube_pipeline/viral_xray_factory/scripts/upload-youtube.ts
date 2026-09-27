@@ -16,6 +16,7 @@ import process from 'node:process';
 import dotenv from 'dotenv';
 import {google} from 'googleapis';
 import type {Format} from './lib/schema';
+import {refuseDuringAgentRun} from './lib/agent-guard';
 import {loadConcepts, updateState} from './lib/content';
 import {renderFileFor} from './lib/render-targets';
 
@@ -41,6 +42,7 @@ const existingFile = async (file: string) => {
 };
 
 const run = async () => {
+  refuseDuringAgentRun('Publishing');
   assertEnv();
 
   const args = process.argv.slice(2);

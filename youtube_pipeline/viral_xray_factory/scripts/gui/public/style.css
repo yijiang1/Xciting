@@ -272,3 +272,23 @@ audio { height: 40px; background: var(--panel-2); }
   color: #b6f2e6;
   white-space: pre-wrap;
 }
+
+/* --- agent runs --- */
+.hidden { display: none !important; }
+.agent-form { display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
+.agent-row { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+.agent-form .hint { margin: 0; }
+.field select {
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+.field select:focus { outline: none; border-color: var(--accent); }
+.job-indicator.stopped { color: var(--dim); border-color: var(--dim); }
+.log-actions { display: flex; gap: 6px; }
+.log-console.expanded { height: 70vh; }
+@media (max-width: 640px) { .agent-row { grid-template-columns: 1fr; } }

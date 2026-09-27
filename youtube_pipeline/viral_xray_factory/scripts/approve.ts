@@ -5,9 +5,11 @@
 // Usage: npm run approve -- <conceptId...>
 
 import process from 'node:process';
+import {refuseDuringAgentRun} from './lib/agent-guard';
 import {loadConcepts, saveConcept, syncGeneratedConcepts, updateState} from './lib/content';
 
 const run = async () => {
+  refuseDuringAgentRun('Approving');
   const ids = process.argv.slice(2).filter((arg) => !arg.startsWith('-'));
   if (ids.length === 0) {
     console.error('Usage: npm run approve -- <conceptId...>');

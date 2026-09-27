@@ -15,6 +15,7 @@ import process from 'node:process';
 import dotenv from 'dotenv';
 import {execa} from 'execa';
 import {google} from 'googleapis';
+import {refuseDuringAgentRun} from './lib/agent-guard';
 
 const root = process.cwd();
 dotenv.config({path: path.resolve(root, '../.env.local')});
@@ -26,6 +27,7 @@ const redirectUri = `http://localhost:${PORT}`;
 const SCOPES = ['https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/yt-analytics.readonly'];
 
 const run = async () => {
+  refuseDuringAgentRun('YouTube authorization');
   const clientId = process.env.YOUTUBE_CLIENT_ID;
   const clientSecret = process.env.YOUTUBE_CLIENT_SECRET;
   if (!clientId || !clientSecret) {

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "xciting-gui",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd youtube_pipeline/viral_xray_factory && npm run gui"],
+      "port": 4321
+    }
+  ]
+}

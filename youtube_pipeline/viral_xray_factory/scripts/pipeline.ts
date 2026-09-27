@@ -19,6 +19,7 @@ import process from 'node:process';
 import dotenv from 'dotenv';
 import {execa} from 'execa';
 import {loadConcepts, pruneFootageManifest, syncGeneratedConcepts} from './lib/content';
+import {checkAgentSpend} from './lib/agent-guard';
 import {renderOutputs} from './lib/render-targets';
 
 const root = process.cwd();
@@ -44,6 +45,7 @@ const exists = (file: string) =>
     .catch(() => false);
 
 const run = async () => {
+  checkAgentSpend(allApproved ? [] : ids, args);
   // Keep the generated module and footage manifest honest before bundling.
   const concepts = await syncGeneratedConcepts();
   await pruneFootageManifest();

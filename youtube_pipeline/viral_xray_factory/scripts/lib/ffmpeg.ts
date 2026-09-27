@@ -17,7 +17,7 @@ const compositorPackages = [
   '@remotion/compositor-win32-x64-msvc',
 ];
 
-const onPath = (binary: string): boolean => {
+export const onPath = (binary: string): boolean => {
   try {
     execaSync(process.platform === 'win32' ? 'where' : 'which', [binary]);
     return true;

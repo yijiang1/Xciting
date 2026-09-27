@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import {execa} from 'execa';
 import {ffmpeg, ffprobe} from './lib/ffmpeg';
 import type {Beat, OpenAiVoice, StoredConcept} from './lib/schema';
+import {checkAgentSpend} from './lib/agent-guard';
 import {loadConcepts} from './lib/content';
 import type {CaptionWord} from '../src/captions';
 
@@ -424,6 +425,7 @@ const run = async () => {
     return;
   }
 
+  checkAgentSpend(requestedIds, args);
   if (songConcepts.length > 0 && !process.env.ELEVENLABS_API_KEY) {
     throw new Error(`ELEVENLABS_API_KEY is required to generate sung concepts: ${songConcepts.map((c) => c.id).join(', ')}`);
   }

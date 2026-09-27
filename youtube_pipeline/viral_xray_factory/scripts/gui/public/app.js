@@ -63,12 +63,12 @@ function renderGrid() {
     card.innerHTML = `
       <div class="badge-row">
         ${statusBadge(concept)}
-        <span class="badge">${concept.series}</span>
-        ${concept.theme ? `<span class="badge">${concept.theme}</span>` : ''}
-        <span class="badge">${concept.style}</span>
+        <span class="badge">${escapeHtml(concept.series)}</span>
+        ${concept.theme ? `<span class="badge">${escapeHtml(concept.theme)}</span>` : ''}
+        <span class="badge">${escapeHtml(concept.style)}</span>
       </div>
-      <h3>${concept.title}</h3>
-      <p>${concept.hook}</p>
+      <h3>${escapeHtml(concept.title)}</h3>
+      <p>${escapeHtml(concept.hook)}</p>
     `;
     card.addEventListener('click', () => openDetail(concept.id));
     conceptGrid.appendChild(card);
@@ -78,6 +78,7 @@ function renderGrid() {
 async function loadConcepts() {
   concepts = await api('/api/concepts');
   renderGrid();
+  renderAgentConcepts();
 }
 
 // --- Detail panel -------------------------------------------------------
@@ -298,7 +299,83 @@ document.getElementById('run-daily').addEventListener('click', async () => {
   }
 });
 
+// --- Agent runs (skills) ---------------------------------------------------
+
+const agentSkill = document.getElementById('agent-skill');
+const agentEngine = document.getElementById('agent-engine');
+const agentConcept = document.getElementById('agent-concept');
+const agentTopic = document.getElementById('agent-topic');
+const agentNotes = document.getElementById('agent-notes');
+const agentStart = document.getElementById('agent-start');
+const logConsole = document.querySelector('.log-console');
+
+let agentSkills = [];
+
+const agentTask = () => document.querySelector('input[name="agent-task"]:checked').value;
+
+function renderAgentForm() {
+  const build = agentTask() === 'build';
+  document.getElementById('agent-topic-field').classList.toggle('hidden', build);
+  document.getElementById('agent-concept-field').classList.toggle('hidden', !build);
+  document.getElementById('agent-skill-desc').textContent = agentSkills.find((s) => s.name === agentSkill.value)?.description ?? '';
+  document.getElementById('agent-engine-note').classList.toggle('hidden', agentEngine.value !== 'codex');
+}
+
+function renderAgentConcepts() {
+  const previous = agentConcept.value;
+  const approved = concepts.filter((c) => c.status === 'approved' && !c.published);
+  agentConcept.innerHTML = approved.length
+    ? approved.map((c) => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.id)} · ${escapeHtml(c.title)}</option>`).join('')
+    : '<option value="">No approved concepts yet</option>';
+  if (approved.some((c) => c.id === previous)) agentConcept.value = previous;
+}
+
+async function loadAgentOptions() {
+  const {skills, engines} = await api('/api/agent-options');
+  agentSkills = skills;
+  agentSkill.innerHTML = skills.length
+    ? skills.map((s) => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`).join('')
+    : '<option value="">No skills in .claude/skills</option>';
+  const labels = {claude: 'Claude Code', codex: 'Codex'};
+  agentEngine.innerHTML = engines
+    .map((e) => `<option value="${e.id}" ${e.available ? '' : 'disabled'}>${labels[e.id]}${e.available ? '' : ' (not installed)'}</option>`)
+    .join('');
+  const firstAvailable = engines.find((e) => e.available);
+  if (firstAvailable) agentEngine.value = firstAvailable.id;
+  renderAgentForm();
+}
+
+agentSkill.addEventListener('change', renderAgentForm);
+agentEngine.addEventListener('change', renderAgentForm);
+document.querySelectorAll('input[name="agent-task"]').forEach((radio) => radio.addEventListener('change', renderAgentForm));
+
+agentStart.addEventListener('click', async () => {
+  const task = agentTask();
+  const body = {engine: agentEngine.value, skill: agentSkill.value, task, notes: agentNotes.value.trim() || undefined};
+  if (!body.skill) return alert('Add a skill under .claude/skills first.');
+  if (task === 'build') {
+    body.id = agentConcept.value;
+    if (!body.id) return alert('Approve a concept first.');
+    if (!confirm(`Let the agent build "${body.id}"? This spends real money on voice and footage.`)) return;
+  } else {
+    body.topic = agentTopic.value.trim() || undefined;
+  }
+  try {
+    await api('/api/jobs/agent', {method: 'POST', body: JSON.stringify(body)});
+    logConsole.classList.add('expanded');
+  } catch (e) {
+    alert(e.message);
+  }
+});
+
 // --- Log console / job stream -------------------------------------------
+
+document.getElementById('log-stop').addEventListener('click', () => {
+  if (!confirm('Stop the running job?')) return;
+  api('/api/jobs/stop', {method: 'POST'}).catch((e) => alert(e.message));
+});
+
+document.getElementById('log-expand').addEventListener('click', () => logConsole.classList.toggle('expanded'));
 
 document.getElementById('log-clear').addEventListener('click', () => {
   logBody.textContent = '';
@@ -307,6 +384,7 @@ document.getElementById('log-clear').addEventListener('click', () => {
 function setJobIndicator(status, label) {
   jobIndicator.className = `job-indicator ${status}`;
   jobIndicator.textContent = label;
+  document.getElementById('log-stop').disabled = status !== 'running';
 }
 
 function appendLog(line) {
@@ -352,6 +430,7 @@ function connectStream() {
 
 loadConcepts();
 loadScoreboard();
+loadAgentOptions();
 connectStream();
 setInterval(() => {
   loadConcepts();

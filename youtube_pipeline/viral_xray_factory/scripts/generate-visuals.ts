@@ -27,6 +27,7 @@ import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import type {StoredConcept, Format} from './lib/schema';
 import {NEGATIVE_PROMPT, PORTRAIT_FRAMING} from './lib/schema';
+import {checkAgentSpend} from './lib/agent-guard';
 import {loadConcepts, readJson, readState, updateState} from './lib/content';
 
 const root = process.cwd();
@@ -236,6 +237,7 @@ const run = async () => {
   const formatsOverride = parseFormats(formatsFlagIndex >= 0 ? args[formatsFlagIndex + 1] : undefined);
   const formatsValueIndex = formatsFlagIndex >= 0 ? formatsFlagIndex + 1 : -1;
   const ids = args.filter((arg, index) => !arg.startsWith('-') && index !== formatsValueIndex);
+  if (!dryRun) checkAgentSpend(all ? [] : ids, args);
 
   const concepts = await loadConcepts();
   const missing = ids.filter((id) => !concepts.some((concept) => concept.id === id));
