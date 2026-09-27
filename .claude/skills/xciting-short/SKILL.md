@@ -1,6 +1,6 @@
 ---
 name: xciting-short
-description: Make, check and publish a narrated science explainer short for the "Exciting" channel (youtube_pipeline/viral_xray_factory) — pick a topic, write and science-check the concept, build audio, footage and renders with the npm pipeline, QA the render by eye and ear, and upload it privately to YouTube. Use when the user wants a new short or explainer video, today's daily video, to fix or re-render an existing concept, or to publish one. Not for sung concepts (a `song` field) or flagship music videos.
+description: Make, check and publish a narrated science explainer short for the "Exciting" channel (youtube_pipeline/viral_xray_factory) — pick a topic, write and science-check the concept, build audio, footage and renders with the npm pipeline, QA the render by eye and ear, and upload it privately to YouTube. Use when the user wants a new short or explainer video, today's daily video, to fix or re-render an existing concept, or to publish one. Not for sung concepts (a `song` field) or flagship music videos; for poem or lyric videos with painted, animated scenes, use xciting-living-painting.
 ---
 
 # Exciting explainer shorts
@@ -24,9 +24,11 @@ npm run publish -- <id>                          (the user's call: private uploa
 npm run analytics                                ──► feeds the next `daily` pick
 ```
 
-## Setup (as of 2026-09-25)
+## Setup (as of 2026-09-27)
 
 - `viral_xray_factory/.env.local` has `OPENAI_API_KEY` and `ELEVENLABS_API_KEY`. Read keys into variables and **never print them**.
+  - Keys can go missing: both were empty on 2026-09-24 until the user added them. Check presence without printing values: `grep -E '^OPENAI_API_KEY=.+' .env.local >/dev/null && echo set`.
+  - A script that dies on a missing key fails before its first request, so nothing is spent.
   - No `GEMINI_API_KEY`, so footage uses **Sora** (`sora-2`) and narration uses ElevenLabs `eleven_v3`.
   - No YouTube OAuth vars, so `npm run publish` fails until the user creates a Desktop-app OAuth client and runs `npm run youtube-auth`.
 - There are 6 hand-built concepts, all approved. Nothing is built yet: no audio, footage, renders or analytics.
@@ -55,7 +57,14 @@ npm run analytics                                ──► feeds the next `daily
      - garbled text inside the footage;
      - melted hands and faces;
      - a visible loop restart;
-     - captions that are hard to read against the footage.
+     - captions that are hard to read against the footage;
+     - any hard seam, tear or jump. The user spots a single glitch before anything else.
+   - **Per-beat frames:** `python3 .claude/skills/xciting-living-painting/scripts/tools.py sheet <render> sheet.png <beat starts in seconds, comma-separated>` gives two frames per beat.
+     - It seeks with `ffmpeg -ss`, which is fast. `select=eq(n\,N)` decodes the whole file for every frame.
+     - If you loop over beat times in zsh, remember that arrays start at 1. A `starts[0]` loop silently shifted every sample by one beat.
+   - **Single-frame checks:** `npx remotion still src/index.ts <composition> f.png --frame=N --scale=0.5`.
+     - Run them **one at a time**. Parallel `remotion still` runs race on the webpack cache and hang at 0% CPU. Kill them (`pkill -f "remotion still"`) and re-run one by one.
+   - **Special characters in captions** (µ, λ, pinyin tones such as ǐ): a font missing a glyph falls back and renders marks detached. Crop and check them *(seen in a lyric video with Hoefler Text; untested with this pipeline's caption font)*.
    - **Captions:** the karaoke words are Whisper's transcript of the narration (`public/data/timings.json`), not the script. Compare them with `beats[].text`. Jargon and numbers can come out wrong *(untested for narration; true for rap)*.
    - **Loudness:** `ffmpeg -i <render> -af ebur128=peak=true -f null - 2>&1 | grep -A3 Integrated`. Mastering targets −14 LUFS and −1.5 dBTP.
    - **Send the user a preview.** They often review on a phone, which can't take files over 30 MB, so shrink it first: `ffmpeg -i <render> -vf scale=720:-2 -crf 26 preview.mp4`. Send it with SendUserFile.
@@ -83,7 +92,11 @@ A render re-runs only with `--force`; an existing file is skipped otherwise. If 
   - A second format doubles the footage, since each orientation is generated natively.
   - Pricing comes from the code (July 2026), so check current rates before quoting.
 - Drafts never buy footage. Always run `--dry-run` before the first real footage call.
+- **Never run two generation runs at once.** Caching skips files that already exist, which protects re-runs made one after another. Two concurrent runs both see the same missing clips, and both pay for them.
 - Narration, the music bed, Whisper and the concept LLM each cost cents.
+- gpt-image-1 (thumbnails) cost about $0.25 per 1536x1024 image at quality `high` (September 2026).
+- A cheaper visual tier exists outside this pipeline: one painting per beat, animated in Remotion (about $0.25 per beat, versus about $0.80 per 8-second Sora beat). It's documented in xciting-living-painting and not wired into `generate:visuals`.
+- Quote the cost before spending, even small amounts. If the real spend overshoots the quote, tell the user.
 
 ## The user's standards (carried over from the rap-mv skill in ptychohub)
 
@@ -91,11 +104,17 @@ A render re-runs only with `--force`; an existing file is skipped otherwise. If 
 - Visuals are illustrative. Never present them as real data, and never invent record numbers.
 - Say that AI-generated audio and visuals are AI-generated whenever something goes public.
 - They review by eye and ear from stills, clips and screenshots, often on a phone. When they flag a frame, find the root cause, fix it, re-render and send a clip.
+- They judge visuals hard. Code-drawn or procedural art reads as cheap next to AI footage or paintings, and motion should show the idea rather than decorate the text (learned on the 蒹葭 lyric video, 2026-09-25).
 
 ## Lessons (append after every run)
 
 - 2026-07-07: Sora moderation rejected the cartoon concept's beat-5 shot. The softened wording went through.
 - From rap-mv, not yet seen here: on music clips or after a pause, Whisper hallucinates "Thanks for watching!", drops an isolated last word, and writes numbers as digits.
+- 2026-09-25, from the 蒹葭 lyric-video remake (details in xciting-living-painting):
+  - Four rounds of feedback; the user accepted only the version where each scene's motion depicted its line.
+  - A displacement shimmer tore the frame once its noise drifted past the filter's margin; that was the only defect the user flagged.
+  - Parallel `remotion still` runs deadlocked.
+  - Once the key existed, a missing-key failure cost nothing.
 
 ## Rules
 
