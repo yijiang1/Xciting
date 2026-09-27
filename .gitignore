@@ -13,3 +13,6 @@ youtube_pipeline/viral_xray_factory/public/footage/
 youtube_pipeline/viral_xray_factory/public/music/
 youtube_pipeline/viral_xray_factory/bundles/
 .claude/settings.local.json
+
+# 蒹葭 remake: local only (source video + paid paintings), not for GitHub
+youtube_pipeline/remakes/jianjia/
