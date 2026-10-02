@@ -3,6 +3,7 @@ import {Composition} from 'remotion';
 import {FORMATS, FPS, concepts} from './concepts';
 import {compositionIdFor} from '../scripts/lib/render-targets';
 import {XrayShort} from './XrayShort';
+import {SizeCompare, sizeCompareFrames} from './SizeCompare';
 import audioMeta from '../public/data/audio-metadata.json';
 
 type AudioMeta = Record<string, {duration: number}>;
@@ -29,6 +30,18 @@ export const RemotionRoot: React.FC = () => {
           );
         });
       })}
+      {(['portrait', 'landscape'] as const).map((format) => (
+        <Composition
+          key={`size-compare-${format}`}
+          id={`SynchrotronSizes-${format}`}
+          component={SizeCompare}
+          durationInFrames={sizeCompareFrames}
+          fps={FPS}
+          width={FORMATS[format].width}
+          height={FORMATS[format].height}
+          defaultProps={{format}}
+        />
+      ))}
     </>
   );
 };

@@ -53,6 +53,7 @@ The control panel can run these headless ("New video with a skill"), or you can 
 
 - **[`xciting-short`](.claude/skills/xciting-short/SKILL.md)**: make, science-check, QA and publish a narrated explainer short. It's the judgement layer on top of the npm scripts.
 - **[`xciting-living-painting`](.claude/skills/xciting-living-painting/SKILL.md)**: turn a poem or lyric track into a video with one AI painting per line. Motion depicts each line's meaning, the text is static, and the original audio stays in sync. It ships a Remotion kit and helper scripts.
+- **[`xciting-size-compare`](.claude/skills/xciting-size-compare/SKILL.md)**: make a realistic 3D "smallest to largest" comparison Short. Blender renders a row of real things to scale, checked against satellite imagery, and the camera flies from one to the next. Remotion adds labels and a building music track, and the audio is mastered for Shorts. The first one compares 14 X-ray synchrotrons.
 
 ## Not in git
 

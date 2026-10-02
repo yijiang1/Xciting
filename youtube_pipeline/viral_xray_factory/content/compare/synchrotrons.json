@@ -1,0 +1,258 @@
+{
+  "id": "synchrotron-sizes",
+  "title": "X-ray synchrotrons, smallest to largest",
+  "metric": "storage-ring circumference",
+  "note": "Each ring is drawn as a circle with the facility's real storage-ring circumference, so the buildings are illustrative but the sizes are to scale. Values checked 2026-09-29 against facility pages, JACoW and IUCr papers. Roof colour and basic form (open ring, covered disc, rectangular hall, buried tunnel) follow satellite imagery checked 2026-09-29; details are illustrative.",
+  "scaleRef": {
+    "name": "Football pitch",
+    "lengthM": 105,
+    "widthM": 68
+  },
+  "timing": {
+    "fps": 30,
+    "introS": 3,
+    "moveS": 1.5,
+    "holdS": 2.5,
+    "outroMoveS": 3,
+    "outroHoldS": 4
+  },
+  "items": [
+    {
+      "name": "SOLARIS",
+      "place": "Kraków, Poland",
+      "flag": "🇵🇱",
+      "circumferenceM": 96,
+      "form": "hall",
+      "roof": "#b9c0c6"
+    },
+    {
+      "name": "ALS",
+      "place": "Berkeley, USA",
+      "flag": "🇺🇸",
+      "circumferenceM": 196.8,
+      "form": "disc",
+      "roof": "#c9c9c4",
+      "dome": "#b08a78"
+    },
+    {
+      "name": "SSRL · SPEAR3",
+      "place": "Menlo Park, USA",
+      "flag": "🇺🇸",
+      "circumferenceM": 234,
+      "form": "ring",
+      "roof": "#d8d6d0"
+    },
+    {
+      "name": "SLS",
+      "place": "Villigen, Switzerland",
+      "flag": "🇨🇭",
+      "circumferenceM": 288,
+      "form": "disc",
+      "roof": "#9a9d9f"
+    },
+    {
+      "name": "SOLEIL",
+      "place": "Saint-Aubin, France",
+      "flag": "🇫🇷",
+      "circumferenceM": 354,
+      "form": "disc",
+      "roof": "#6f7274"
+    },
+    {
+      "name": "SSRF",
+      "place": "Shanghai, China",
+      "flag": "🇨🇳",
+      "circumferenceM": 432,
+      "form": "ring",
+      "roof": "#dfe3e6"
+    },
+    {
+      "name": "Sirius",
+      "place": "Campinas, Brazil",
+      "flag": "🇧🇷",
+      "circumferenceM": 518.4,
+      "form": "disc",
+      "roof": "#d7d9d8"
+    },
+    {
+      "name": "Diamond",
+      "place": "Oxfordshire, UK",
+      "flag": "🇬🇧",
+      "circumferenceM": 561.6,
+      "form": "disc",
+      "roof": "#b3b8bb"
+    },
+    {
+      "name": "NSLS-II",
+      "place": "Upton, New York, USA",
+      "flag": "🇺🇸",
+      "circumferenceM": 792,
+      "form": "ring",
+      "roof": "#e1e2df"
+    },
+    {
+      "name": "ESRF",
+      "place": "Grenoble, France",
+      "flag": "🇫🇷",
+      "circumferenceM": 844,
+      "form": "ring",
+      "roof": "#e2ddd2"
+    },
+    {
+      "name": "APS",
+      "place": "Lemont, Illinois, USA",
+      "flag": "🇺🇸",
+      "circumferenceM": 1104,
+      "form": "ring",
+      "roof": "#d4d5d2"
+    },
+    {
+      "name": "HEPS",
+      "place": "Beijing, China",
+      "flag": "🇨🇳",
+      "circumferenceM": 1360.4,
+      "form": "ring",
+      "roof": "#c3c8cc"
+    },
+    {
+      "name": "SPring-8",
+      "place": "Hyōgo, Japan",
+      "flag": "🇯🇵",
+      "circumferenceM": 1436,
+      "form": "ring",
+      "roof": "#e0e0dc"
+    },
+    {
+      "name": "PETRA III",
+      "place": "Hamburg, Germany",
+      "flag": "🇩🇪",
+      "circumferenceM": 2304,
+      "form": "buried",
+      "roof": "#c8cacb",
+      "note": "Ring runs underground"
+    }
+  ],
+  "music": {
+    "model_id": "music_v1",
+    "composition_plan": {
+      "positive_global_styles": [
+        "bright uplifting cinematic orchestral hybrid",
+        "major key",
+        "sense of wonder",
+        "instrumental",
+        "one smooth continuous crescendo from light to epic",
+        "layers added one at a time",
+        "110 bpm"
+      ],
+      "negative_global_styles": [
+        "vocals",
+        "lyrics",
+        "singing",
+        "dark",
+        "ominous",
+        "minor key",
+        "suspense",
+        "lo-fi",
+        "sudden drop",
+        "abrupt change",
+        "break",
+        "silence"
+      ],
+      "sections": [
+        {
+          "section_name": "Intro (title over the pitch)",
+          "positive_local_styles": [
+            "bright sparkling celesta and piano",
+            "light pizzicato",
+            "curious and playful"
+          ],
+          "negative_local_styles": [
+            "drums",
+            "loud"
+          ],
+          "duration_ms": 3000,
+          "lines": []
+        },
+        {
+          "section_name": "Small rings A",
+          "positive_local_styles": [
+            "bright pulsing synth arpeggio",
+            "plucked strings",
+            "continues seamlessly from the previous section",
+            "only slightly bigger than the previous section"
+          ],
+          "negative_local_styles": [
+            "drums"
+          ],
+          "duration_ms": 12000,
+          "lines": []
+        },
+        {
+          "section_name": "Small rings B",
+          "positive_local_styles": [
+            "light percussion enters softly",
+            "optimistic",
+            "continues seamlessly from the previous section",
+            "only slightly bigger than the previous section"
+          ],
+          "negative_local_styles": [],
+          "duration_ms": 12000,
+          "lines": []
+        },
+        {
+          "section_name": "Bigger rings A",
+          "positive_local_styles": [
+            "strings swell gently",
+            "soft kick drum",
+            "continues seamlessly from the previous section",
+            "only slightly bigger than the previous section"
+          ],
+          "negative_local_styles": [
+            "sudden drop"
+          ],
+          "duration_ms": 12000,
+          "lines": []
+        },
+        {
+          "section_name": "Bigger rings B",
+          "positive_local_styles": [
+            "full string section",
+            "driving drums",
+            "bright brass swells",
+            "continues seamlessly from the previous section",
+            "only slightly bigger than the previous section"
+          ],
+          "negative_local_styles": [],
+          "duration_ms": 12000,
+          "lines": []
+        },
+        {
+          "section_name": "Giants",
+          "positive_local_styles": [
+            "massive triumphant orchestra",
+            "huge drums",
+            "soaring heroic brass",
+            "uplifting choir pads",
+            "peak intensity",
+            "continues seamlessly from the previous section",
+            "only slightly bigger than the previous section"
+          ],
+          "negative_local_styles": [],
+          "duration_ms": 8000,
+          "lines": []
+        },
+        {
+          "section_name": "All to scale",
+          "positive_local_styles": [
+            "giant final hit on the downbeat",
+            "triumphant major chord",
+            "resolving ending"
+          ],
+          "negative_local_styles": [],
+          "duration_ms": 7000,
+          "lines": []
+        }
+      ]
+    }
+  }
+}

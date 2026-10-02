@@ -1,6 +1,6 @@
 ---
 name: xciting-short
-description: Make, check and publish a narrated science explainer short for the "Exciting" channel (youtube_pipeline/viral_xray_factory) — pick a topic, write and science-check the concept, build audio, footage and renders with the npm pipeline, QA the render by eye and ear, and upload it privately to YouTube. Use when the user wants a new short or explainer video, today's daily video, to fix or re-render an existing concept, or to publish one. Not for sung concepts (a `song` field) or flagship music videos; for poem or lyric videos with painted, animated scenes, use xciting-living-painting.
+description: Make, check and publish a narrated science explainer short for the "Exciting" channel (youtube_pipeline/viral_xray_factory) — pick a topic, write and science-check the concept, build audio, footage and renders with the npm pipeline, QA the render by eye and ear, and upload it privately to YouTube. Use when the user wants a new short or explainer video, today's daily video, to fix or re-render an existing concept, or to publish one. Not for sung concepts (a `song` field) or flagship music videos; for poem or lyric videos with painted, animated scenes, use xciting-living-painting; for 3D "smallest to largest" size-comparison videos, use xciting-size-compare.
 ---
 
 # Exciting explainer shorts
